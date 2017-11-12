@@ -1,12 +1,12 @@
 import Input2d from './components/Input2d'
+import {plane} from "./components/primatives"
 
 const Mapping={
     'Input2d':{
         'name':Input2d,
-        'duplicate':0
+        'primative':plane
     }
 
 }
-
 
 export default Mapping;

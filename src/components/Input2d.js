@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {getRectangleCoordinates} from './DrawUtils.js'
-import Mapping from '../Mapping'
 
 export default class Input2d extends Component {
     constructor(props) {
@@ -10,7 +8,7 @@ export default class Input2d extends Component {
         return (
             <svg>
                 <polygon 
-                points={getRectangleCoordinates(this.props.entity,Mapping.Input2d.duplicate,this.props.angle).join(" ")}
+                points={this.props.entity.coordinates.join(" ")}
                 fill="white" 
                 stroke="black" 
                 strokeWidth="3"

@@ -17,10 +17,10 @@ export default class GlobalControls extends Component {
                 value={this.props.angle} 
                 onChange={this.props.onChangeAngle} 
                 />
-            buffer 
+            offset X 
                 <input 
-                value={this.props.buffer} 
-                onChange={this.props.onChangeBuffer} 
+                value={this.props.offset.X} 
+                onChange={this.props.onChangeOffset} 
                 />
             show construction 
                 <input 

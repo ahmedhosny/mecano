@@ -1,117 +1,29 @@
-import uuidv4 from 'uuid/v4'
+import Mapping from './Mapping'
 
 
-const id1 = uuidv4();
-const id2 = uuidv4();
-const id3 = uuidv4();
+var components = [
+    {'name':'siko1','type':'Input2d','size':{'X':100,'Y':100}},
+    {'name':'siko2','type':'Input2d','size':{'X':50,'Y':50}}
+]
 
-// all ins should be the same for all.. like 300,300
-// TODO: match 300,300 in  with mecano state X and Y
-// bounds can all be 0
-
-
-var Data = {
-
-    'ids':[
-    id1,id2,id3
-    ],
-
-    'items':[
-        {   
-            'key':id1,
-            'type':'Input2d',
-            'name':'someName',
-            'size': {
-                'X':200,
-                'Y':200
-            },
-            'bounds': {
-                'min':{
-                    'X':0,
-                    'Y':0
-                },
-                'max':{
-                    'X':0,
-                    'Y':0
-                }
-            },
-            'in':{
-                'X':300,
-                'Y':300
-            },
-            'out':[
-                {
-                    'X':20,
-                    'Y':20
-                },
-                {
-                    'X':100,
-                    'Y':100
-                }
-            ]
-        },
-        {   
-            'key':id2,
-            'type':'Input2d',
-            'name':'someName',
-            'size': {
-                'X':100,
-                'Y':100
-            },
-            'bounds': {
-                'min':{
-                    'X':0,
-                    'Y':0
-                },
-                'max':{
-                    'X':0,
-                    'Y':0
-                }
-            },
-            'in':{
-                'X':300,
-                'Y':300
-            },
-            'out':[
-                {
-                    'X':0,
-                    'Y':0
-                }
-                ]
-        }
-        ,
-        {   
-            'key':id3,
-            'type':'Input2d',
-            'name':'someName',
-            'size': {
-                'X':100,
-                'Y':100
-            },
-            'bounds': {
-                'min':{
-                    'X':0,
-                    'Y':0
-                },
-                'max':{
-                    'X':0,
-                    'Y':0
-                }
-            },
-            'in':{
-                'X':300,
-                'Y':300
-            },
-            'out':[
-                {
-                    'X':0,
-                    'Y':0
-                }
-                ]
-        }
-    ]
-};
-
-export default Data;
-
-
+/**
+ * Generates a list of entities for Mecano
+ * @param  {object} _in - {'X':000,'Y':000} from Mecano state
+ * @param  {int} angle - from Mecano state
+ * @param  {list} components - from glue layer - ONNX
+ * @param  {object} offset - {'X':000,'Y':000} from Mecano state
+ * @return {list} - list of entities
+ */
+export function dataGenerator(_in,angle,offset){
+    var Data = []
+    components.map((n,index) => {
+        const _primative = Mapping[n.type].primative
+        if (index===0){ var _offset = {'X':0 ,'Y':0} }
+        else{ _offset = {'X':parseInt(offset.X) + parseInt(Data[index-1].bounds.max.X) ,'Y':0} }
+        const component = new _primative(n.name , _in , angle , _offset , n.size)
+        component.draw(index)
+        Data.push(component)
+    });
+    // Data is populated
+    return Data;
+}

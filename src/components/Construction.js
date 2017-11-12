@@ -6,7 +6,6 @@ export default class Construction extends Component {
         super(props);
         this.state = {
         };
-        // this.getCoordinates = this.getCoordinates.bind(this);
     }
 
     render() {
@@ -39,9 +38,6 @@ export default class Construction extends Component {
                         )
                     })
                 }
-                
-
-               
             </svg>
         );
     }
