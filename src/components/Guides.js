@@ -29,12 +29,3 @@ export default class Construction extends Component {
         );
     }
 }
-
-                // <line 
-                // className="constructionLine"
-                // x1={this.props.inX} 
-                // y1={this.props.inY} 
-                // x2={this.props.outX}  
-                // y2={this.props.outY} 
-                // />
-

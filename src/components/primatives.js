@@ -1,9 +1,56 @@
 import uuidv4 from 'uuid/v4'
-import {flatten,pullAt} from 'lodash';
+import {flatten,pullAt,zipWith} from 'lodash';
 import {range,getPlaneCoordinates} from './Helpers'
 
 
-class primative{
+
+
+class base{
+	constructor(){
+		this.key = uuidv4();
+		this.out = [];
+		this.coordinates = []; 
+		// primative - plane [x1,y1,x2,y2,x3,y3,x4,y4] 
+		// primative - planeStack [[x1,y1..],[x1,y1..]]
+		// elastic - 
+		//  
+	}
+}
+
+class elastic extends base{
+	constructor(){
+		super();
+	}
+}
+
+export class line extends elastic{
+	constructor(){
+		super();
+		this.component = 'Tracer'
+	}
+	/**
+	 * Sets the coordinates of the tracer given the out of primatives before and after.
+	 * IdxA and idxB should be of equal length
+	 * @param  {primative} primativeA - .out = [{'X':0,'Y':0},{'X':0,'Y':0}...]
+	 * @param  {primative} primativeB - .out =[{'X':0,'Y':0},{'X':0,'Y':0}...]
+	 * @param {list} idxA - which outs to use from A
+	 * @param {list} idxB - which outs to use from B
+	 */
+	draw(primativeA,primativeB,idxA,idxB){
+		
+		console.assert(idxA.length === idxB.length);
+		var _this = this
+		zipWith(idxA,idxB, function(a, b) {
+			_this.coordinates.push({
+				'X1':primativeA.out[a].X,
+				'Y1':primativeA.out[a].Y,
+				'X2':primativeB.out[b].X,
+				'Y2':primativeB.out[b].Y})
+		});
+	}
+}
+
+class primative extends base{
 	/**
 	 * Base primative class - other inherit from here.
 	 * @param  {string} name - primative name
@@ -12,12 +59,11 @@ class primative{
 	 * @param  {object} offset - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 */
 	constructor(name,_in,angle,offset){
+		super()
 		this.name = name;
 		this.angle = angle;
-		this.key = uuidv4();
 		this.start = _in; // never changes
-		this.in = {'X':0,'Y':0};
-		this.out = [{'X':0,'Y':0}];
+		this.in = {'X':0,'Y':0}; // single insertion point
 		this.translation = {'X':0,'Y':0}; // for centering purposes
 		this.offset = offset // for avoiding overlaps
 		this.bounds = {
@@ -31,7 +77,7 @@ class primative{
             }
         };
         this.geometricMidpoint = {'X':0,'Y':0};
-        this.coordinates = []; // either [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
+        
 	}
 
 
@@ -99,15 +145,13 @@ export class plane extends primative{
 		super(name,_in,angle,offset);
 		this.size = size;
 		this.duplicate = 0;
-		this.type = 'Input2d'
+		this.component = 'Input2d'
 	}
 
 	/**
 	 * Sets the out points for the plane primative
 	 */
 	setOut(){
-		// reset 
-		this.out = [];
 		// get geometric midpoint after move
 		this.setGeometricMidpoint();
 		// push midpoint

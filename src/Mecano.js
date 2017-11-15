@@ -5,6 +5,8 @@ import Construction from './components/Construction';
 import {dataGenerator} from './Data'
 import Mapping from './Mapping'
 import Guides from "./components/Guides"
+
+import Tracer from "./components/Tracer"
 import './Mecano.css';
 
 
@@ -15,7 +17,7 @@ export default class Mecano extends Component {
 		super(props);
 		this.state = {
 			angle: 30,
-			construction: true,
+			construction: false,
 			origin: {'X':300,'Y':300},
 			offset: {'X':30,'Y':0}
 		};
@@ -122,11 +124,10 @@ export default class Mecano extends Component {
 					{/* components */}				
 					{this.state.data.map((n,index) => {
 						//
-						var Component = Mapping[n.type].name
+						var Component = Mapping[n.component].component
 					      	return (
 					      		<g
 					      		key={"group-"+n.key}
-					      		zIndex={index*-1}
 					      		>
 									<Component
 									entity={n} 
