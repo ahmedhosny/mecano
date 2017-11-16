@@ -1,9 +1,10 @@
-import Mapping from './Mapping'
-import {plane,line} from "./components/primatives"
+import {components,links} from './Mapping'
+import {line} from "./components/primatives"
 
-var components = [
+var dataIn = [
     {'name':'siko1','component':'Input2d','size':{'X':100,'Y':100}},
-    {'name':'siko2','component':'Input2d','size':{'X':300,'Y':50}}
+    {'name':'siko2','component':'Input2d','size':{'X':200,'Y':200}},
+    {'name':'siko3','component':'Input2d','size':{'X':400,'Y':200}}
 ]
 
 /**
@@ -15,28 +16,49 @@ var components = [
  * @return {list} - list of entities
  */
 export function dataGenerator(_in,angle,offset){
-    var Data = []
+    var data = []
     // Populate with primatives
-    components.map((n,index) => {
-        const _primative = Mapping[n.component].primative
+    dataIn.map((n,index) => {
+        const _primative = components[n.component].class
         if (index===0){ var _offset = {'X':0 ,'Y':0} }
-        else{ _offset = {'X':parseInt(offset.X) + parseInt(Data[index-1].bounds.max.X) ,'Y':0} }
+        else{ _offset = {'X':parseInt(offset.X) + parseInt(data[index-1].bounds.max.X) ,'Y':0} }
         const component = new _primative(n.name , _in , angle , _offset , n.size)
+        component.component = n.component
         component.draw(index)
-        Data.push(component)
+        data.push(component)
     });
-    // Populate with elastics between primatives
-    const elastic = new line()
-    elastic.draw(Data[0],Data[1],[1,2,3],[1,2,3])
-    // splice
-    Data.splice(1, 0, elastic);
-    console.log(Data)
-    return Data;
+    // populate with elastics
+    getElastic(data)
+    return data;
 }
 
 // better class defs
 // show construction for elastics
-// component def is not at class level
+
 // primatives different files
 // draw structure
-// line between two input2d's and which coords to use from each
+
+// 
+// 
+
+function getElastic(data){
+    // loop through data
+    data.map((n,index) => {
+        if (index!==data.length-1){
+            var before = n.component
+            var after = data[index+1].component
+            // loop through elastics
+            links.map((m,_index) => {
+                if (m.before==before && m.after==after){
+                    const _elastic = components[m.elastic].class
+                    const component = new _elastic()
+                    component.component = m.elastic
+                    component.draw(data[index],data[index+1],[1,2,3],[1,2,3])
+                    // splice
+                    data.splice(index+1, 0, component);
+                }
+            });
+            //console.log(n.component,data[index+1].component)
+        }
+    });
+}

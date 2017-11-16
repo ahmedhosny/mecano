@@ -2,16 +2,31 @@ import Input2d from './components/Input2d'
 import Tracer from './components/Tracer'
 import {plane,line} from "./components/primatives"
 
-
-const Mapping={
+/**
+ * Object that maps the react components with the classes that make them
+ */
+export const components={ 
+	// primatives
     'Input2d':{
         'component':Input2d,
-        'primative':plane
+        'class':plane
     },
+    // elastics
     'Tracer':{
     	'component':Tracer,
-    	'primative':line
+    	'class':line
     }
 }
-
-export default Mapping;
+/**
+ * List that contains the elastics that come in between all the different primatives
+ * Elastics span the out points whose indicies are recorded here
+ */
+export const links=[
+    {
+        'before':'Input2d',
+        'beforeOut':[1,2,3],
+        'after':'Input2d',
+        'afterOut':[1,2,3],
+        'elastic':'Tracer'
+    }
+]

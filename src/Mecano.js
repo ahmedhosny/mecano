@@ -3,7 +3,7 @@ import GlobalControls from './components/GlobalControls'
 import LocalControls from './components/LocalControls'
 import Construction from './components/Construction';
 import {dataGenerator} from './Data'
-import Mapping from './Mapping'
+import {components} from './Mapping'
 import Guides from "./components/Guides"
 
 import Tracer from "./components/Tracer"
@@ -124,7 +124,7 @@ export default class Mecano extends Component {
 					{/* components */}				
 					{this.state.data.map((n,index) => {
 						//
-						var Component = Mapping[n.component].component
+						var Component = components[n.component].component
 					      	return (
 					      		<g
 					      		key={"group-"+n.key}

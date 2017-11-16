@@ -21,7 +21,7 @@ export default class Tracer extends Component {
                         y1={m.Y1} 
                         x2={m.X2}  
                         y2={m.Y2} 
-                        // key={"tracer-"+index+"-"+this.props.key}
+                        key={"tracer-"+index+"-"+this.props.key}
                         />
                         )
                     })

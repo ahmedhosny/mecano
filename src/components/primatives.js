@@ -26,7 +26,6 @@ class elastic extends base{
 export class line extends elastic{
 	constructor(){
 		super();
-		this.component = 'Tracer'
 	}
 	/**
 	 * Sets the coordinates of the tracer given the out of primatives before and after.
@@ -145,7 +144,6 @@ export class plane extends primative{
 		super(name,_in,angle,offset);
 		this.size = size;
 		this.duplicate = 0;
-		this.component = 'Input2d'
 	}
 
 	/**
