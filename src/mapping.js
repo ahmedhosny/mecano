@@ -1,6 +1,10 @@
+// components
 import Input2d from './components/Input2d'
 import Tracer from './components/Tracer'
-import {plane,line} from "./components/primatives"
+// primative classes
+import {plane} from "./primatives"
+// elastic classes
+import {line} from "./elastics"
 
 /**
  * Object that maps the react components with the classes that make them

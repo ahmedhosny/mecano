@@ -1,3 +1,4 @@
 .tracerLine{
-	stroke: red; 
+	stroke: blue; 
+	stroke-width: 2;
 }

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import GlobalControls from './components/GlobalControls'
-import LocalControls from './components/LocalControls'
-import Construction from './components/Construction';
-import {dataGenerator} from './Data'
-import {components} from './Mapping'
-import Guides from "./components/Guides"
+import {dataGenerator} from '../data'
+import {components} from '../mapping'
+// controls
+import GlobalControls from '../controls/GlobalControls'
+// import LocalControls from '../controls/LocalControls'
+// helpers
+import Construction from '../helpers/Construction';
+import Guides from '../helpers/Guides';
 
-import Tracer from "./components/Tracer"
 import './Mecano.css';
 
 
@@ -110,10 +111,6 @@ export default class Mecano extends Component {
                 onChangeOffset={this.onChangeOffset.bind(this)} 
 				/>
 
-
-
-
-
 				{/* Graph */}
 				<svg
 				className="svg"
@@ -130,14 +127,12 @@ export default class Mecano extends Component {
 					      		key={"group-"+n.key}
 					      		>
 									<Component
-									entity={n} 
-									key={n.key}
+									instance={n} 
 									/> 
 									{this.state.construction ?
 					                    <Construction
-					                    entity={n}
+					                    instance={n}
 					                    radius={5}
-					                    key={"construction-"+n.key}
 					                    /> : null
 					                }
 				                </g>

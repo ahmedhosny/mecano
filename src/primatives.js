@@ -1,53 +1,6 @@
-import uuidv4 from 'uuid/v4'
-import {flatten,pullAt,zipWith} from 'lodash';
-import {range,getPlaneCoordinates} from './Helpers'
-
-
-
-
-class base{
-	constructor(){
-		this.key = uuidv4();
-		this.out = [];
-		this.coordinates = []; 
-		// primative - plane [x1,y1,x2,y2,x3,y3,x4,y4] 
-		// primative - planeStack [[x1,y1..],[x1,y1..]]
-		// elastic - 
-		//  
-	}
-}
-
-class elastic extends base{
-	constructor(){
-		super();
-	}
-}
-
-export class line extends elastic{
-	constructor(){
-		super();
-	}
-	/**
-	 * Sets the coordinates of the tracer given the out of primatives before and after.
-	 * IdxA and idxB should be of equal length
-	 * @param  {primative} primativeA - .out = [{'X':0,'Y':0},{'X':0,'Y':0}...]
-	 * @param  {primative} primativeB - .out =[{'X':0,'Y':0},{'X':0,'Y':0}...]
-	 * @param {list} idxA - which outs to use from A
-	 * @param {list} idxB - which outs to use from B
-	 */
-	draw(primativeA,primativeB,idxA,idxB){
-		
-		console.assert(idxA.length === idxB.length);
-		var _this = this
-		zipWith(idxA,idxB, function(a, b) {
-			_this.coordinates.push({
-				'X1':primativeA.out[a].X,
-				'Y1':primativeA.out[a].Y,
-				'X2':primativeB.out[b].X,
-				'Y2':primativeB.out[b].Y})
-		});
-	}
-}
+import {base} from "./base"
+import {flatten,pullAt} from 'lodash';
+import {range,getPlaneCoordinates} from './utils'
 
 class primative extends base{
 	/**
@@ -117,7 +70,7 @@ class primative extends base{
 		this.translation.X = this.in.X - this.geometricMidpoint.X;
 		this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
 		// 3.set
-		if (index==0){
+		if (index===0){
 			this.in.X = this.start.X + this.translation.X 
 			this.in.Y = this.start.Y + this.translation.Y 
 		}
@@ -156,7 +109,7 @@ export class plane extends primative{
 		this.out.push({'X':this.geometricMidpoint.X,'Y':this.geometricMidpoint.Y});
 		// push specifc coords
 		const idxs = [0,1,2];
-		idxs.map((idx) => {
+		idxs.forEach((idx) => {
 			this.out.push({'X':this.coordinates[idx*2],'Y':this.coordinates[idx*2+1]});
 		});
 	}
@@ -178,4 +131,3 @@ export class plane extends primative{
 	}
 
 }
-

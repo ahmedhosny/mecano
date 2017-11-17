@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Mecano from './Mecano'
+import Mecano from './components/Mecano'
 import './App.css';
 
 export default class App extends Component {
