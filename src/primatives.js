@@ -168,6 +168,10 @@ export class planeStack extends plane{
 	    return obj;
 	}
 
+	/**
+	 * Sets the out coords for a single plane 
+	 * @param {int} index - index of plane to set out coords for
+	 */
 	setPlaneOut(index){
 		// plane center
 		this.out.push(this.getPlaneGeometricMidpoint(index));

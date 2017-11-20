@@ -4,10 +4,11 @@ import Pool2d from './components/Pool2d'
 import Conv2d from './components/Conv2d'
 // components (elastics)
 import Tracer from './components/Tracer'
+import Kernel from './components/Kernel'
 // primative classes
 import {plane,planeStack} from "./primatives"
 // elastic classes
-import {line} from "./elastics"
+import {line,pyramid} from "./elastics"
 
 /**
  * Object that maps the react components with the classes that make them
@@ -26,9 +27,9 @@ export const components={
         	},
         	{
 	        'after':'Conv2d',
-	        'beforeOut':[1,2,3],
-	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'beforeOut': [0],
+	        'afterOut': [1],
+	        'elastic':'Kernel'
         	},
         	{
 	        'after':'Pool2d',
@@ -44,9 +45,9 @@ export const components={
 		'after':[
         	{
 	        'after':'Conv2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'beforeOut':[5],
+	        'afterOut':[1],
+	        'elastic':'Kernel'
         	},
         	{
 	        'after':'Input2d',
@@ -74,9 +75,9 @@ export const components={
         	},
         	{
 	        'after':'Conv2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'beforeOut':[5],
+	        'afterOut':[1],
+	        'elastic':'Kernel'
         	},
         	{
 	        'after':'Input2d',
@@ -90,5 +91,9 @@ export const components={
     'Tracer':{
     	'component':Tracer,
     	'class':line
+    },
+    'Kernel':{
+    	'component':Kernel,
+    	'class':pyramid
     }
 }

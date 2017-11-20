@@ -22,7 +22,7 @@ export default class Construction extends Component {
                 className="constructionLine"
                 x1={this.props.startX} 
                 y1={this.props.startY} 
-                x2={this.props.startX+500}  
+                x2={this.props.startX+1500}  
                 y2={this.props.startY} 
                 />
             </svg>
