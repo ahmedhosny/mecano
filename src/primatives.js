@@ -35,12 +35,14 @@ class primative extends base{
 
 	/**
 	 * Sets the bounding box X and Y coordinates of the entire primative
+	 * works for plane and planeStack
 	 */
 	setBounds(){
-	    const flatCoordinates = flatten(this.coordinates);
+		// flattens all
+	    var coords = flatten(this.coordinates)
 	    // split x and y coordinates
-	    const all_x = pullAt(flatCoordinates, range(0,flatCoordinates.length,2));
-	    const all_y = flatCoordinates;
+	    const all_x = pullAt(coords, range(0,coords.length,2));
+	    const all_y = coords;
 	    // find min and max values along each axes
 	    this.bounds.min.X = Math.min(...all_x);
 	    this.bounds.max.X = Math.max(...all_x);
@@ -49,7 +51,7 @@ class primative extends base{
 	}
 
 	/**
-	 * Sets the gemeotic center of the bounding box of the primative
+	 * Sets the geometric center of the bounding box of the primative
 	 */
 	setGeometricMidpoint(){
 		this.geometricMidpoint.X = parseInt((this.bounds.max.X - this.bounds.min.X)/2, 10) + this.bounds.min.X;
@@ -96,7 +98,7 @@ export class plane extends primative{
 	constructor(name,_in,angle,offset,size){
 		super(name,_in,angle,offset);
 		this.size = size;
-		this.duplicate = 0;
+		this.duplicate = 1;
 	}
 
 	/**
@@ -110,7 +112,7 @@ export class plane extends primative{
 		// push specifc coords
 		const idxs = [0,1,2];
 		idxs.forEach((idx) => {
-			this.out.push({'X':this.coordinates[idx*2],'Y':this.coordinates[idx*2+1]});
+			this.out.push({'X':this.coordinates[0][idx*2],'Y':this.coordinates[0][idx*2+1]});
 		});
 	}
 
@@ -128,6 +130,65 @@ export class plane extends primative{
 		this.setBounds()
 		// set out coords
 		this.setOut()
+	}
+
+}
+
+
+export class planeStack extends plane{
+
+	/**
+	 * The planeStack primative
+	 * @param  {string} name - primative name
+	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
+	 * @param  {int} angle - drawing angle from Mecano state
+	 * @param  {object} offset - {'X':000,'Y':000} to avoid overlaps - comes in from Data
+	 * @param  {object} size of the plane - {'X':000,'Y':000,'Z':000}
+	 */
+	constructor(name,_in,angle,offset,size){
+		super(name,_in,angle,offset);
+		this.size = size;
+		this.duplicate = Math.max( Math.floor(this.size.Z/10) , 2);
+		this.duplicateOffset = 15;
+	}
+
+	/**
+	 * Calculate the geometric midpoint of a single plane - used for planeStack
+	 * @param {int} index - index of list within this.coordinates
+	 * @return {obj} the midpoint {'X':000,'Y':000}
+	 */
+	getPlaneGeometricMidpoint(index){
+		const coords = this.coordinates[index].slice()
+		const all_x = pullAt(coords, range(0,coords.length,2));
+	    const all_y = coords;
+	    var obj = {
+	    	'X': parseInt((Math.max(...all_x) - Math.min(...all_x))/2, 10) + Math.min(...all_x) ,
+			'Y': parseInt((Math.max(...all_y) - Math.min(...all_y))/2, 10) + Math.min(...all_y)
+			}
+	    return obj;
+	}
+
+	setPlaneOut(index){
+		// plane center
+		this.out.push(this.getPlaneGeometricMidpoint(index));
+		// plane border
+		const idxs = [0,1,2];
+		idxs.forEach((idx) => {
+			this.out.push({'X':this.coordinates[index][idx*2],'Y':this.coordinates[index][idx*2+1]});
+		});
+	}
+	/**
+	 * Sets the out points for the planeStack primative - overwrites the plane setOut()
+	 */
+	setOut(){
+		//1// push midpoint
+		this.setGeometricMidpoint();
+		this.out.push({'X':this.geometricMidpoint.X,'Y':this.geometricMidpoint.Y});
+		//2// first plane
+		this.setPlaneOut(0)
+		//3// last plane
+		this.setPlaneOut(this.coordinates.length-1)
+
 	}
 
 }

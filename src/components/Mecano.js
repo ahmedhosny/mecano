@@ -115,7 +115,7 @@ export default class Mecano extends Component {
 				<svg
 				className="svg"
 				height={500}
-				width={1000}
+				width={2000}
 				onClick={this.onClick}
 				>
 					{/* components */}				

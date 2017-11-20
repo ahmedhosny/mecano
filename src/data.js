@@ -1,9 +1,20 @@
-import {components,links} from './mapping'
+import {components} from './mapping'
 
+/**
+ * input either from user or reading a file..
+ * @type {Array}
+ */
 var input = [
-    {'name':'siko1','component':'Input2d','size':{'X':100,'Y':100}},
-    {'name':'siko2','component':'Input2d','size':{'X':200,'Y':200}},
-    {'name':'siko3','component':'Input2d','size':{'X':50,'Y':50}}
+    {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
+        {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
+    {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32}},
+        {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32}},
+    {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
+        {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
+        {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32}},
+        {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
+        {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}}
+
 ]
 
 /**
@@ -38,20 +49,23 @@ export function dataGenerator(_in,angle,offset){
 
 
 function getElastic(data){
+    var originalData = data.slice()
     // loop through data
-    data.forEach((n,index) => {
-        if (index!==data.length-1){
+    var counter = 1
+    originalData.forEach((n,index) => {
+        if (index!==originalData.length-1){
+            // get before and after components
             var before = n.component
-            var after = data[index+1].component
-            // loop through elastics
-            links.forEach((m,_index) => {
-                if (m.before===before && m.after===after){
+            var after = originalData[index+1].component
+            // loop through the "after" options
+            components[before].after.forEach((m,_index) => {
+                if (m.after===after){
                     const elasticClass = components[m.elastic].class
                     const component = new elasticClass()
                     component.component = m.elastic
-                    component.draw(data[index],data[index+1],m)
-                    // splice
-                    data.splice(index+1, 0, component);
+                    component.draw(originalData[index],originalData[index+1],m)
+                    data.splice(counter, 0, component);
+                    counter += 2
                 }
             });
         }

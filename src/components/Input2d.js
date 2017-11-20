@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "./Input2d.css"
 
 export default class Input2d extends Component {
     // constructor(props) {

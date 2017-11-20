@@ -14,17 +14,14 @@ export default class Tracer extends Component {
             <svg>
                 {coords.map((m,index) => {
                     return(
-                        <g
-                        key={"group-"+index}
-                        >
                             <line 
                             className="tracerLine"
                             x1={m.X1} 
                             y1={m.Y1} 
                             x2={m.X2}  
-                            y2={m.Y2} 
+                            y2={m.Y2}
+                            key={"group-"+index}
                             />
-                        </g>
                         )
                     })
                 }
