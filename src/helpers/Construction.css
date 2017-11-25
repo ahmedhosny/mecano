@@ -7,6 +7,9 @@
 .constructionCircleOut{
 	fill: green;
 }
+.constructionTagAnchor{
+	fill:blue;
+}
 .constructionRect{
 	stroke:blue;
 	fill:none;

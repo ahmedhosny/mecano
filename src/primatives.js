@@ -17,6 +17,7 @@ class primative extends base{
 		this.start = _in; // never changes
 		this.in = {'X':0,'Y':0}; // single insertion point
 		this.translation = {'X':0,'Y':0}; // for centering purposes
+		this.out = [];
 		this.offset = offset // for avoiding overlaps
 		this.bounds = {
             'min':{
@@ -29,6 +30,11 @@ class primative extends base{
             }
         };
         this.geometricMidpoint = {'X':0,'Y':0};
+        this.tagAnchors = {
+        	'top':[],
+        	'bottom':[]
+        	// can add sides here
+        }
         
 	}
 
@@ -71,7 +77,7 @@ class primative extends base{
 		this.setGeometricMidpoint()
 		this.translation.X = this.in.X - this.geometricMidpoint.X;
 		this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
-		// 3.set
+		// 2.set
 		if (index===0){
 			this.in.X = this.start.X + this.translation.X 
 			this.in.Y = this.start.Y + this.translation.Y 
@@ -80,6 +86,14 @@ class primative extends base{
 			this.in.X = this.offset.X
 			this.in.Y = this.start.Y + this.translation.Y + this.offset.Y			
 		}
+	}
+
+	/**
+	 * Sets the tag anchors for text, extra info...
+	 */
+	setTagAnchors(){
+		this.tagAnchors.top = [{'X':50,'Y':50}]
+		this.tagAnchors.bottom = [{'X':50,'Y':50}]
 	}
 
 }
@@ -114,6 +128,8 @@ export class plane extends primative{
 		idxs.forEach((idx) => {
 			this.out.push({'X':this.coordinates[0][idx*2],'Y':this.coordinates[0][idx*2+1]});
 		});
+		// push Anchors
+		this.setTagAnchors()
 	}
 
 	/**
@@ -192,6 +208,8 @@ export class planeStack extends plane{
 		this.setPlaneOut(0)
 		//3// last plane
 		this.setPlaneOut(this.coordinates.length-1)
+		// push Anchors
+		this.setTagAnchors()
 
 	}
 

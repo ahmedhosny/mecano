@@ -8,7 +8,7 @@ var input = [
     {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
     {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':11,'KY':11}},
 
-    {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':11,'KY':11}},
+    {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
 
     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
     {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},

@@ -18,7 +18,7 @@ export default class Mecano extends Component {
 		super(props);
 		this.state = {
 			angle: 30,
-			construction: false,
+			construction: true,
 			origin: {'X':300,'Y':300},
 			offset: {'X':30,'Y':0}
 		};
