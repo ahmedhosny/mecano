@@ -10,9 +10,10 @@ class primative extends base{
 	 * @param  {int} angle - drawing angle from Mecano state
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 */
-	constructor(name,_in,angle,margin){
+	constructor(inputObject,_in,angle,margin){
 		super()
-		this.name = name;
+		this.name = inputObject.name;
+		this.size = inputObject.size;
 		this.angle = angle;
 		this.start = _in; // never changes
 		this.in = {'X':0,'Y':0}; // single insertion point
@@ -121,9 +122,8 @@ export class plane extends primative{
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 * @param  {object} size of the plane - {'X':000,'Y':000}
 	 */
-	constructor(name,_in,angle,margin,size){
-		super(name,_in,angle,margin);
-		this.size = size;
+	constructor(inputObject,_in,angle,margin){
+		super(inputObject,_in,angle,margin);
 		this.stack = 1;
 	}
 
@@ -174,9 +174,8 @@ export class planeStack extends plane{
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 * @param  {object} size of the plane - {'X':000,'Y':000,'Z':000}
 	 */
-	constructor(name,_in,angle,margin,size){
-		super(name,_in,angle,margin);
-		this.size = size;
+	constructor(inputObject,_in,angle,margin){
+		super(inputObject,_in,angle,margin);
 		this.stack = Math.max( Math.floor(this.size.Z/10) , 2);
 		this.stackPadding = 15;
 	}

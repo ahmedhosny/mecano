@@ -46,7 +46,8 @@ export class pyramid extends elastic{
 		zipWith(idxA,idxB, function(a, b) {
 			// Draws the plane "base" of the sideways pyramid
 			const _in = primativeA.out[a]
-			const _plane = new plane('foo', _in , angle , {'X':0 ,'Y':0} , {'X':primativeB.size.KX ,'Y':primativeB.size.KY})
+			const dummyInputObject = {'name':'foo','size':{'X':primativeB.size.KX,'Y':primativeB.size.KY}}
+			const _plane = new plane(dummyInputObject, _in , angle , {'X':0 ,'Y':0})
 			_plane.draw(0)
 			const triangle1 = [_plane.out[1].X,_plane.out[1].Y,_plane.out[2].X,_plane.out[2].Y,primativeB.out[b].X,primativeB.out[b].Y]
 			const triangle2 = [_plane.out[2].X,_plane.out[2].Y,_plane.out[3].X,_plane.out[3].Y,primativeB.out[b].X,primativeB.out[b].Y]

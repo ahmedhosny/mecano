@@ -16,9 +16,20 @@ var input = [
     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}}
 ]
 
+
+// var input = [
+//     {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224}},
+//     {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'kernel': {'D1':55,'D2':55}},
+//     {'name':'conv2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'kernel': {'D1':55,'D2':55}},
+//     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}},
+//     {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'kernel': {'D1':55,'D2':55}},
+//     {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200}},
+//     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}}
+// ]
+
 /**
  * All primative class new instance: 
- * const component = new primativeClass(name , in , angle , margin , size)
+ * const component = new primativeClass(inputObject , in , angle , margin)
  * component.draw(index)
  */
 
@@ -45,7 +56,7 @@ export function dataGenerator(_in,angle,margin){
         //
         //3// Make instances with the calculated margin and new size (if applicable)
         const primativeClass = components[n.component].class
-        const component = new primativeClass(n.name , _in , angle , _margin , n.size)
+        const component = new primativeClass(n, _in , angle , _margin)
         component.component = n.component
         //4// draw
         component.draw(index)
