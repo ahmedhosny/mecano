@@ -1,0 +1,15 @@
+.line{
+	stroke: black; 
+	stroke-width: 4;
+	stroke-linecap:round;
+}
+.text1{
+	font-size: 32px;
+	font-weight: 100;
+    font-style: normal;
+}
+.text2{
+	font-size: 18px;
+	font-weight: 300;
+    font-style: italic;	
+}

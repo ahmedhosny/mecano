@@ -5,10 +5,14 @@ import Conv2d from './components/Conv2d'
 // components (elastics)
 import Tracer from './components/Tracer'
 import Kernel from './components/Kernel'
+// components (tags)
+import Size from './components/Size'
 // primative classes
 import {plane,planeStack} from "./primatives"
 // elastic classes
 import {line,pyramid} from "./elastics"
+// tag classes
+import {bottomTag} from "./tags"
 
 /**
  * Object that maps the react components with the classes that make them
@@ -87,7 +91,7 @@ export const components={
         	}
         ]
     },
-    // elastics - no before or after here.
+    // elastics
     'Tracer':{
     	'component':Tracer,
     	'class':line
@@ -95,5 +99,10 @@ export const components={
     'Kernel':{
     	'component':Kernel,
     	'class':pyramid
+    },
+    // tags
+    'Size':{
+        'component':Size,
+        'class':bottomTag
     }
 }

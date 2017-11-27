@@ -8,9 +8,9 @@ class primative extends base{
 	 * @param  {string} name - primative name
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} offset - {'X':000,'Y':000} to avoid overlaps - comes in from Data
+	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 */
-	constructor(name,_in,angle,offset){
+	constructor(name,_in,angle,margin){
 		super()
 		this.name = name;
 		this.angle = angle;
@@ -18,7 +18,8 @@ class primative extends base{
 		this.in = {'X':0,'Y':0}; // single insertion point
 		this.translation = {'X':0,'Y':0}; // for centering purposes
 		this.out = [];
-		this.offset = offset // for avoiding overlaps
+		this.margin = margin // for avoiding overlaps - only X used
+		this.padding = {'X':30,'Y':30} // for tag - primative distance - only Y used
 		this.bounds = {
             'min':{
                 'X':0,
@@ -35,6 +36,7 @@ class primative extends base{
         	'bottom':[]
         	// can add sides here
         }
+
         
 	}
 
@@ -66,7 +68,7 @@ class primative extends base{
 
 	/**
 	 * 1. Sets the translation distance to center the primative around the start guide 
-	 * 2. Sets the offset distance to avoid any overlaps 
+	 * 2. Sets the margin distance to avoid any overlaps 
 	 * 3. moves the primative by setting the in values
 	 * translation.X distance will always be negative
      * translation.Y distance will always be positive
@@ -83,8 +85,8 @@ class primative extends base{
 			this.in.Y = this.start.Y + this.translation.Y 
 		}
 		else{
-			this.in.X = this.offset.X
-			this.in.Y = this.start.Y + this.translation.Y + this.offset.Y			
+			this.in.X = this.margin.X
+			this.in.Y = this.start.Y + this.translation.Y + this.margin.Y			
 		}
 	}
 
@@ -92,8 +94,18 @@ class primative extends base{
 	 * Sets the tag anchors for text, extra info...
 	 */
 	setTagAnchors(){
-		this.tagAnchors.top = [{'X':50,'Y':50}]
-		this.tagAnchors.bottom = [{'X':50,'Y':50}]
+		// offset for planeStack - to centre the tag
+		var offset = 0
+		if (this.stack>1){ offset = this.coordinates[0][6] - this.coordinates[0][0] }
+			
+		this.tagAnchors.top = [{
+			'X':parseInt((this.bounds.min.X+this.bounds.max.X - offset)/2,10),
+			'Y':this.bounds.min.Y - this.padding.Y
+		}]
+		this.tagAnchors.bottom = [{
+			'X':parseInt((this.bounds.min.X+this.bounds.max.X - offset)/2,10),
+			'Y':this.bounds.max.Y + this.padding.Y
+		}]
 	}
 
 }
@@ -106,13 +118,13 @@ export class plane extends primative{
 	 * @param  {string} name - primative name
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} offset - {'X':000,'Y':000} to avoid overlaps - comes in from Data
+	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 * @param  {object} size of the plane - {'X':000,'Y':000}
 	 */
-	constructor(name,_in,angle,offset,size){
-		super(name,_in,angle,offset);
+	constructor(name,_in,angle,margin,size){
+		super(name,_in,angle,margin);
 		this.size = size;
-		this.duplicate = 1;
+		this.stack = 1;
 	}
 
 	/**
@@ -128,8 +140,6 @@ export class plane extends primative{
 		idxs.forEach((idx) => {
 			this.out.push({'X':this.coordinates[0][idx*2],'Y':this.coordinates[0][idx*2+1]});
 		});
-		// push Anchors
-		this.setTagAnchors()
 	}
 
 	/**
@@ -146,6 +156,9 @@ export class plane extends primative{
 		this.setBounds()
 		// set out coords
 		this.setOut()
+		// push Anchors
+		this.setTagAnchors()
+
 	}
 
 }
@@ -158,14 +171,14 @@ export class planeStack extends plane{
 	 * @param  {string} name - primative name
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} offset - {'X':000,'Y':000} to avoid overlaps - comes in from Data
+	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
 	 * @param  {object} size of the plane - {'X':000,'Y':000,'Z':000}
 	 */
-	constructor(name,_in,angle,offset,size){
-		super(name,_in,angle,offset);
+	constructor(name,_in,angle,margin,size){
+		super(name,_in,angle,margin);
 		this.size = size;
-		this.duplicate = Math.max( Math.floor(this.size.Z/10) , 2);
-		this.duplicateOffset = 15;
+		this.stack = Math.max( Math.floor(this.size.Z/10) , 2);
+		this.stackPadding = 15;
 	}
 
 	/**
@@ -208,9 +221,6 @@ export class planeStack extends plane{
 		this.setPlaneOut(0)
 		//3// last plane
 		this.setPlaneOut(this.coordinates.length-1)
-		// push Anchors
-		this.setTagAnchors()
-
 	}
 
 }

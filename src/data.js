@@ -1,5 +1,7 @@
 import {components} from './mapping'
 
+import {bottomTag} from "./tags"
+
 /**
  * input either from user or reading a file..
  * @type {Array}
@@ -7,9 +9,7 @@ import {components} from './mapping'
 var input = [
     {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
     {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':11,'KY':11}},
-
     {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
-
     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
     {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},
     {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
@@ -18,7 +18,7 @@ var input = [
 
 /**
  * All primative class new instance: 
- * const component = new primativeClass(name , in , angle , offset , size)
+ * const component = new primativeClass(name , in , angle , margin , size)
  * component.draw(index)
  */
 
@@ -32,20 +32,20 @@ var input = [
  * Generates a list of instances for Mecano
  * @param  {object} _in - {'X':000,'Y':000} from Mecano state
  * @param  {int} angle - from Mecano state
- * @param  {object} offset - {'X':000,'Y':000} from Mecano state
+ * @param  {object} margin - {'X':000,'Y':000} from Mecano state
  * @return {list} - ordered list of instances
  */
-export function dataGenerator(_in,angle,offset){
+export function dataGenerator(_in,angle,margin){
     var data = []
     input.forEach((n,index) => {
-        //1// offset to prevent overlap  - only in the X direction for now
-        if (index===0){ var _offset = {'X':0 ,'Y':0} }
-        else{ _offset = {'X':parseInt(offset.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
+        //1// margin to prevent overlap  - only in the X direction for nowoffset
+        if (index===0){ var _margin = {'X':0 ,'Y':0} }
+        else{ _margin = {'X':parseInt(margin.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
         //2// resize if needed
         //
-        //3// Make instances with the calculated offset and new size (if applicable)
+        //3// Make instances with the calculated margin and new size (if applicable)
         const primativeClass = components[n.component].class
-        const component = new primativeClass(n.name , _in , angle , _offset , n.size)
+        const component = new primativeClass(n.name , _in , angle , _margin , n.size)
         component.component = n.component
         //4// draw
         component.draw(index)
@@ -54,6 +54,24 @@ export function dataGenerator(_in,angle,offset){
     });
     //6// populate with elastics
     getElastic(data,angle)
+
+    //tag test area
+    var test = new bottomTag(data[6],["999","000x000"])
+    test.draw()
+    test.component = 'Size'
+    data.push(test)
+    var test = new bottomTag(data[4],["999","000x000"])
+    test.draw()
+    test.component = 'Size'
+    data.push(test)
+    var test = new bottomTag(data[2],["999","000x000"])
+    test.draw()
+    test.component = 'Size'
+    data.push(test)
+    var test = new bottomTag(data[0],["999","000x000"])
+    test.draw()
+    test.component = 'Size'
+    data.push(test)
     return data;
 }
 

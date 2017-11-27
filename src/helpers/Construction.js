@@ -31,7 +31,6 @@ export default class Construction extends Component {
                 }
                 {instance.out 
                     ?   ( instance.out.map((m,index) => {
-                            console.log(m,index,'siko')
                             return (
                                 <circle
                                 className="constructionCircleOut"  
@@ -45,12 +44,13 @@ export default class Construction extends Component {
                         )
                     : null
                 }
+                {/* TODO: cleanup - duplicated for now (top and bottom anchors) */}
                 {instance.tagAnchors 
                     ?   ( instance.tagAnchors.top.map((m,index) => {
                             return (
                                 <circle
                                 className="constructionTagAnchor"  
-                                r={this.props.radius*1.5} 
+                                r={this.props.radius} 
                                 cx={m.X} 
                                 cy={m.Y}
                                 key={"tagAnchor-"+index+"-"+m.key}
@@ -59,7 +59,22 @@ export default class Construction extends Component {
                             })
                         )
                     : null
-                    }
+                }
+                {instance.tagAnchors 
+                    ?   ( instance.tagAnchors.bottom.map((m,index) => {
+                            return (
+                                <circle
+                                className="constructionTagAnchor"  
+                                r={this.props.radius} 
+                                cx={m.X} 
+                                cy={m.Y}
+                                key={"tagAnchor-"+index+"-"+m.key}
+                                /> 
+                                )
+                            })
+                        )
+                    : null
+                }
             </svg>
         );
     }

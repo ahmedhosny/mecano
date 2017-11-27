@@ -20,7 +20,7 @@ export default class Mecano extends Component {
 			angle: 30,
 			construction: true,
 			origin: {'X':300,'Y':300},
-			offset: {'X':30,'Y':0}
+			margin: {'X':30,'Y':0}
 		};
 	}
 
@@ -36,7 +36,7 @@ export default class Mecano extends Component {
   	// only once before intial render
   	componentWillMount(){
   		this.setState({
-			data : dataGenerator(this.state.origin,this.state.angle,this.state.offset)
+			data : dataGenerator(this.state.origin,this.state.angle,this.state.margin)
 		});
   	}
 
@@ -45,7 +45,7 @@ export default class Mecano extends Component {
 		const newAngle = e.target.value
 		this.setState({
 			angle: newAngle,
-			data : dataGenerator(this.state.origin,newAngle,this.state.offset)
+			data : dataGenerator(this.state.origin,newAngle,this.state.margin)
         });
   	}
   	onChangeConstruction(e) {
@@ -53,12 +53,12 @@ export default class Mecano extends Component {
 			construction:e.target.checked
 		});
   	} 
-  	// TODO: Introduce offset for Y
-	onChangeOffset(e) {
-		const newOffset = {'X':e.target.value,'Y':0}
+  	// TODO: Introduce margin for Y
+	onChangemargin(e) {
+		const newmargin = {'X':e.target.value,'Y':0}
         this.setState({
-			offset: newOffset ,
-			data : dataGenerator(this.state.origin,this.state.angle,newOffset)
+			margin: newmargin ,
+			data : dataGenerator(this.state.origin,this.state.angle,newmargin)
         });
   	}
 
@@ -107,14 +107,14 @@ export default class Mecano extends Component {
 				onChangeAngle={this.onChangeAngle.bind(this)}
 				construction={this.state.construction}
 				onChangeConstruction={this.onChangeConstruction.bind(this)}
-				offset={this.state.offset} 
-                onChangeOffset={this.onChangeOffset.bind(this)} 
+				margin={this.state.margin} 
+                onChangemargin={this.onChangemargin.bind(this)} 
 				/>
 
 				{/* Graph */}
 				<svg
 				className="svg"
-				height={500}
+				height={1000}
 				width={2000}
 				onClick={this.onClick}
 				>

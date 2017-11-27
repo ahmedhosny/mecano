@@ -22,17 +22,17 @@ export function range(start, stop, step) {
 /**
  * returns the coordinates of a plane
  * @param  {object} instance - the object
- * @param  {int} duplicate - 0=plane, >0=planeStack
+ * @param  {int} stack - 0=plane, >0=planeStack
  * @param  {int} angle - skew angle
- * @param  {float} duplicateOffset - 
+ * @param  {float} stackPadding - 
  * @return {list} [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
  */
 export function getPlaneCoordinates(instance){
 
     var out = []
     var offset = 0
-    for (var i = 0; i < instance.duplicate ; i++) {
-        if (instance.duplicateOffset){offset = i * instance.duplicateOffset}
+    for (var i = 0; i < instance.stack ; i++) {
+        if (instance.stackPadding){offset = i * instance.stackPadding}
         //
         const p1_x = instance.in.X + offset 
         const p1_y = instance.in.Y
