@@ -1,6 +1,6 @@
 import {base} from "./base"
 
-class tags extends base{
+class tag extends base{
 	/**
 	 * Base tag class - other inherit from here.
 	 * @param  {object} host - the host instance - a primative usually
@@ -13,16 +13,16 @@ class tags extends base{
 }
 
 
-export class bottomTag extends tags{
+export class bottomTag extends tag{
 	/**
 	 * A bottom tag
 	 * @param  {object} host - the host instance - a primative usually
 	 * @param  {list} text - list of strings to be displayed
 	 */
-	constructor(host,text){
-		super(host,text);
-		this.text1 = text[0]
-		this.text2 = text[1]
+	constructor(host){
+		super(host);
+		this.text1 = host.size.X
+		this.text2 = host.size.Y + 'x' + host.size.Y // problem
 	}
 
 	/**

@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import "./Tracer.css"
 
 export default class Tracer extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //     };
-    // }
-
     render() {
         var coords = this.props.instance.coordinates
         return (

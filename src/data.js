@@ -1,6 +1,6 @@
 import {components} from './mapping'
 
-import {bottomTag} from "./tags"
+import {bottomTag} from "./tag"
 
 /**
  * input either from user or reading a file..
@@ -8,7 +8,7 @@ import {bottomTag} from "./tags"
  */
 var input = [
     {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
-    {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':11,'KY':11}},
+    {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':50,'KY':50}},
     {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
     {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},
@@ -56,19 +56,19 @@ export function dataGenerator(_in,angle,margin){
     getElastic(data,angle)
 
     //tag test area
-    var test = new bottomTag(data[6],["999","000x000"])
+    var test = new bottomTag(data[6])
     test.draw()
     test.component = 'Size'
     data.push(test)
-    var test = new bottomTag(data[4],["999","000x000"])
+    var test = new bottomTag(data[4])
     test.draw()
     test.component = 'Size'
     data.push(test)
-    var test = new bottomTag(data[2],["999","000x000"])
+    var test = new bottomTag(data[2])
     test.draw()
     test.component = 'Size'
     data.push(test)
-    var test = new bottomTag(data[0],["999","000x000"])
+    var test = new bottomTag(data[0])
     test.draw()
     test.component = 'Size'
     data.push(test)

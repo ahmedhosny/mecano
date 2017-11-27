@@ -1,6 +1,6 @@
 import {base} from "./base"
 import {zipWith} from 'lodash';
-import {plane} from './primatives'
+import {plane} from './primative'
 
 class elastic extends base{
 }

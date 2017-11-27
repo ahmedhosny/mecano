@@ -11,14 +11,17 @@ export default class Kernel extends Component {
                             <g
                             key={"kernel-"+index}
                             >
+                                {/*triangle1*/}
                                 <polygon 
                                 className="kernelTriangle"
                                 points={m[0].join(" ")}
                                 /> 
+                                {/*triangle2*/}
                                 <polygon 
                                 className="kernelTriangle"
                                 points={m[1].join(" ")}
                                 /> 
+                                {/*dotted base*/}
                                 <polyline
                                 className="kernelHidden"
                                 strokeDasharray="5"

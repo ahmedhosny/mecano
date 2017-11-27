@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import Outline from '../helpers/Outline'
+import './Conv2d.css'
 
 export default class Pool2d extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
-    // 
    render() {
         var coords = this.props.instance.coordinates
         return (
@@ -19,11 +16,8 @@ export default class Pool2d extends Component {
                     {coords.map((m,index) => {
                         return(
                                 <polygon 
+                                className="polygon"
                                 points={m.join(" ")}
-                                fill="white" 
-                                stroke="black" 
-                                strokeWidth="2"
-                                strokeLinejoin="bevel"
                                 key={"plane-"+index}
                                 />
                             )

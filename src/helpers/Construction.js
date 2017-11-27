@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import "./Construction.css"
 
 export default class Construction extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
     render() {
         var instance = this.props.instance
         return (

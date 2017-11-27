@@ -1,18 +1,21 @@
-// components (primatives)
+// components
+// primative
 import Input2d from './components/Input2d'
 import Pool2d from './components/Pool2d'
 import Conv2d from './components/Conv2d'
-// components (elastics)
+// elastic
 import Tracer from './components/Tracer'
 import Kernel from './components/Kernel'
-// components (tags)
+// tag
 import Size from './components/Size'
-// primative classes
-import {plane,planeStack} from "./primatives"
-// elastic classes
-import {line,pyramid} from "./elastics"
-// tag classes
-import {bottomTag} from "./tags"
+
+// classes
+// primative 
+import {plane,planeStack} from "./primative"
+// elastic 
+import {line,pyramid} from "./elastic"
+// tag 
+import {bottomTag} from "./tag"
 
 /**
  * Object that maps the react components with the classes that make them

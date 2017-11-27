@@ -20,7 +20,7 @@ export default class Mecano extends Component {
 			angle: 30,
 			construction: true,
 			origin: {'X':300,'Y':300},
-			margin: {'X':30,'Y':0}
+			margin: {'X':25,'Y':0}
 		};
 	}
 

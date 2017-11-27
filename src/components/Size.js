@@ -30,15 +30,16 @@ export default class Size extends Component {
                 x={tagAnchors.bottom[0].X}
                 y={tagAnchors.bottom[0].Y+text1Height}
                 >
-                {this.props.instance.text1}
+                    {this.props.instance.text1}
                 </text>
+                {/*text: line2*/}
                 <text 
                 className="text2"
                 textAnchor="middle"
                 x={tagAnchors.bottom[0].X}
                 y={tagAnchors.bottom[0].Y+text1Height+text2Height}
                 >
-                {this.props.instance.text2}
+                    {this.props.instance.text2}
                 </text>
             </svg>
         );
