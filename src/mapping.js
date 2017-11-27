@@ -1,4 +1,6 @@
-// components
+//
+// COMPONENTS
+// 
 // primative
 import Input2d from './components/Input2d'
 import Pool2d from './components/Pool2d'
@@ -7,9 +9,10 @@ import Conv2d from './components/Conv2d'
 import Tracer from './components/Tracer'
 import Kernel from './components/Kernel'
 // tag
-import Size from './components/Size'
-
-// classes
+import Shape from './components/Shape'
+//
+// CLASSES
+// 
 // primative 
 import {plane,planeStack} from "./primative"
 // elastic 
@@ -104,8 +107,8 @@ export const components={
     	'class':pyramid
     },
     // tags
-    'Size':{
-        'component':Size,
+    'Shape':{
+        'component':Shape,
         'class':bottomTag
     }
 }

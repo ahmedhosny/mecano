@@ -6,26 +6,27 @@ import {bottomTag} from "./tag"
  * input either from user or reading a file..
  * @type {Array}
  */
+// var input = [
+//     {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
+//     {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':50,'KY':50}},
+//     {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
+//     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
+//     {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},
+//     {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
+//     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}}
+// ]
+
+
 var input = [
-    {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
-    {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':50,'KY':50}},
-    {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
-    {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
-    {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},
-    {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
-    {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}}
+    {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224}},
+    {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'kernel': {'D1':55,'D2':55}},
+    {'name':'conv2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'kernel': {'D1':20,'D2':20}},
+    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}},
+    {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'kernel': {'D1':55,'D2':55}},
+    {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200}},
+    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}}
 ]
 
-
-// var input = [
-//     {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224}},
-//     {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'kernel': {'D1':55,'D2':55}},
-//     {'name':'conv2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'kernel': {'D1':55,'D2':55}},
-//     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}},
-//     {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'kernel': {'D1':55,'D2':55}},
-//     {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200}},
-//     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}}
-// ]
 
 /**
  * All primative class new instance: 
@@ -52,9 +53,9 @@ export function dataGenerator(_in,angle,margin){
         //1// margin to prevent overlap  - only in the X direction for nowoffset
         if (index===0){ var _margin = {'X':0 ,'Y':0} }
         else{ _margin = {'X':parseInt(margin.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
-        //2// resize if needed
+        //2// reshape if needed
         //
-        //3// Make instances with the calculated margin and new size (if applicable)
+        //3// Make instances with the calculated margin and new shape (if applicable)
         const primativeClass = components[n.component].class
         const component = new primativeClass(n, _in , angle , _margin)
         component.component = n.component
@@ -66,22 +67,35 @@ export function dataGenerator(_in,angle,margin){
     //6// populate with elastics
     getElastic(data,angle)
 
+    ////////////////////////////////////////////
     //tag test area
-    var test = new bottomTag(data[6])
+    var test = new bottomTag(data[6],'Shape')
     test.draw()
-    test.component = 'Size'
+    test.component = 'Shape'
     data.push(test)
-    var test = new bottomTag(data[4])
+    var test = new bottomTag(data[4],'Shape')
     test.draw()
-    test.component = 'Size'
+    test.component = 'Shape'
     data.push(test)
-    var test = new bottomTag(data[2])
+    var test = new bottomTag(data[2],'Shape')
     test.draw()
-    test.component = 'Size'
+    test.component = 'Shape'
     data.push(test)
-    var test = new bottomTag(data[0])
+    var test = new bottomTag(data[0],'Shape')
     test.draw()
-    test.component = 'Size'
+    test.component = 'Shape'
+    data.push(test)
+    var test = new bottomTag(data[8],'Shape')
+    test.draw()
+    test.component = 'Shape'
+    data.push(test)
+    var test = new bottomTag(data[10],'Shape')
+    test.draw()
+    test.component = 'Shape'
+    data.push(test)
+    var test = new bottomTag(data[12],'Shape')
+    test.draw()
+    test.component = 'Shape'
     data.push(test)
     return data;
 }

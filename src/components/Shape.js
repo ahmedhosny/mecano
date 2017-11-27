@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import "./Size.css"
+import "./Shape.css"
 
-export default class Size extends Component {
+export default class Shape extends Component {
     render() {
         const coords = this.props.instance.coordinates
         const tagAnchors = this.props.instance.host.tagAnchors

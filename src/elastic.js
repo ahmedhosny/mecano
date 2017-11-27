@@ -12,11 +12,11 @@ export class line extends elastic{
 	 * @param  {primative} primativeA - .out = [{'X':0,'Y':0},{'X':0,'Y':0}...]
 	 * @param  {primative} primativeB - .out =[{'X':0,'Y':0},{'X':0,'Y':0}...]
 	 * @param  {int} angle - from mecano state
-	 * @param  {object} object from 'after' in mapping.js
+	 * @param  {object} mappingObject from 'after' in mapping.js
 	 */
-	draw(primativeA,primativeB,object,angle){
-		var idxA = object.beforeOut
-		var idxB = object.afterOut
+	draw(primativeA,primativeB,mappingObject,angle){
+		var idxA = mappingObject.beforeOut
+		var idxB = mappingObject.afterOut
 		var _this = this
 		zipWith(idxA,idxB, function(a, b) {
 			_this.coordinates.push({
@@ -36,17 +36,18 @@ export class pyramid extends elastic{
 	 * First two lists are the two triangles and the third is the hidden line
 	 * @param  {primative} primativeA - .out = [{'X':0,'Y':0},{'X':0,'Y':0}...]
 	 * @param  {primative} primativeB - .out =[{'X':0,'Y':0},{'X':0,'Y':0}...]
-	 * @param  {object} object from 'after' in mapping.js
+	 * @param  {object} mappingObject from 'after' in mapping.js
 	 * @param  {int} angle - from mecano state
 	 */
-	draw(primativeA,primativeB,object,angle){
-		const idxA = object.beforeOut
-		const idxB = object.afterOut
+	draw(primativeA,primativeB,mappingObject,angle){
+		const idxA = mappingObject.beforeOut
+		const idxB = mappingObject.afterOut
 		var _this = this
 		zipWith(idxA,idxB, function(a, b) {
 			// Draws the plane "base" of the sideways pyramid
 			const _in = primativeA.out[a]
-			const dummyInputObject = {'name':'foo','size':{'X':primativeB.size.KX,'Y':primativeB.size.KY}}
+			// substitute the shape with kernel values
+			const dummyInputObject = {'name':'foo','shape':{'D1':primativeB.kernel.D1,'D2':primativeB.kernel.D2}}
 			const _plane = new plane(dummyInputObject, _in , angle , {'X':0 ,'Y':0})
 			_plane.draw(0)
 			const triangle1 = [_plane.out[1].X,_plane.out[1].Y,_plane.out[2].X,_plane.out[2].Y,primativeB.out[b].X,primativeB.out[b].Y]

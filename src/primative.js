@@ -4,8 +4,8 @@ import {range,getPlaneCoordinates} from './utils'
 
 class primative extends base{
 	/**
-	 * Base primative class - other inherit from here.
-	 * @param  {string} name - primative name
+	 * Basic primative class - other inherit from here.
+	 * @param  {object} inputObject - input object from Data.js
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
@@ -13,7 +13,8 @@ class primative extends base{
 	constructor(inputObject,_in,angle,margin){
 		super()
 		this.name = inputObject.name;
-		this.size = inputObject.size;
+		this.shape = inputObject.shape;
+		if (inputObject.kernel){this.kernel = inputObject.kernel}
 		this.angle = angle;
 		this.start = _in; // never changes
 		this.in = {'X':0,'Y':0}; // single insertion point
@@ -116,11 +117,10 @@ export class plane extends primative{
 
 	/**
 	 * The plane primative
-	 * @param  {string} name - primative name
+	 * @param  {object} inputObject - input object from Data.js
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
-	 * @param  {object} size of the plane - {'X':000,'Y':000}
 	 */
 	constructor(inputObject,_in,angle,margin){
 		super(inputObject,_in,angle,margin);
@@ -168,15 +168,14 @@ export class planeStack extends plane{
 
 	/**
 	 * The planeStack primative
-	 * @param  {string} name - primative name
+	 * @param  {object} inputObject - input object from Data.js
 	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
 	 * @param  {int} angle - drawing angle from Mecano state
 	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
-	 * @param  {object} size of the plane - {'X':000,'Y':000,'Z':000}
 	 */
 	constructor(inputObject,_in,angle,margin){
 		super(inputObject,_in,angle,margin);
-		this.stack = Math.max( Math.floor(this.size.Z/10) , 2);
+		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);
 		this.stackPadding = 15;
 	}
 

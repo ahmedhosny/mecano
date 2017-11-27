@@ -1,4 +1,5 @@
 import {base} from "./base"
+import {setBottomTagtext} from "./utils"
 
 class tag extends base{
 	/**
@@ -16,13 +17,12 @@ class tag extends base{
 export class bottomTag extends tag{
 	/**
 	 * A bottom tag
-	 * @param  {object} host - the host instance - a primative usually
-	 * @param  {list} text - list of strings to be displayed
+	 * @param  {object} host - the host instance - a primative 
+	 * @param  {string} display - What to display in the bottomtag - could be 'shape' or ..
 	 */
-	constructor(host){
+	constructor(host,display){
 		super(host);
-		this.text1 = host.size.X
-		this.text2 = host.size.Y + 'x' + host.size.Y // problem
+		setBottomTagtext(host,this,display)
 	}
 
 	/**
