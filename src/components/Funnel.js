@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./Tracer.css"
+import "./Funnel.css"
 
 export default class Tracer extends Component {
     render() {

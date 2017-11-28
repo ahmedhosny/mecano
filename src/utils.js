@@ -51,9 +51,10 @@ export function getPlaneCoordinates(instance){
  * @param {Object} host - host of the tag - a primative
  * @param {Object} instance - instance of bottomTag
  */
-export function setBottomTagtext(host,instance,display){
+export function setBottomTagtext(instance){
+    const host = instance.host
     // if shape is displayed
-    if (display==='Shape'){
+    if (instance.display==='Shape'){
         const multiply = "*"
         const orderedKeys = Object.keys(host.shape).sort()
         const rank = orderedKeys.length

@@ -36,7 +36,7 @@ export default class Mecano extends Component {
   	// only once before intial render
   	componentWillMount(){
   		this.setState({
-			data : dataGenerator(this.state.origin,this.state.angle,this.state.margin)
+			data : dataGenerator(this)
 		});
   	}
 

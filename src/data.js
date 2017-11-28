@@ -2,21 +2,30 @@ import {components} from './mapping'
 
 import {bottomTag} from "./tag"
 
+
+/**
+ * All primative type new instance: 
+ * const component = new primativeClass(inputObject,_in,angle,margin)
+ * component.draw(index)
+ */
+
+/**
+ * All elastic type new instance:
+ * const component = new elasticClass(primativeA,primativeB,mappingObject,angle)
+ * component.draw()
+ */
+
+/**
+ * All tag type new instance:
+ * const component = new tagClass(host,display)
+ * component.draw()
+ */
+
+
 /**
  * input either from user or reading a file..
  * @type {Array}
  */
-// var input = [
-//     {'name':'input','component':'Input2d','size':{'X':224,'Y':224}},
-//     {'name':'conv1','component':'Conv2d','size':{'X':55,'Y':55,'Z':96,'KX':50,'KY':50}},
-//     {'name':'conv2','component':'Conv2d','size':{'X':55,'Y':55,'Z':256,'KX':11,'KY':11}},
-//     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}},
-//     {'name':'siko2','component':'Conv2d','size':{'X':150,'Y':150,'Z':32,'KX':50,'KY':50}},
-//     {'name':'siko1','component':'Input2d','size':{'X':200,'Y':200}},
-//     {'name':'siko3','component':'Pool2d','size':{'X':100,'Y':100,'Z':64}}
-// ]
-
-
 var input = [
     {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224}},
     {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'kernel': {'D1':55,'D2':55}},
@@ -27,37 +36,25 @@ var input = [
     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}}
 ]
 
-
-/**
- * All primative class new instance: 
- * const component = new primativeClass(inputObject , in , angle , margin)
- * component.draw(index)
- */
-
-/**
- * All elastics class new instance:
- * const component = new elasticClass()
- * component.draw(before,after,m,angle)
- */
-
 /**
  * Generates a list of instances for Mecano
- * @param  {object} _in - {'X':000,'Y':000} from Mecano state
- * @param  {int} angle - from Mecano state
- * @param  {object} margin - {'X':000,'Y':000} from Mecano state
+ * @param  {react component} mecano 
  * @return {list} - ordered list of instances
  */
-export function dataGenerator(_in,angle,margin){
+export function dataGenerator(mecano){
+    const origin = mecano.state.origin
+    const angle = mecano.state.angle
+    const margin = mecano.state.margin
     var data = []
     input.forEach((n,index) => {
         //1// margin to prevent overlap  - only in the X direction for nowoffset
         if (index===0){ var _margin = {'X':0 ,'Y':0} }
         else{ _margin = {'X':parseInt(margin.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
         //2// reshape if needed
-        //
+        // 
         //3// Make instances with the calculated margin and new shape (if applicable)
         const primativeClass = components[n.component].class
-        const component = new primativeClass(n, _in , angle , _margin)
+        const component = new primativeClass(n, origin , angle , _margin)
         component.component = n.component
         //4// draw
         component.draw(index)
@@ -65,38 +62,10 @@ export function dataGenerator(_in,angle,margin){
         data.push(component)
     });
     //6// populate with elastics
-    getElastic(data,angle)
-
-    ////////////////////////////////////////////
-    //tag test area
-    var test = new bottomTag(data[6],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[4],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[2],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[0],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[8],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[10],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
-    var test = new bottomTag(data[12],'Shape')
-    test.draw()
-    test.component = 'Shape'
-    data.push(test)
+    getElastics(data,angle)
+    //7// populate with tags
+    getTags(data)
+    //
     return data;
 }
 
@@ -106,7 +75,7 @@ export function dataGenerator(_in,angle,margin){
  * @param  {list} data - data to manipulate
  * @param  {int} angle - from Mecano state
  */
-function getElastic(data,angle){
+function getElastics(data,angle){
     var originalData = data.slice()
     // loop through data
     var counter = 1
@@ -119,9 +88,9 @@ function getElastic(data,angle){
             components[before].after.forEach((m,_index) => {
                 if (m.after===after){
                     const elasticClass = components[m.elastic].class
-                    const component = new elasticClass()
+                    const component = new elasticClass(originalData[index],originalData[index+1],m,angle)
                     component.component = m.elastic
-                    component.draw(originalData[index],originalData[index+1],m,angle)
+                    component.draw()
                     data.splice(counter, 0, component);
                     counter += 2
                 }
@@ -129,3 +98,24 @@ function getElastic(data,angle){
         }
     });
 }
+
+/**
+ * Adds tags to primatives
+ * @param  {list} data - data to manipulate
+ */
+function getTags(data){
+    var originalData = data.slice()
+    originalData.forEach((n,index) => {
+        if (n.type==='primative'){
+            var component = new bottomTag(n,'Shape')
+            component.draw()
+            component.component = 'Shape'
+            data.push(component)
+        }
+    });
+}
+
+//how did it know its bottom tag only
+//how did it know its shape to display in bottom tag
+//put in mapping, each primative has a list of tags
+//best time to reshape

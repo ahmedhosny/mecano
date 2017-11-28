@@ -12,6 +12,7 @@ class primative extends base{
 	 */
 	constructor(inputObject,_in,angle,margin){
 		super()
+		this.type = 'primative'
 		this.name = inputObject.name;
 		this.shape = inputObject.shape;
 		if (inputObject.kernel){this.kernel = inputObject.kernel}
@@ -101,7 +102,7 @@ class primative extends base{
 		if (this.stack>1){ offset = this.coordinates[0][6] - this.coordinates[0][0] }
 			
 		this.tagAnchors.top = [{
-			'X':parseInt((this.bounds.min.X+this.bounds.max.X - offset)/2,10),
+			'X':parseInt((this.bounds.min.X+this.bounds.max.X + offset)/2,10),
 			'Y':this.bounds.min.Y - this.padding.Y
 		}]
 		this.tagAnchors.bottom = [{
@@ -115,13 +116,6 @@ class primative extends base{
 
 export class plane extends primative{
 
-	/**
-	 * The plane primative
-	 * @param  {object} inputObject - input object from Data.js
-	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
-	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
-	 */
 	constructor(inputObject,_in,angle,margin){
 		super(inputObject,_in,angle,margin);
 		this.stack = 1;
@@ -166,13 +160,6 @@ export class plane extends primative{
 
 export class planeStack extends plane{
 
-	/**
-	 * The planeStack primative
-	 * @param  {object} inputObject - input object from Data.js
-	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
-	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
-	 */
 	constructor(inputObject,_in,angle,margin){
 		super(inputObject,_in,angle,margin);
 		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);

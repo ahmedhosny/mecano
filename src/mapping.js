@@ -6,7 +6,7 @@ import Input2d from './components/Input2d'
 import Pool2d from './components/Pool2d'
 import Conv2d from './components/Conv2d'
 // elastic
-import Tracer from './components/Tracer'
+import Funnel from './components/Funnel'
 import Kernel from './components/Kernel'
 // tag
 import Shape from './components/Shape'
@@ -24,16 +24,17 @@ import {bottomTag} from "./tag"
  * Object that maps the react components with the classes that make them
  */
 export const components={ 
-	// primatives
+	// primatives:
     'Input2d':{
-        'component':Input2d,
+        'type':'primative',
         'class':plane,
+        'component':Input2d,
 		'after':[
         	{
 	        'after':'Input2d',
 	        'beforeOut':[1,2,3],
 	        'afterOut':[1,2,3],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	},
         	{
 	        'after':'Conv2d',
@@ -45,13 +46,14 @@ export const components={
 	        'after':'Pool2d',
 	        'beforeOut':[1,2,3],
 	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	}
         ]
     },
     'Conv2d':{
-        'component':Conv2d,
+        'type':'primative',
         'class':planeStack,
+        'component':Conv2d,
 		'after':[
         	{
 	        'after':'Conv2d',
@@ -63,25 +65,26 @@ export const components={
 	        'after':'Input2d',
 	        'beforeOut':[6,7,8],
 	        'afterOut':[1,2,3],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	},
         	{
 	        'after':'Pool2d',
 	        'beforeOut':[6,7,8],
 	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	}
         ]
     },
     'Pool2d':{
-        'component':Pool2d,
+        'type':'primative',
         'class':planeStack,
+        'component':Pool2d,
         'after':[
         	{
 	        'after':'Pool2d',
 	        'beforeOut':[6,7,8],
 	        'afterOut':[2,3,4],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	},
         	{
 	        'after':'Conv2d',
@@ -93,22 +96,25 @@ export const components={
 	        'after':'Input2d',
 	        'beforeOut':[6,7,8],
 	        'afterOut':[1,2,3],
-	        'elastic':'Tracer'
+	        'elastic':'Funnel'
         	}
         ]
     },
-    // elastics
-    'Tracer':{
-    	'component':Tracer,
-    	'class':line
+    // elastics:
+    'Funnel':{
+        'type':'elastic',
+        'class':line,
+    	'component':Funnel
     },
     'Kernel':{
-    	'component':Kernel,
-    	'class':pyramid
+        'type':'elastic',
+        'class':pyramid,
+    	'component':Kernel
     },
-    // tags
+    // tags:
     'Shape':{
-        'component':Shape,
-        'class':bottomTag
+        'type':'tag',
+        'class':bottomTag,
+        'component':Shape
     }
 }
