@@ -25,7 +25,7 @@ export default class Shape extends Component {
                 }
                 {/*text: line1*/}
                 <text 
-                className="text1"
+                className="shapeText1"
                 textAnchor="middle"
                 x={tagAnchors.bottom[0].X}
                 y={tagAnchors.bottom[0].Y+text1Height}
@@ -34,7 +34,7 @@ export default class Shape extends Component {
                 </text>
                 {/*text: line2*/}
                 <text 
-                className="text2"
+                className="shapeText2"
                 textAnchor="middle"
                 x={tagAnchors.bottom[0].X}
                 y={tagAnchors.bottom[0].Y+text1Height+text2Height}

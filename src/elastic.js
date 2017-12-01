@@ -8,15 +8,15 @@ class elastic extends base{
 	 * @param  {primative} primativeA - on the left of elastic .out = [{'X':0,'Y':0},{'X':0,'Y':0}...]
 	 * @param  {primative} primativeB - on the right of elastic .out =[{'X':0,'Y':0},{'X':0,'Y':0}...]
 	 * @param  {object} mappingObject from 'after' in mapping.js
-	 * @param  {int} angle - from mecano state
+	 * @param {react component} mecano
 	 */
-	constructor(primativeA,primativeB,mappingObject,angle){
+	constructor(primativeA,primativeB,mappingObject,mecano){
 		super()
 		this.type = 'elastic'
 		this.primativeA = primativeA;
 		this.primativeB = primativeB;
 		this.mappingObject = mappingObject;
-		this.angle = angle
+		this.mecano = mecano
 	}
 }
 
@@ -52,7 +52,8 @@ export class pyramid extends elastic{
 			const _in = _this.primativeA.out[a]
 			// substitute the shape with kernel values
 			const dummyInputObject = {'name':'foo','shape':{'D0':1,'D1':_this.primativeB.kernel.D1,'D2':_this.primativeB.kernel.D2}}
-			const _plane = new plane(dummyInputObject, _in , _this.angle , {'X':0 ,'Y':0})
+			_this.mecano.state.origin = _in
+			const _plane = new plane(dummyInputObject, _this.mecano, {'X':0 ,'Y':0})
 			_plane.draw(0)
 			const triangle1 = [_plane.out[1].X,_plane.out[1].Y,_plane.out[2].X,_plane.out[2].Y,_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
 			const triangle2 = [_plane.out[2].X,_plane.out[2].Y,_plane.out[3].X,_plane.out[3].Y,_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
@@ -67,3 +68,5 @@ export class pyramid extends elastic{
 	}
 
 }
+			
+			

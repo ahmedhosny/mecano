@@ -5,24 +5,24 @@ import {range,getPlaneCoordinates,setBounds} from './utils'
 class primative extends base{
 	/**
 	 * Basic primative class - other inherit from here.
-	 * @param  {object} inputObject - input object from Data.js
-	 * @param  {object} _in - {'X':000,'Y':000} from Mecano state
-	 * @param  {int} angle - drawing angle from Mecano state
-	 * @param  {object} margin - {'X':000,'Y':000} to avoid overlaps - comes in from Data
+	 * @param  {object} inputObject - input object from data.js
+	 * @param {react component} mecano
+	 * @param {object} margin - calculated in data.js depending on previous primative
 	 */
-	constructor(inputObject,_in,angle,margin){
+	constructor(inputObject,mecano,margin){
 		super()
 		this.type = 'primative'
 		this.name = inputObject.name;
 		this.shape = inputObject.shape;
 		if (inputObject.kernel){this.kernel = inputObject.kernel}
-		this.angle = angle;
-		this.start = _in; // never changes
+		this.mecano = mecano
+		this.angle = mecano.state.angle;
+		this.start = mecano.state.origin; // never changes
 		this.in = {'X':0,'Y':0}; // single insertion point
 		this.translation = {'X':0,'Y':0}; // for centering purposes
 		this.out = [];
-		this.margin = margin // for avoiding overlaps - only X used
-		this.padding = {'X':30,'Y':30} // for tag - primative distance - only Y used
+		this.margin = margin //  - only X used
+		this.padding = mecano.state.padding //  - only Y used
 		this.bounds = {
             'min':{
                 'X':0,
@@ -113,8 +113,8 @@ class primative extends base{
 
 export class plane extends primative{
 
-	constructor(inputObject,_in,angle,margin){
-		super(inputObject,_in,angle,margin);
+	constructor(inputObject,mecano,margin){
+		super(inputObject,mecano,margin);
 		this.stack = 1;
 		this.tags=[
 			{
@@ -168,8 +168,8 @@ export class plane extends primative{
 
 export class planeStack extends plane{
 
-	constructor(inputObject,_in,angle,margin){
-		super(inputObject,_in,angle,margin);
+	constructor(inputObject,mecano,margin){
+		super(inputObject,mecano,margin);
 		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);
 		this.stackPadding = 15;
 		this.tags=[

@@ -46,7 +46,12 @@ export function getPlaneCoordinates(instance){
     return  out
 };
 
-
+/**
+ * Sets the bounding box dims by getting the min and max in both axes
+ * @param {list} allX - list of all X coords
+ * @param {list} allY - list of all Y coords
+ * @param {object} obj - object to set its bounds
+ */
 export function setBounds(allX,allY,obj){
     // find min and max values along each axes
     obj.bounds.min.X = Math.min(...allX);
@@ -55,6 +60,11 @@ export function setBounds(allX,allY,obj){
     obj.bounds.max.Y = Math.max(...allY);
 }
 
+/**
+ * Sets mecano bounds
+ * @param {list} data - list of primatives 
+ * @param  {react component} mecano
+ */
 export function setMecanoBounds(data, mecano){
     var allX = [];
     var allY = [];

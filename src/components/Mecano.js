@@ -21,6 +21,7 @@ export default class Mecano extends Component {
 			construction: true,
 			origin: {'X':300,'Y':300},
 			margin: {'X':25,'Y':0},
+			padding: {'X':0,'Y':30},
 			bounds: {
 	            'min':{
 	                'X':0,

@@ -3,25 +3,6 @@ import {setMecanoBounds} from './utils'
 
 
 /**
- * All primative type new instance: 
- * const component = new primativeClass(inputObject,_in,angle,margin)
- * component.draw(index)
- */
-
-/**
- * All elastic type new instance:
- * const component = new elasticClass(primativeA,primativeB,mappingObject,angle)
- * component.draw()
- */
-
-/**
- * All tag type new instance:
- * const component = new tagClass(host,display)
- * component.draw()
- */
-
-
-/**
  * input either from user or reading a file..
  * @type {Array}
  */
@@ -61,18 +42,15 @@ export function dataGenerator(mecano){
  * @param  {react component} mecano 
  */
 function getPrimatives(data,mecano){
-    const origin = mecano.state.origin;
-    const angle = mecano.state.angle;
-    const margin = mecano.state.margin;
     input.forEach((n,index) => {
         //1// margin to prevent overlap  - only in the X direction for nowoffset
         if (index===0){ var _margin = {'X':0 ,'Y':0} }
-        else{ _margin = {'X':parseInt(margin.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
+        else{ _margin = {'X':parseInt(mecano.state.margin.X,10) + parseInt(data[index-1].bounds.max.X,10) ,'Y':0} }
         //2// reshape if needed
         // 
         //3// Make instances with the calculated margin and new shape (if applicable)
         const primativeClass = components[n.component].class;
-        const component = new primativeClass(n, origin , angle , _margin);
+        const component = new primativeClass(n, mecano, _margin);
         component.component = n.component;
         //4// draw
         component.draw(index);
@@ -88,7 +66,6 @@ function getPrimatives(data,mecano){
  * @param  {react component} mecano 
  */
 function getElastics(data,mecano){
-    const angle = mecano.state.angle
     var originalData = data.slice();
     // loop through data
     var counter = 1;
@@ -101,7 +78,7 @@ function getElastics(data,mecano){
             components[before].after.forEach((m,_index) => {
                 if (m.after===after){
                     const elasticClass = components[m.elastic].class
-                    const component = new elasticClass(originalData[index],originalData[index+1],m,angle)
+                    const component = new elasticClass(originalData[index],originalData[index+1],m,mecano)
                     component.component = m.elastic
                     component.draw()
                     data.splice(counter, 0, component);
@@ -116,14 +93,14 @@ function getElastics(data,mecano){
  * Adds tags to primatives
  * @param  {list} data - data to manipulate
  */
-function getTags(data){
+function getTags(data,mecano){
     var originalData = data.slice()
     originalData.forEach((n,index) => {
         if (n.type==='primative'){
             // loop through available tags
             n.tags.forEach((m,index) => {
                 var tagClass = components[m.component].class
-                var component = new tagClass(n,m.component)
+                var component = new tagClass(n,m.component,mecano)
                 component.draw()
                 component.component = m.component
                 data.push(component)
@@ -131,3 +108,4 @@ function getTags(data){
         }
     });
 }
+
