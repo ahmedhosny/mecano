@@ -46,30 +46,3 @@ export function getPlaneCoordinates(instance){
     return  out
 };
 
-/**
- * Sets the text1 and text2 of BottomTag tag
- * @param {Object} host - host of the tag - a primative
- * @param {Object} instance - instance of bottomTag
- */
-export function setBottomTagtext(instance){
-    const host = instance.host
-    // if shape is displayed
-    if (instance.display==='Shape'){
-        const multiply = "*"
-        const orderedKeys = Object.keys(host.shape).sort()
-        const rank = orderedKeys.length
-        // check if rank is 3 - if so primative is 2 dimensional.
-        if (rank===3){
-            instance.text1 = "-"
-            instance.text2 = host.shape.D0 + multiply + host.shape.D1 + multiply + host.shape.D2
-        }
-        else{
-            instance.text1 = host.shape[orderedKeys[orderedKeys.length-1]]
-            var text2 = host.shape.D0
-            orderedKeys.forEach((m,index) => {
-                if (index!==0 & index!==rank-1){ text2 += multiply + host.shape[m] }
-            });
-            instance.text2 = text2
-        }
-    }
-};

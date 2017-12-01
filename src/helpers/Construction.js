@@ -44,7 +44,7 @@ export default class Construction extends Component {
                             return (
                                 <circle
                                 className="constructionTagAnchor"  
-                                r={this.props.radius} 
+                                r={this.props.radius*1.5} 
                                 cx={m.X} 
                                 cy={m.Y}
                                 key={"tagAnchor-"+index+"-"+m.key}

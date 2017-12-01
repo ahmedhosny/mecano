@@ -1,0 +1,8 @@
+.nameline{
+	stroke: black; 
+	stroke-width: 1;
+	stroke-linecap:round;
+}
+.nameCircle{
+	fill:black;
+}

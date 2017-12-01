@@ -119,6 +119,17 @@ export class plane extends primative{
 	constructor(inputObject,_in,angle,margin){
 		super(inputObject,_in,angle,margin);
 		this.stack = 1;
+		this.tags=[
+			{
+				'component':'Shape',
+				'text1':'-',
+				'text2': this.shape.D0 + "*" + this.shape.D1 + "*" + this.shape.D2 
+			},
+			{
+				'component':'Name',
+				'text1': this.name
+			}
+		];
 	}
 
 	/**
@@ -164,6 +175,17 @@ export class planeStack extends plane{
 		super(inputObject,_in,angle,margin);
 		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);
 		this.stackPadding = 15;
+		this.tags=[
+			{
+				'component':'Shape',
+				'text1': this.shape.D3,
+				'text2': this.shape.D0 + "*" + this.shape.D1 + "*" + this.shape.D2 
+			},
+			{
+				'component':'Name',
+				'text1': this.name
+			}
+		];
 	}
 
 	/**

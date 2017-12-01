@@ -1,6 +1,5 @@
 import {components} from './mapping'
 
-import {bottomTag} from "./tag"
 
 
 /**
@@ -107,15 +106,14 @@ function getTags(data){
     var originalData = data.slice()
     originalData.forEach((n,index) => {
         if (n.type==='primative'){
-            var component = new bottomTag(n,'Shape')
-            component.draw()
-            component.component = 'Shape'
-            data.push(component)
+            // loop through available tags
+            n.tags.forEach((m,index) => {
+                var tagClass = components[m.component].class
+                var component = new tagClass(n,m.component)
+                component.draw()
+                component.component = m.component
+                data.push(component)
+            });
         }
     });
 }
-
-//how did it know its bottom tag only
-//how did it know its shape to display in bottom tag
-//put in mapping, each primative has a list of tags
-//best time to reshape

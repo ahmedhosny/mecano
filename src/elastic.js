@@ -51,7 +51,7 @@ export class pyramid extends elastic{
 			// Draws the plane "base" of the sideways pyramid
 			const _in = _this.primativeA.out[a]
 			// substitute the shape with kernel values
-			const dummyInputObject = {'name':'foo','shape':{'D1':_this.primativeB.kernel.D1,'D2':_this.primativeB.kernel.D2}}
+			const dummyInputObject = {'name':'foo','shape':{'D0':1,'D1':_this.primativeB.kernel.D1,'D2':_this.primativeB.kernel.D2}}
 			const _plane = new plane(dummyInputObject, _in , _this.angle , {'X':0 ,'Y':0})
 			_plane.draw(0)
 			const triangle1 = [_plane.out[1].X,_plane.out[1].Y,_plane.out[2].X,_plane.out[2].Y,_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
