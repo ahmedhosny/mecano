@@ -1,6 +1,10 @@
-.constructionOrigin{
-	fill: blue; 
+.guideOrigin{
+	fill: purple; 
 }
-.constructionLine{
-	stroke: blue;
+.guideLine{
+	stroke: purple;
+}
+.guideRect{
+	stroke: purple;
+	fill: none;
 }

@@ -20,7 +20,17 @@ export default class Mecano extends Component {
 			angle: 30,
 			construction: true,
 			origin: {'X':300,'Y':300},
-			margin: {'X':25,'Y':0}
+			margin: {'X':25,'Y':0},
+			bounds: {
+	            'min':{
+	                'X':0,
+	                'Y':0
+	            },
+	            'max':{
+	                'X':0,
+	                'Y':0
+	            }
+	        }
 		};
 	}
 
@@ -145,6 +155,7 @@ export default class Mecano extends Component {
 	                    <Guides
 	                    startX={this.state.origin.X}
 	                    startY={this.state.origin.Y}
+	                    bounds={this.state.bounds}
 	                    radius={3}
 	                    /> : null
 	                }

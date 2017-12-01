@@ -9,21 +9,28 @@ export default class Construction extends Component {
     }
 
     render() {
+        var props = this.props
         return (
             <svg>
                 <circle
-                className="constructionOrigin"  
-                r={this.props.radius} 
-                cx={this.props.startX} 
-                cy={this.props.startY}
+                className="guideOrigin"  
+                r={props.radius} 
+                cx={props.startX} 
+                cy={props.startY}
                 /> 
-
                 <line 
-                className="constructionLine"
-                x1={this.props.startX} 
-                y1={this.props.startY} 
-                x2={this.props.startX+1500}  
-                y2={this.props.startY} 
+                className="guideLine"
+                x1={props.startX} 
+                y1={props.startY} 
+                x2={props.bounds.max.X}  
+                y2={props.startY} 
+                />
+                <rect 
+                className="guideRect"
+                x={props.bounds.min.X} 
+                y={props.bounds.min.Y} 
+                width={props.bounds.max.X - props.bounds.min.X}  
+                height={props.bounds.max.Y - props.bounds.min.Y} 
                 />
             </svg>
         );

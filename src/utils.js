@@ -46,3 +46,21 @@ export function getPlaneCoordinates(instance){
     return  out
 };
 
+
+export function setBounds(allX,allY,obj){
+    // find min and max values along each axes
+    obj.bounds.min.X = Math.min(...allX);
+    obj.bounds.max.X = Math.max(...allX);
+    obj.bounds.min.Y = Math.min(...allY);
+    obj.bounds.max.Y = Math.max(...allY);
+}
+
+export function setMecanoBounds(data, mecano){
+    var allX = [];
+    var allY = [];
+    data.forEach((m,index) => {
+        allX.push(m.bounds.min.X,m.bounds.max.X)
+        allY.push(m.bounds.min.Y,m.bounds.max.Y)
+    });
+    setBounds(allX,allY,mecano.state)
+}

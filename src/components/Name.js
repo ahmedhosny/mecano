@@ -4,9 +4,6 @@ import "./Name.css"
 export default class Name extends Component {
     render() {
         const coords = this.props.instance.coordinates
-        // const tagAnchors = this.props.instance.host.tagAnchors
-        // const text1Height = 30
-        // const text2Height = 17
         return (
             <svg>
                 {coords.map((m,index) => {
@@ -29,6 +26,15 @@ export default class Name extends Component {
                                 cx={m.X1} 
                                 cy={m.Y1}
                                 />
+                                {/*text: line1*/}
+                                <text 
+                                className="text1"
+                                textAnchor="middle"
+                                x={m.X1}
+                                y={m.X2}
+                                >
+                                    {this.props.instance.text1}
+                                </text>
                             </svg>
                         )
                     })
@@ -38,23 +44,3 @@ export default class Name extends Component {
         );
     }
 }
-
-
- // {/*text: line1*/}
- //                <text 
- //                className="text1"
- //                textAnchor="middle"
- //                x={tagAnchors.bottom[0].X}
- //                y={tagAnchors.bottom[0].Y+text1Height}
- //                >
- //                    {this.props.instance.text1}
- //                </text>
- //                {/*text: line2*/}
- //                <text 
- //                className="text2"
- //                textAnchor="middle"
- //                x={tagAnchors.bottom[0].X}
- //                y={tagAnchors.bottom[0].Y+text1Height+text2Height}
- //                >
- //                    {this.props.instance.text2}
- //                </text>

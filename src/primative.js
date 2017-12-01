@@ -1,6 +1,6 @@
 import {base} from "./base"
 import {flatten,pullAt} from 'lodash';
-import {range,getPlaneCoordinates} from './utils'
+import {range,getPlaneCoordinates,setBounds} from './utils'
 
 class primative extends base{
 	/**
@@ -52,13 +52,10 @@ class primative extends base{
 		// flattens all
 	    var coords = flatten(this.coordinates)
 	    // split x and y coordinates
-	    const all_x = pullAt(coords, range(0,coords.length,2));
-	    const all_y = coords;
-	    // find min and max values along each axes
-	    this.bounds.min.X = Math.min(...all_x);
-	    this.bounds.max.X = Math.max(...all_x);
-	    this.bounds.min.Y = Math.min(...all_y);
-	    this.bounds.max.Y = Math.max(...all_y);
+	    const allX = pullAt(coords, range(0,coords.length,2));
+	    const allY = coords;
+	    // set bounds
+	    setBounds(allX,allY,this)
 	}
 
 	/**
