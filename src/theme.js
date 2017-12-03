@@ -355,7 +355,8 @@ var _theme = {
 _theme['root'] = {
   "flexGrow": 1,
   "padding": 30,
-  "background" : '#f5f5f5'
+  "background" : '#f5f5f5',
+  "height":"100%"
 }
 _theme['controlPaper'] = {
   "padding": 15,
