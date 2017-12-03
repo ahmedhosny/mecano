@@ -7,19 +7,22 @@ import GlobalControls from '../controls/GlobalControls'
 // helpers
 import Construction from '../helpers/Construction';
 import Guides from '../helpers/Guides';
+// UI
+import Grid from 'material-ui/Grid';
+import { withTheme } from 'material-ui/styles';
 
-import './Mecano.css';
 
 
 
-export default class Mecano extends Component {
+
+class Mecano extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			angle: 30,
 			construction: true,
-			origin: {'X':300,'Y':300},
+			origin: {'X':150,'Y':300},
 			margin: {'X':25,'Y':0},
 			padding: {'X':0,'Y':30},
 			bounds: {
@@ -108,65 +111,73 @@ export default class Mecano extends Component {
 
 
   	render() {
+  		const { theme } = this.props;
 		return (
-			<div>
+				<Grid container spacing={24}>
+					<Grid 
+					item 
+					xs={12} 
+					md={2} 
+	          		>
+						<GlobalControls
+						angle={this.state.angle}
+						onChangeAngle={this.onChangeAngle.bind(this)}
+						construction={this.state.construction}
+						onChangeConstruction={this.onChangeConstruction.bind(this)}
+						margin={this.state.margin} 
+		                onChangemargin={this.onChangemargin.bind(this)} 
+						/>
+					</Grid>
+					<Grid 
+					item 
+					xs={12} 
+					md={10}
+					>
+						{/* Graph */}
+						<svg
+						onClick={this.onClick}
+						overflow="scroll"
+						style={theme.mecano}
+						>
+							{/* components */}				
+							{this.state.data.map((n,index) => {
+								//
+								var Component = components[n.component].component
+							      	return (
+							      		<g
+							      		key={"group-"+n.key}
+							      		>
+											<Component
+											instance={n} 
+											/> 
+											{this.state.construction ?
+							                    <Construction
+							                    instance={n}
+							                    radius={5}
+							                    /> : null
+							                }
+						                </g>
+									)
+							    })
+							}
 
-				{/* globalControls */}
-				<h4>globalControls</h4>
-				<GlobalControls
-				angle={this.state.angle}
-				onChangeAngle={this.onChangeAngle.bind(this)}
-				construction={this.state.construction}
-				onChangeConstruction={this.onChangeConstruction.bind(this)}
-				margin={this.state.margin} 
-                onChangemargin={this.onChangemargin.bind(this)} 
-				/>
-
-				{/* Graph */}
-				<svg
-				className="svg"
-				height={1000}
-				width={2000}
-				onClick={this.onClick}
-				>
-					{/* components */}				
-					{this.state.data.map((n,index) => {
-						//
-						var Component = components[n.component].component
-					      	return (
-					      		<g
-					      		key={"group-"+n.key}
-					      		>
-									<Component
-									instance={n} 
-									/> 
-									{this.state.construction ?
-					                    <Construction
-					                    instance={n}
-					                    radius={5}
-					                    /> : null
-					                }
-				                </g>
-							)
-					    })
-					}
-
-					{/* guides */}
-					{this.state.construction ?
-	                    <Guides
-	                    startX={this.state.origin.X}
-	                    startY={this.state.origin.Y}
-	                    bounds={this.state.bounds}
-	                    radius={3}
-	                    /> : null
-	                }
-				</svg>
-			</div>
+							{/* guides */}
+							{this.state.construction ?
+			                    <Guides
+			                    startX={this.state.origin.X}
+			                    startY={this.state.origin.Y}
+			                    bounds={this.state.bounds}
+			                    radius={3}
+			                    /> : null
+			                }
+						</svg>
+					</Grid>
+				</Grid>
 		);
   	}
 }
 
-
+export default withTheme()(Mecano);
 
 				// {/* LocalControls */}
 				// {/* TODO: should not use index - use key instead */}
