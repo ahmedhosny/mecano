@@ -2,6 +2,7 @@ import {base} from "./base"
 import {zipWith} from 'lodash';
 import {plane} from './primative'
 
+
 class elastic extends base{
 	/**
 	 * basic elastic class
@@ -48,16 +49,35 @@ export class pyramid extends elastic{
 		const idxB = this.mappingObject.afterOut
 		var _this = this
 		zipWith(idxA,idxB, function(a, b) {
-			// Draws the plane "base" of the sideways pyramid
-			const _in = _this.primativeA.out[a]
-			// substitute the shape with kernel values
-			const dummyInputObject = {'name':'foo','shape':{'D0':1,'D1':_this.primativeB.kernel.D1,'D2':_this.primativeB.kernel.D2}}
-			_this.mecano.state.origin = _in
-			const _plane = new plane(dummyInputObject, _this.mecano, {'X':0 ,'Y':0})
+
+
+			const _plane = new plane("isko",
+					                {'D0':1,'D1':_this.primativeB.params.kernel.D1,'D2':_this.primativeB.params.kernel.D2},
+					                {},
+					                _this.mecano.state.angle,
+					                _this.primativeA.out[a],
+					                _this.mecano.state.padding,
+					                _this.mecano.state.margin)
+
+			// const _plane = new plane({ 	
+			// 		name : "isko", 
+			// 		shape : {'D0':1,'D1':_this.primativeB.params.kernel.D1,'D2':_this.primativeB.params.kernel.D2},
+			// 		params : {},
+			// 		angle : _this.mecano.state.angle,
+			// 		origin : _in,
+			// 		padding : _this.mecano.state.padding,
+			// 		margin : _this.mecano.state.margin
+			// 	})
+
+
+
+
 			_plane.draw(0)
-			const triangle1 = [_plane.out[1].X,_plane.out[1].Y,_plane.out[2].X,_plane.out[2].Y,_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
-			const triangle2 = [_plane.out[2].X,_plane.out[2].Y,_plane.out[3].X,_plane.out[3].Y,_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
+
+
 			const coords = _plane.coordinates[0]
+			const triangle1 = [coords[0],coords[1],coords[2],coords[3],_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
+			const triangle2 = [coords[2],coords[3],coords[4],coords[5],_this.primativeB.out[b].X,_this.primativeB.out[b].Y]
 			const hidden = [
 				coords[0],coords[1],
 				coords[6],coords[7],
@@ -69,4 +89,4 @@ export class pyramid extends elastic{
 
 }
 			
-			
+

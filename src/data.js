@@ -7,13 +7,13 @@ import {setMecanoBounds} from './utils'
  * @type {Array}
  */
 var input = [
-    {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224}},
-    {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'kernel': {'D1':55,'D2':55}},
-    {'name':'conv2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'kernel': {'D1':20,'D2':20}},
-    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}},
-    {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'kernel': {'D1':55,'D2':55}},
-    {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200}},
-    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64}}
+    {'name':'input','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224},'params':{}},
+    {'name':'conv1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'params':{'kernel': {'D1':55,'D2':55}}},
+    {'name':'conv2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'params':{'kernel': {'D1':30,'D2':30}}},
+    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64},'params':{}},
+    {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'params':{'kernel': {'D1':55,'D2':55}}},
+    {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200},'params':{}},
+    {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64},'params':{}}
 ]
 
 /**
@@ -49,8 +49,15 @@ function getPrimatives(data,mecano){
         //2// reshape if needed
         // 
         //3// Make instances with the calculated margin and new shape (if applicable)
+        const state = mecano.state
         const primativeClass = components[n.component].class;
-        const component = new primativeClass(n, mecano, _margin);
+        const component = new primativeClass(n.name,    
+                                            n.shape,
+                                            n.params,
+                                            state.angle,
+                                            state.origin,
+                                            state.padding,
+                                            _margin);
         component.component = n.component;
         //4// draw
         component.draw(index);

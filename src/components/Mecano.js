@@ -10,7 +10,7 @@ import Guides from '../helpers/Guides';
 // UI
 import Grid from 'material-ui/Grid';
 import { withTheme } from 'material-ui/styles';
-
+import Paper from 'material-ui/Paper';
 
 
 
@@ -22,7 +22,7 @@ class Mecano extends Component {
 		this.state = {
 			angle: 30,
 			construction: true,
-			origin: {'X':150,'Y':300},
+			origin: {'X':150,'Y':300}, // can be props
 			margin: {'X':25,'Y':0},
 			padding: {'X':0,'Y':30},
 			bounds: {
@@ -47,19 +47,24 @@ class Mecano extends Component {
 	    console.log("x: "+x+" y:"+y);
 	}
 
+	updateData(){
+		this.setState({
+			data : dataGenerator(this)
+        });
+	}
+
   	// only once before intial render
   	componentWillMount(){
-  		this.setState({
-			data : dataGenerator(this)
-		});
+		this.updateData()
   	}
 
   	// globalControls
 	onChangeAngle(e) {
 		const newAngle = e.target.value
 		this.setState({
-			angle: newAngle,
-			data : dataGenerator(this.state.origin,newAngle,this.state.margin)
+			angle : newAngle
+        },function(){
+        	this.updateData()
         });
   	}
   	onChangeConstruction(e) {
@@ -70,9 +75,10 @@ class Mecano extends Component {
   	// TODO: Introduce margin for Y
 	onChangemargin(e) {
 		const newmargin = {'X':e.target.value,'Y':0}
-        this.setState({
-			margin: newmargin ,
-			data : dataGenerator(this.state.origin,this.state.angle,newmargin)
+		this.setState({
+			margin: newmargin
+        },function(){
+        	this.updateData()
         });
   	}
 
@@ -133,44 +139,45 @@ class Mecano extends Component {
 					xs={12} 
 					md={10}
 					>
+						<Paper style={theme.mecano}>
 						{/* Graph */}
-						<svg
-						onClick={this.onClick}
-						overflow="scroll"
-						style={theme.mecano}
-						>
-							{/* components */}				
-							{this.state.data.map((n,index) => {
-								//
-								var Component = components[n.component].component
-							      	return (
-							      		<g
-							      		key={"group-"+n.key}
-							      		>
-											<Component
-											instance={n} 
-											/> 
-											{this.state.construction ?
-							                    <Construction
-							                    instance={n}
-							                    radius={5}
-							                    /> : null
-							                }
-						                </g>
-									)
-							    })
-							}
+							<svg
+							onClick={this.onClick}
+							style={theme.mecano}
+							>
+								{/* components */}				
+								{this.state.data.map((n,index) => {
+									//
+									var Component = components[n.component].component
+								      	return (
+								      		<g
+								      		key={"group-"+n.key}
+								      		>
+												<Component
+												instance={n} 
+												/> 
+												{this.state.construction ?
+								                    <Construction
+								                    instance={n}
+								                    radius={5}
+								                    /> : null
+								                }
+							                </g>
+										)
+								    })
+								}
 
-							{/* guides */}
-							{this.state.construction ?
-			                    <Guides
-			                    startX={this.state.origin.X}
-			                    startY={this.state.origin.Y}
-			                    bounds={this.state.bounds}
-			                    radius={3}
-			                    /> : null
-			                }
-						</svg>
+								{/* guides */}
+								{this.state.construction ?
+				                    <Guides
+				                    startX={this.state.origin.X}
+				                    startY={this.state.origin.Y}
+				                    bounds={this.state.bounds}
+				                    radius={3}
+				                    /> : null
+				                }
+							</svg>
+						</Paper>
 					</Grid>
 				</Grid>
 		);

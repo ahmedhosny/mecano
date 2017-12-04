@@ -2,6 +2,27 @@ import {base} from "./base"
 import {flatten,pullAt} from 'lodash';
 import {range,getPlaneCoordinates,setBounds} from './utils'
 
+
+
+
+// class myClass {
+//   constructor({
+//   	a = 'default a value', 
+//   	b = 'default b value', 
+//   	c = 'default c value'} = {a:'default option a', b:'default option b', c:'default option c'}
+//   	) {
+//     this.a = a;
+//     this.b = b;
+//     this.c = c;
+//   }
+// }
+// var v = new myClass({a:'a value', b: 'b value'});
+// console.log(v.toSource());
+// var w = new myClass();
+// console.log(w.toSource());
+
+
+
 class primative extends base{
 	/**
 	 * Basic primative class - other inherit from here.
@@ -9,39 +30,47 @@ class primative extends base{
 	 * @param {react component} mecano
 	 * @param {object} margin - calculated in data.js depending on previous primative
 	 */
-	constructor(inputObject,mecano,margin){
-		super()
-		this.type = 'primative'
-		this.name = inputObject.name;
-		this.shape = inputObject.shape;
-		if (inputObject.kernel){this.kernel = inputObject.kernel}
-		this.mecano = mecano
-		this.angle = mecano.state.angle;
-		this.start = mecano.state.origin; // never changes
-		this.in = {'X':0,'Y':0}; // single insertion point
-		this.translation = {'X':0,'Y':0}; // for centering purposes
-		this.out = [];
-		this.margin = margin //  - only X used
-		this.padding = mecano.state.padding //  - only Y used
-		this.bounds = {
-            'min':{
-                'X':0,
-                'Y':0
-            },
-            'max':{
-                'X':0,
-                'Y':0
-            }
-        };
-        this.geometricMidpoint = {'X':0,'Y':0};
-        this.tagAnchors = {
-        	'top':[],
-        	'bottom':[]
-        	// can add sides here
-        }
-
-        
-	}
+	constructor(
+			name="defaultName",
+			shape,
+			params={},
+			angle,
+			origin,
+			padding={'X':0,'Y':0},
+			margin={'X':0,'Y':0}
+		){
+			super()
+			// type
+			this.type = 'primative';
+			// arguments
+			this.name = name;
+			this.shape = shape;
+			this.params = params
+			this.angle = angle;
+			this.origin = origin; // never changes
+			this.padding = padding; //  - only Y used for now
+			this.margin = margin; //  - only X used for now.
+			// class-specifc
+			this.in = {'X':0,'Y':0}; // changes for centering
+			this.translation = {'X':0,'Y':0}; // for centering purposes
+			this.out = [];
+			this.bounds = {
+	            'min':{
+	                'X':0,
+	                'Y':0
+	            },
+	            'max':{
+	                'X':0,
+	                'Y':0
+	            }
+	        };
+	        this.geometricMidpoint = {'X':0,'Y':0};
+	        this.tagAnchors = {
+	        	'top':[],
+	        	'bottom':[]
+	        	// can add sides here
+	        };
+	};
 
 
 	/**
@@ -67,7 +96,7 @@ class primative extends base{
 	}
 
 	/**
-	 * 1. Sets the translation distance to center the primative around the start guide 
+	 * 1. Sets the translation distance to center the primative around the origin guide 
 	 * 2. Sets the margin distance to avoid any overlaps 
 	 * 3. moves the primative by setting the in values
 	 * translation.X distance will always be negative
@@ -81,12 +110,12 @@ class primative extends base{
 		this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
 		// 2.set
 		if (index===0){
-			this.in.X = this.start.X + this.translation.X 
-			this.in.Y = this.start.Y + this.translation.Y 
+			this.in.X = this.origin.X + this.translation.X 
+			this.in.Y = this.origin.Y + this.translation.Y 
 		}
 		else{
 			this.in.X = this.margin.X
-			this.in.Y = this.start.Y + this.translation.Y + this.margin.Y			
+			this.in.Y = this.origin.Y + this.translation.Y + this.margin.Y			
 		}
 	}
 
@@ -113,8 +142,22 @@ class primative extends base{
 
 export class plane extends primative{
 
-	constructor(inputObject,mecano,margin){
-		super(inputObject,mecano,margin);
+	constructor(name,
+				shape,
+				params,
+				angle,
+				origin,
+				padding,
+				margin){
+
+		super(name,
+			shape,
+			params,
+			angle,
+			origin,
+			padding,
+			margin);
+
 		this.stack = 1;
 		this.tags=[
 			{
@@ -168,8 +211,21 @@ export class plane extends primative{
 
 export class planeStack extends plane{
 
-	constructor(inputObject,mecano,margin){
-		super(inputObject,mecano,margin);
+	constructor(name,
+				shape,
+				params,
+				angle,
+				origin,
+				padding,
+				margin){
+
+		super(name,
+			shape,
+			params,
+			angle,
+			origin,
+			padding,
+			margin);
 		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);
 		this.stackPadding = 15;
 		this.tags=[
