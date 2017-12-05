@@ -74,3 +74,10 @@ export function setMecanoBounds(data, mecano){
     });
     setBounds(allX,allY,mecano.state)
 }
+
+// 1. thinking of moving all the functions in utils.js as static methods in primative/elastic/tag. What do you think?
+// This way I can call them by calling the class itself rather than an instance of the class
+// 2. I see set and get methods
+
+// generally if you see stuff that is not consistent like variable naming or the use of var/const/let - just point it out and i will fix
+// what do you use to clean javascript, like spaces, linebreaks, ; at the end of each line

@@ -51,13 +51,17 @@ function getPrimatives(data,mecano){
         //3// Make instances with the calculated margin and new shape (if applicable)
         const state = mecano.state
         const primativeClass = components[n.component].class;
-        const component = new primativeClass(n.name,    
-                                            n.shape,
-                                            n.params,
-                                            state.angle,
-                                            state.origin,
-                                            state.padding,
-                                            _margin);
+        const component = new primativeClass(
+            n.shape,
+            state.angle,
+            state.origin,
+            {  
+                name : n.name, 
+                params : n.params,
+                padding : state.padding,
+                margin : _margin
+            }
+        )
         component.component = n.component;
         //4// draw
         component.draw(index);
@@ -78,14 +82,24 @@ function getElastics(data,mecano){
     var counter = 1;
     originalData.forEach((n,index) => {
         if (index!==originalData.length-1){
-            // get before and after components
-            var before = n.component
-            var after = originalData[index+1].component
-            // loop through the "after" options
-            components[before].after.forEach((m,_index) => {
-                if (m.after===after){
+            // get _from and to components
+            var _from = n.component
+            var to = originalData[index+1].component
+            // loop through the "to" options
+            components[_from].to.forEach((m,_index) => {
+                if (m.to===to){
                     const elasticClass = components[m.elastic].class
-                    const component = new elasticClass(originalData[index],originalData[index+1],m,mecano)
+                    const component = new elasticClass(
+                        originalData[index].out,
+                        originalData[index+1].out,
+                        m.fromOut,
+                        m.toOut,
+                        {
+                            angle : mecano.state.angle,
+                            paramsFrom : originalData[index].params,
+                            paramsTo : originalData[index+1].params
+                        }
+                    )
                     component.component = m.elastic
                     component.draw()
                     data.splice(counter, 0, component);

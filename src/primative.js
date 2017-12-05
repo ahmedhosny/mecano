@@ -2,74 +2,58 @@ import {base} from "./base"
 import {flatten,pullAt} from 'lodash';
 import {range,getPlaneCoordinates,setBounds} from './utils'
 
-
-
-
-// class myClass {
-//   constructor({
-//   	a = 'default a value', 
-//   	b = 'default b value', 
-//   	c = 'default c value'} = {a:'default option a', b:'default option b', c:'default option c'}
-//   	) {
-//     this.a = a;
-//     this.b = b;
-//     this.c = c;
-//   }
-// }
-// var v = new myClass({a:'a value', b: 'b value'});
-// console.log(v.toSource());
-// var w = new myClass();
-// console.log(w.toSource());
-
-
-
 class primative extends base{
 	/**
 	 * Basic primative class - other inherit from here.
-	 * @param  {object} inputObject - input object from data.js
-	 * @param {react component} mecano
-	 * @param {object} margin - calculated in data.js depending on previous primative
+	 * @param  {Object} shape - shape of primative - from input in data.js  {'D0':1,'D1':224,'D2':224,...}
+	 * @param  {int} angle - view angle - from mecano
+	 * @param  {Object} origin - where all primatives are drawn for the first time
+	 * @param  {String} options.name - name of primative - from input in data.js
+	 * @param  {Object} options.params - kernel size and other info - from input in data.js
+	 * @param  {Object} options.padding - padding between primative and its own tags - from mecano.state
+	 * @param  {Object} options.margin - calculated in data.js depending on previous primative
 	 */
 	constructor(
-			name="defaultName",
 			shape,
-			params={},
 			angle,
 			origin,
-			padding={'X':0,'Y':0},
-			margin={'X':0,'Y':0}
-		){
-			super()
-			// type
-			this.type = 'primative';
-			// arguments
-			this.name = name;
-			this.shape = shape;
-			this.params = params
-			this.angle = angle;
-			this.origin = origin; // never changes
-			this.padding = padding; //  - only Y used for now
-			this.margin = margin; //  - only X used for now.
-			// class-specifc
-			this.in = {'X':0,'Y':0}; // changes for centering
-			this.translation = {'X':0,'Y':0}; // for centering purposes
-			this.out = [];
-			this.bounds = {
-	            'min':{
-	                'X':0,
-	                'Y':0
-	            },
-	            'max':{
-	                'X':0,
-	                'Y':0
-	            }
-	        };
-	        this.geometricMidpoint = {'X':0,'Y':0};
-	        this.tagAnchors = {
-	        	'top':[],
-	        	'bottom':[]
-	        	// can add sides here
-	        };
+			{
+				name="someName",
+				params={},
+				padding={'X':0,'Y':0},
+				margin={'X':0,'Y':0}
+			} = {}){
+				super()
+				// type
+				this.type = 'primative';
+				// arguments
+				this.shape = shape;
+				this.angle = angle;
+				this.origin = origin; // never changes
+				this.name = name;
+				this.params = params
+				this.padding = padding; // only Y used for now
+				this.margin = margin; // only X used for now.
+				// class-specifc
+				this.in = {'X':0,'Y':0}; // changes for centering
+				this.translation = {'X':0,'Y':0}; // for centering purposes
+				this.out = [];
+				this.bounds = {
+		            'min':{
+		                'X':0,
+		                'Y':0
+		            },
+		            'max':{
+		                'X':0,
+		                'Y':0
+		            }
+		        };
+		        this.geometricMidpoint = {'X':0,'Y':0};
+		        this.tagAnchors = {
+		        	'top':[],
+		        	'bottom':[]
+		        	// can add sides here
+		        };
 	};
 
 
@@ -142,22 +126,8 @@ class primative extends base{
 
 export class plane extends primative{
 
-	constructor(name,
-				shape,
-				params,
-				angle,
-				origin,
-				padding,
-				margin){
-
-		super(name,
-			shape,
-			params,
-			angle,
-			origin,
-			padding,
-			margin);
-
+	constructor(...args){
+		super(...args);
 		this.stack = 1;
 		this.tags=[
 			{
@@ -211,21 +181,8 @@ export class plane extends primative{
 
 export class planeStack extends plane{
 
-	constructor(name,
-				shape,
-				params,
-				angle,
-				origin,
-				padding,
-				margin){
-
-		super(name,
-			shape,
-			params,
-			angle,
-			origin,
-			padding,
-			margin);
+	constructor(...args){
+		super(...args);
 		this.stack = Math.max( Math.floor(this.shape.D3/10) , 2);
 		this.stackPadding = 15;
 		this.tags=[

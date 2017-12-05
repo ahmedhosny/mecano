@@ -29,23 +29,23 @@ export const components={
     'Input2d':{
         'class':plane,
         'component':Input2d,
-		'after':[
+		'to':[
         	{
-	        'after':'Input2d',
-	        'beforeOut':[1,2,3],
-	        'afterOut':[1,2,3],
+	        'to':'Input2d',
+	        'fromOut':[1,2,3],
+	        'toOut':[1,2,3],
 	        'elastic':'Funnel'
         	},
         	{
-	        'after':'Conv2d',
-	        'beforeOut': [0],
-	        'afterOut': [1],
+	        'to':'Conv2d',
+	        'fromOut': [0],
+	        'toOut': [1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'after':'Pool2d',
-	        'beforeOut':[1,2,3],
-	        'afterOut':[2,3,4],
+	        'to':'Pool2d',
+	        'fromOut':[1,2,3],
+	        'toOut':[2,3,4],
 	        'elastic':'Funnel'
         	}
         ]
@@ -53,23 +53,23 @@ export const components={
     'Conv2d':{
         'class':planeStack,
         'component':Conv2d,
-		'after':[
+		'to':[
         	{
-	        'after':'Conv2d',
-	        'beforeOut':[5],
-	        'afterOut':[1],
+	        'to':'Conv2d',
+	        'fromOut':[5],
+	        'toOut':[1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'after':'Input2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[1,2,3],
+	        'to':'Input2d',
+	        'fromOut':[6,7,8],
+	        'toOut':[1,2,3],
 	        'elastic':'Funnel'
         	},
         	{
-	        'after':'Pool2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[2,3,4],
+	        'to':'Pool2d',
+	        'fromOut':[6,7,8],
+	        'toOut':[2,3,4],
 	        'elastic':'Funnel'
         	}
         ]
@@ -77,23 +77,23 @@ export const components={
     'Pool2d':{
         'class':planeStack,
         'component':Pool2d,
-        'after':[
+        'to':[
         	{
-	        'after':'Pool2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[2,3,4],
+	        'to':'Pool2d',
+	        'fromOut':[6,7,8],
+	        'toOut':[2,3,4],
 	        'elastic':'Funnel'
         	},
         	{
-	        'after':'Conv2d',
-	        'beforeOut':[5],
-	        'afterOut':[1],
+	        'to':'Conv2d',
+	        'fromOut':[5],
+	        'toOut':[1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'after':'Input2d',
-	        'beforeOut':[6,7,8],
-	        'afterOut':[1,2,3],
+	        'to':'Input2d',
+	        'fromOut':[6,7,8],
+	        'toOut':[1,2,3],
 	        'elastic':'Funnel'
         	}
         ]
