@@ -21,7 +21,7 @@ class Mecano extends Component {
 		super(props);
 		this.state = {
 			angle: 30,
-			construction: true,
+			construction: false,
 			origin: {'X':150,'Y':300}, // can be props
 			margin: {'X':25,'Y':0},
 			padding: {'X':0,'Y':30},

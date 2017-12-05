@@ -110,7 +110,6 @@ class primative extends base{
 		// offset for planeStack - to centre the tag
 		var offset = 0
 		if (this.stack>1){ offset = this.coordinates[0][6] - this.coordinates[0][0] }
-			
 		this.tagAnchors.top = [{
 			'X':parseInt((this.bounds.min.X+this.bounds.max.X + offset)/2,10),
 			'Y':this.bounds.min.Y - this.padding.Y

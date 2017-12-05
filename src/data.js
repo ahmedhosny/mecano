@@ -1,6 +1,6 @@
 import {components} from './mapping'
 import {setMecanoBounds} from './utils'
-
+import {at} from 'lodash';
 
 /**
  * input either from user or reading a file..
@@ -90,10 +90,8 @@ function getElastics(data,mecano){
                 if (m.to===to){
                     const elasticClass = components[m.elastic].class
                     const component = new elasticClass(
-                        originalData[index].out,
-                        originalData[index+1].out,
-                        m.fromOut,
-                        m.toOut,
+                        at(originalData[index].out,m.fromOut),
+                        at(originalData[index+1].out,m.toOut),
                         {
                             angle : mecano.state.angle,
                             paramsFrom : originalData[index].params,
@@ -110,6 +108,7 @@ function getElastics(data,mecano){
     });
 }
 
+
 /**
  * Adds tags to primatives
  * @param  {list} data - data to manipulate
@@ -120,8 +119,11 @@ function getTags(data,mecano){
         if (n.type==='primative'){
             // loop through available tags
             n.tags.forEach((m,index) => {
-                var tagClass = components[m.component].class
-                var component = new tagClass(n,m.component,mecano)
+                var tagClass = components[m.component].class // m.component is 'shape' , class is Shape , class is bottomTag
+                var component = new tagClass(
+                    m,
+                    n.tagAnchors
+                )
                 component.draw()
                 component.component = m.component
                 data.push(component)

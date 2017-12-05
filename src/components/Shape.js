@@ -4,7 +4,7 @@ import "./Shape.css"
 export default class Shape extends Component {
     render() {
         const coords = this.props.instance.coordinates
-        const tagAnchors = this.props.instance.host.tagAnchors
+        const tagAnchors = this.props.instance.tagAnchors
         const text1Height = 30
         const text2Height = 17
         return (
