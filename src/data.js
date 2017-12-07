@@ -16,6 +16,7 @@ var input = [
     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64},'params':{}}
 ]
 
+
 /**
  * Generates a list of instances for Mecano
  * @param  {react component} mecano 
@@ -25,7 +26,7 @@ export function dataGenerator(mecano){
     var data = [];
     //1// populate with primatives
     getPrimatives(data,mecano);
-    //2// set mecano state
+    // //2// set mecano state
     setMecanoBounds(data,mecano)
     //2// populate with elastics
     getElastics(data,mecano);

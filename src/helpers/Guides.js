@@ -11,7 +11,7 @@ export default class Construction extends Component {
     render() {
         var props = this.props
         return (
-            <svg>
+            <g>
                 <circle
                 className="guideOrigin"  
                 r={props.radius} 
@@ -32,7 +32,9 @@ export default class Construction extends Component {
                 width={props.bounds.max.X - props.bounds.min.X}  
                 height={props.bounds.max.Y - props.bounds.min.Y} 
                 />
-            </svg>
+            </g>
         );
     }
 }
+
+

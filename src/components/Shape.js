@@ -8,7 +8,7 @@ export default class Shape extends Component {
         const text1Height = 30
         const text2Height = 17
         return (
-            <svg>
+            <g>
                 {/*line*/}
                 {coords.map((m,index) => {
                     return(
@@ -41,7 +41,7 @@ export default class Shape extends Component {
                 >
                     {this.props.instance.text2}
                 </text>
-            </svg>
+            </g>
         );
     }
 }

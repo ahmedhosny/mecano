@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Outline from '../helpers/Outline'
 import './Conv2d.css'
 
-export default class Pool2d extends Component {
+export default class Conv2d extends Component {
    render() {
         var coords = this.props.instance.coordinates
         return (
-            <svg>
+            <g>
                 <Outline
                 radius={2}
                 />
@@ -24,7 +24,7 @@ export default class Pool2d extends Component {
                         })
                     }
                 </g>
-            </svg>
+            </g>
         );
     }
 }

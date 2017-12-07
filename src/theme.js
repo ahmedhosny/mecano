@@ -362,10 +362,11 @@ _theme['controlPaper'] = {
   "padding": 15,
   "backgroundColor": _theme.palette.primary['50']
 }
-_theme['mecano'] = {
-  "backgroundColor": _theme.palette.primary['100'],
+_theme['viewer'] = {
+  "backgroundColor": _theme.palette.primary['50'],
   "height":600,
-  "width":"100%"
+  "width":"100%",
+  "cursor": "default"
 }
 
 export const theme = createMuiTheme(_theme);

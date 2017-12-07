@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import "./Funnel.css"
 
-export default class Tracer extends Component {
+export default class Funnel extends Component {
     render() {
         var coords = this.props.instance.coordinates
         return (
-            <svg>
+            <g>
                 {coords.map((m,index) => {
                     return(
                             <line 
@@ -19,7 +19,7 @@ export default class Tracer extends Component {
                         )
                     })
                 }
-            </svg>
+            </g>
         );
     }
 }

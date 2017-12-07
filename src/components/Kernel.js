@@ -5,7 +5,7 @@ export default class Kernel extends Component {
     render() {
         var coords = this.props.instance.coordinates
         return (
-            <svg>
+            <g>
                 {coords.map((m,index) => {
                         return(
                             <g
@@ -31,7 +31,7 @@ export default class Kernel extends Component {
                         )
                     }   
                 )}
-            </svg>
+            </g>
         );
     }
 }

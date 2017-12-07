@@ -5,11 +5,11 @@ export default class Name extends Component {
     render() {
         const coords = this.props.instance.coordinates
         return (
-            <svg>
+            <g>
                 {coords.map((m,index) => {
                     const gap = 10
                     return(
-                            <svg
+                            <g
                             key={"name"+index}
                             >
                                 {/*line*/}
@@ -36,12 +36,11 @@ export default class Name extends Component {
                                 >
                                     {this.props.instance.text1}
                                 </text>
-                            </svg>
+                            </g>
                         )
                     })
                 }
-               
-            </svg>
+            </g>
         );
     }
 }

@@ -7,7 +7,7 @@ class tag extends base{
 	/**
 	 * Basic tag class - other inherit from here.
 	 * @param  {Object} tag - tag entry from primative.tags - looks something like this {'component':'Name', 'text1': this.name}
-	 * @param  {Object} tagAnchors - from primative.tagAnchors - looks something like thi {'top':[],'bottom':[]}
+	 * @param  {Object} tagAnchors - from primative.tagAnchors - looks something like this {'top':[],'bottom':[]}
 	 */
 	constructor(
 			tag,
@@ -63,7 +63,7 @@ export class bottomTag extends tag{
 export class topTag extends tag{
 	constructor(...args){
 		super(...args)
-		this.peak =  100 //this.mecano.state.bounds.min.Y - this.mecano.state.padding.Y
+		this.peak =  200 //this.mecano.state.bounds.min.Y - this.mecano.state.padding.Y
 		this.minimumLength = 35
 	}
 	draw(){

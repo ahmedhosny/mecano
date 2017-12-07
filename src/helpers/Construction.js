@@ -5,7 +5,7 @@ export default class Construction extends Component {
     render() {
         var instance = this.props.instance
         return (
-            <svg>
+            <g>
                 {instance.in ?
                     <circle
                     className="constructionCircleIn"  
@@ -69,7 +69,7 @@ export default class Construction extends Component {
                         )
                     : null
                 }
-            </svg>
+            </g>
         );
     }
 }

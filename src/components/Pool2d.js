@@ -6,7 +6,7 @@ export default class Pool2d extends Component {
    render() {
         var coords = this.props.instance.coordinates
         return (
-            <svg>
+            <g>
                 <Outline
                 radius={2}
                 />
@@ -24,7 +24,7 @@ export default class Pool2d extends Component {
                         })
                     }
                 </g>
-            </svg>
+            </g>
         );
     }
 }

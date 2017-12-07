@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import {dataGenerator} from '../data'
-import {components} from '../mapping'
+import Viewer from './Viewer'
 // controls
 import GlobalControls from '../controls/GlobalControls'
 // import LocalControls from '../controls/LocalControls'
-// helpers
-import Construction from '../helpers/Construction';
-import Guides from '../helpers/Guides';
+
 // UI
 import Grid from 'material-ui/Grid';
 import { withTheme } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
-
-
-
+import {AutoSizer} from 'react-virtualized';
 
 class Mecano extends Component {
 
@@ -21,8 +17,8 @@ class Mecano extends Component {
 		super(props);
 		this.state = {
 			angle: 30,
-			construction: false,
-			origin: {'X':150,'Y':300}, // can be props
+			construction: true,
+			origin: {'X':500,'Y':500}, // can be props
 			margin: {'X':25,'Y':0},
 			padding: {'X':0,'Y':30},
 			bounds: {
@@ -37,27 +33,16 @@ class Mecano extends Component {
 	        }
 		};
 	}
-
-	//
-	onClick(evt){
-		var e = evt.target;
-	    var dim = e.getBoundingClientRect();
-	    var x = evt.clientX - dim.left;
-	    var y = evt.clientY - dim.top;
-	    console.log("x: "+x+" y:"+y);
-	}
-
 	updateData(){
 		this.setState({
 			data : dataGenerator(this)
         });
 	}
-
   	// only once before intial render
   	componentWillMount(){
+  		// TODO: bounds currently only works on primatives (tags are cut off)
 		this.updateData()
   	}
-
   	// globalControls
 	onChangeAngle(e) {
 		const newAngle = e.target.value
@@ -81,122 +66,49 @@ class Mecano extends Component {
         	this.updateData()
         });
   	}
-
-
-  // 	// localControls
-  // 	// TODO: should not use index - use key instead
-  // 	onChange(e) {
-
-		// const index = e.target.name;
-		// const value = e.target.value;
-
-		// const newSize = {
-		// 	'X':value,
-		// 	'Y':this.state.data.items[index].size.Y
-		// }
-
-	 //    var updateEntity = (obj, newSize) => ({
-		// 	...obj,
-		// 	size: newSize,
-		// })
-
-	 //    this.setState({
-		// 	...this.state,
-		// 	data: {'ids':this.state.data.ids,
-		// 	'items':[
-		// 	...this.state.data.items.slice(0, index),
-		// 	updateEntity(this.state.data.items[index], newSize),
-		// 	...this.state.data.items.slice(index + 1)
-		// 	]
-		// }}, () => {
-		// 	updateMecano(this)
-		// });
-
-  // 	} 
-
-
-
   	render() {
   		const { theme } = this.props;
 		return (
-				<Grid container spacing={24}>
-					<Grid 
-					item 
-					xs={12} 
-					md={2} 
-	          		>
-						<GlobalControls
-						angle={this.state.angle}
-						onChangeAngle={this.onChangeAngle.bind(this)}
-						construction={this.state.construction}
-						onChangeConstruction={this.onChangeConstruction.bind(this)}
-						margin={this.state.margin} 
-		                onChangemargin={this.onChangemargin.bind(this)} 
-						/>
-					</Grid>
-					<Grid 
-					item 
-					xs={12} 
-					md={10}
-					>
-						<Paper style={theme.mecano}>
-						{/* Graph */}
-							<svg
-							onClick={this.onClick}
-							style={theme.mecano}
-							>
-								{/* components */}				
-								{this.state.data.map((n,index) => {
-									//
-									var Component = components[n.component].component
-								      	return (
-								      		<g
-								      		key={"group-"+n.key}
-								      		>
-												<Component
-												instance={n} 
-												/> 
-												{this.state.construction ?
-								                    <Construction
-								                    instance={n}
-								                    radius={5}
-								                    /> : null
-								                }
-							                </g>
-										)
-								    })
-								}
-
-								{/* guides */}
-								{this.state.construction ?
-				                    <Guides
-				                    startX={this.state.origin.X}
-				                    startY={this.state.origin.Y}
-				                    bounds={this.state.bounds}
-				                    radius={3}
-				                    /> : null
-				                }
-							</svg>
-						</Paper>
-					</Grid>
+			<Grid container spacing={24}>
+				{/* Controls */}
+				<Grid 
+				item 
+				xs={12} 
+				md={2} 
+          		>
+					<GlobalControls
+					angle={this.state.angle}
+					onChangeAngle={this.onChangeAngle.bind(this)}
+					construction={this.state.construction}
+					onChangeConstruction={this.onChangeConstruction.bind(this)}
+					margin={this.state.margin} 
+	                onChangemargin={this.onChangemargin.bind(this)} 
+					/>
 				</Grid>
+				{/* Graph */}
+				<Grid 
+				item 
+				xs={12} 
+				md={10}
+				>
+					<Paper style={theme.viewer}> 
+						<AutoSizer>
+  							{(({width, height}) => width === 0 || height === 0 ? null : (
+  								<Viewer
+  								width={width}
+  								height={height}
+  								data={this.state.data}
+  								construction={this.state.construction}
+  								origin={this.state.origin}
+  								bounds={this.state.bounds}
+  								/>
+							))}
+						</AutoSizer>
+					</Paper>
+				</Grid>
+			</Grid>
 		);
   	}
 }
 
 export default withTheme()(Mecano);
-
-				// {/* LocalControls */}
-				// {/* TODO: should not use index - use key instead */}
-				// <h4>LocalControls</h4>
-				// {this.state.data.map((n,index) => {
-				//     	return (
-				//       		<LocalControls
-				// 			value={n.size.X}
-				// 			name={index}
-				// 			onChange={this.onChange.bind(this)}
-				// 			key={"controls-"+n.key}
-				// 			/>
-				// 		)
-				//     })
-				// }
