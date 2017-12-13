@@ -3,9 +3,11 @@ import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import {components} from '../mapping'
 // UI
 import { withTheme } from 'material-ui/styles';
+import Dots from '../ui/Dots';
 // helpers
 import Construction from '../helpers/Construction';
-import Guides from '../helpers/Guides';
+import Bbox from '../helpers/Bbox';
+
 
 
 class Viewer extends Component {
@@ -39,12 +41,16 @@ class Viewer extends Component {
 			disableDoubleClickZoomWithToolAuto={true}
 			>
 				<svg
-				width={5000} // Harddcoded for now
-				height={5000} // Harddcoded for now
+				width={this.props.canvas.X} 
+				height={this.props.canvas.Y} 
 				>
+					{/* grid */}
+					<Dots
+					canvas={this.props.canvas}
+					grid={this.props.grid}
+					/>
  					{/* components */}				
 					{this.props.data.map((n,index) => {
-						//
 						var Component = components[n.component].component
 					      	return (
 					      		<g
@@ -66,11 +72,9 @@ class Viewer extends Component {
 					}
 					{/* guides */}
 					{this.props.construction ?
-	                    <Guides
-	                    startX={this.props.origin.X}
-	                    startY={this.props.origin.Y}
-	                    bounds={this.props.bounds}
-	                    radius={3}
+	                    <Bbox
+		                    bounds={this.props.bounds}
+		                    radius={3}
 	                    /> : null
 	                }
 				</svg>

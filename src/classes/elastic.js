@@ -62,7 +62,7 @@ export class pyramid extends elastic{
 				 _this.angle,
 				 _from
 			)
-			_plane.draw(0)
+			_plane.draw()
 			const coords = _plane.coordinates[0]
 			const triangle1 = [coords[0],coords[1],coords[2],coords[3],to.X,to.Y]
 			const triangle2 = [coords[2],coords[3],coords[4],coords[5],to.X,to.Y]

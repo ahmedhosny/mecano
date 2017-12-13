@@ -2,6 +2,10 @@ import {base} from "./base"
 import {flatten,pullAt} from 'lodash';
 import {range,getPlaneCoordinates,setBounds} from './utils'
 
+
+
+
+
 class primative extends base{
 	/**
 	 * Basic primative class - other inherit from here.
@@ -16,12 +20,11 @@ class primative extends base{
 	constructor(
 			shape,
 			angle,
-			origin,
+			position,
 			{
 				name="someName",
 				params={},
-				padding={'X':0,'Y':0},
-				margin={'X':0,'Y':0}
+				padding={'X':0,'Y':0}
 			} = {}){
 				super()
 				// type
@@ -29,11 +32,10 @@ class primative extends base{
 				// arguments
 				this.shape = shape;
 				this.angle = angle;
-				this.origin = origin; // never changes
+				this.position = position; // geomtric midpoint should be same as position when mounts
 				this.name = name;
 				this.params = params
 				this.padding = padding; // only Y used for now
-				this.margin = margin; // only X used for now.
 				// class-specifc
 				this.in = {'X':0,'Y':0}; // changes for centering
 				this.translation = {'X':0,'Y':0}; // for centering purposes
@@ -48,7 +50,7 @@ class primative extends base{
 		                'Y':0
 		            }
 		        };
-		        this.geometricMidpoint = {'X':0,'Y':0};
+		        this.geometricMidpoint = {'X':0,'Y':0}; // should be same as position when mounts
 		        this.tagAnchors = {
 		        	'top':[],
 		        	'bottom':[]
@@ -86,21 +88,15 @@ class primative extends base{
 	 * translation.X distance will always be negative
      * translation.Y distance will always be positive
 	 */
-	move(index){
+	move(){
 		// 1.figure out translation
 		this.setBounds()
 		this.setGeometricMidpoint()
 		this.translation.X = this.in.X - this.geometricMidpoint.X;
 		this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
 		// 2.set
-		if (index===0){
-			this.in.X = this.origin.X + this.translation.X 
-			this.in.Y = this.origin.Y + this.translation.Y 
-		}
-		else{
-			this.in.X = this.margin.X
-			this.in.Y = this.origin.Y + this.translation.Y + this.margin.Y			
-		}
+		this.in.X = this.position.X + this.translation.X 
+		this.in.Y = this.position.Y + this.translation.Y 	
 	}
 
 	/**
@@ -159,18 +155,18 @@ export class plane extends primative{
 	/**
 	 * Draws the plane by using the following steps
 	 */
-	draw(index){
-		// draw at original
+	draw(){
+		//1// draw at original in {'X':0,'Y':0}
 		this.coordinates = getPlaneCoordinates(this)
-		// move and calculate new in coords
-		this.move(index)
-		// draw again to get new coordinates based on new in coords 
+		//2// move and calculate new in coords
+		this.move()
+		//3// draw again to get new coordinates based on new in coords 
 		this.coordinates = getPlaneCoordinates(this)
-		// draw new bounds
+		//4// draw new bounds
 		this.setBounds()
-		// set out coords
+		//5// set out coords
 		this.setOut()
-		// push Anchors
+		//6// push Anchors
 		this.setTagAnchors()
 
 	}

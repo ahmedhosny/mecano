@@ -15,11 +15,11 @@ import Name from './components/Name'
 // CLASSES
 // 
 // primative 
-import {plane,planeStack} from "./primative"
+import {plane,planeStack} from "./classes/primative"
 // elastic 
-import {line,pyramid} from "./elastic"
+import {line,pyramid} from "./classes/elastic"
 // tag 
-import {bottomTag,topTag} from "./tag"
+import {bottomTag,topTag} from "./classes/tag"
 
 /**
  * Object that maps the react components with the classes that make them
@@ -29,23 +29,23 @@ export const components={
     'Input2d':{
         'class':plane,
         'component':Input2d,
-		'to':[
+		'target':[
         	{
-	        'to':'Input2d',
-	        'fromOut':[1,2,3],
-	        'toOut':[1,2,3],
+	        'target':'Input2d',
+	        'sourceOut':[1,2,3],
+	        'targetOut':[1,2,3],
 	        'elastic':'Funnel'
         	},
         	{
-	        'to':'Conv2d',
-	        'fromOut': [0],
-	        'toOut': [1],
+	        'target':'Conv2d',
+	        'sourceOut': [0],
+	        'targetOut': [1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'to':'Pool2d',
-	        'fromOut':[1,2,3],
-	        'toOut':[2,3,4],
+	        'target':'Pool2d',
+	        'sourceOut':[1,2,3],
+	        'targetOut':[2,3,4],
 	        'elastic':'Funnel'
         	}
         ]
@@ -53,23 +53,23 @@ export const components={
     'Conv2d':{
         'class':planeStack,
         'component':Conv2d,
-		'to':[
+		'target':[
         	{
-	        'to':'Conv2d',
-	        'fromOut':[5],
-	        'toOut':[1],
+	        'target':'Conv2d',
+	        'sourceOut':[5],
+	        'targetOut':[1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'to':'Input2d',
-	        'fromOut':[6,7,8],
-	        'toOut':[1,2,3],
+	        'target':'Input2d',
+	        'sourceOut':[6,7,8],
+	        'targetOut':[1,2,3],
 	        'elastic':'Funnel'
         	},
         	{
-	        'to':'Pool2d',
-	        'fromOut':[6,7,8],
-	        'toOut':[2,3,4],
+	        'target':'Pool2d',
+	        'sourceOut':[6,7,8],
+	        'targetOut':[2,3,4],
 	        'elastic':'Funnel'
         	}
         ]
@@ -77,23 +77,23 @@ export const components={
     'Pool2d':{
         'class':planeStack,
         'component':Pool2d,
-        'to':[
+        'target':[
         	{
-	        'to':'Pool2d',
-	        'fromOut':[6,7,8],
-	        'toOut':[2,3,4],
+	        'target':'Pool2d',
+	        'sourceOut':[6,7,8],
+	        'targetOut':[2,3,4],
 	        'elastic':'Funnel'
         	},
         	{
-	        'to':'Conv2d',
-	        'fromOut':[5],
-	        'toOut':[1],
+	        'target':'Conv2d',
+	        'sourceOut':[5],
+	        'targetOut':[1],
 	        'elastic':'Kernel'
         	},
         	{
-	        'to':'Input2d',
-	        'fromOut':[6,7,8],
-	        'toOut':[1,2,3],
+	        'target':'Input2d',
+	        'sourceOut':[6,7,8],
+	        'targetOut':[1,2,3],
 	        'elastic':'Funnel'
         	}
         ]

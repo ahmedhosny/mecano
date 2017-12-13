@@ -25,7 +25,6 @@ export function range(start, stop, step) {
  * @return {list} [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
  */
 export function getPlaneCoordinates(instance){
-
     var out = []
     var offset = 0
     for (var i = 0; i < instance.stack ; i++) {
@@ -78,6 +77,7 @@ export function setMecanoBounds(data, mecano){
 // 1. thinking of moving all the functions in utils.js as static methods in primative/elastic/tag. What do you think?
 // This way I can call them by calling the class itself rather than an instance of the class
 // 2. I see set and get methods
-
+// 3. what kind of unit tests can i use?
+// 4. what do you think of the css solution that I have/ no individual css files - I just have theme.js
 // generally if you see stuff that is not consistent like variable naming or the use of var/const/let - just point it out and i will fix
-// what do you use to clean javascript, like spaces, linebreaks, ; at the end of each line
+// what do you use to clean javascript, like spaces, linebreaks, ; at the end of each line, "" VS '' ....etc

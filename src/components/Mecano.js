@@ -18,7 +18,9 @@ class Mecano extends Component {
 		this.state = {
 			angle: 30,
 			construction: true,
-			origin: {'X':500,'Y':500}, // can be props
+			canvas:{'X':3600,'Y':3600},
+			grid:{'X':300,'Y':300},
+			origin: {'X':300,'Y':1800}, // can be props
 			margin: {'X':25,'Y':0},
 			padding: {'X':0,'Y':30},
 			bounds: {
@@ -99,8 +101,9 @@ class Mecano extends Component {
   								height={height}
   								data={this.state.data}
   								construction={this.state.construction}
-  								origin={this.state.origin}
   								bounds={this.state.bounds}
+  								canvas={this.state.canvas}
+  								grid={this.state.grid}
   								/>
 							))}
 						</AutoSizer>

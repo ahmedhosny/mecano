@@ -368,5 +368,7 @@ _theme['viewer'] = {
   "width":"100%",
   "cursor": "default"
 }
-
+_theme['dots'] = {
+  "fill":_theme.palette.primary['400']
+}
 export const theme = createMuiTheme(_theme);
