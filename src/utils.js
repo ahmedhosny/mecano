@@ -1,24 +1,3 @@
-// https://stackoverflow.com/questions/8273047/javascript-function-similar-to-python-range
-// works just like python range
-export function range(start, stop, step) {
-    if (typeof stop === 'undefined') {
-        // one param defined
-        stop = start;
-        start = 0;
-    }
-    if (typeof step === 'undefined') {
-        step = 1;
-    }
-    if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
-        return [];
-    }
-    var result = [];
-    for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
-        result.push(i);
-    }
-    return result;
-};
-
 /**
  * returns the coordinates of a 2d plane
  * @param  {object} instance - the object
@@ -92,5 +71,6 @@ export function setMecanoBounds(data, mecano){
 // 2. I see set and get methods
 // 3. what kind of unit tests can i use?
 // 4. what do you think of the css solution that I have/ no individual css files - I just have theme.js
+// 5. 
 // generally if you see stuff that is not consistent like variable naming or the use of var/const/let - just point it out and i will fix
 // what do you use to clean javascript, like spaces, linebreaks, ; at the end of each line, "" VS '' ....etc

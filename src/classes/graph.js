@@ -1,4 +1,4 @@
-import {components} from '../mapping'
+import {components} from '../components'
 import {at} from 'lodash'
 import uuidv4 from 'uuid'
 
@@ -67,6 +67,7 @@ export class graph{
 	    )
 	    primative.component = node.component;
 	    primative.key = node.key;
+	    primative.type = 'primative';
 	    primative.draw();
 	    return primative;
 	}
@@ -104,6 +105,7 @@ export class graph{
             )
             elastic.component = targetEntry.elastic
             elastic.key = uuidv4()
+            elastic.type = 'elastic';
             elastic.draw()
             primativeList.splice(targetIndex,0,elastic)  
 		});

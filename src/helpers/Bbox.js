@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getGeometricMidpoint} from '../classes/utils'
+import {getGeometricMidpoint} from '../utils'
 import "./Bbox.css"
 
 export default class Bbox extends Component {

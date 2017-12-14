@@ -1,4 +1,4 @@
-import {setMecanoBounds} from './classes/utils'
+import {setMecanoBounds} from './utils'
 import {graph} from './classes/graph'
 
 

@@ -27,6 +27,7 @@ import {bottomTag,topTag} from "./classes/tag"
 export const components={ 
 	// primatives:
     'Input2d':{
+        'type':'primative',
         'class':plane,
         'component':Input2d,
 		'target':[
@@ -51,6 +52,7 @@ export const components={
         ]
     },
     'Conv2d':{
+        'type':'primative',
         'class':planeStack,
         'component':Conv2d,
 		'target':[
@@ -75,6 +77,7 @@ export const components={
         ]
     },
     'Pool2d':{
+        'type':'primative',
         'class':planeStack,
         'component':Pool2d,
         'target':[
@@ -101,20 +104,24 @@ export const components={
 
     // elastics:
     'Funnel':{
+        'type':'elastic',
         'class':line,
     	'component':Funnel
     },
     'Kernel':{
+        'type':'elastic',
         'class':pyramid,
     	'component':Kernel
     },
 
     // tags:
     'Shape':{
+        'type':'tag',
         'class':bottomTag,
         'component':Shape
     },
     'Name':{
+        'type':'tag',
         'class':topTag,
         'component':Name
     }

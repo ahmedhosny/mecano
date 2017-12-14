@@ -21,8 +21,6 @@ class elastic extends base{
 				paramsTo={}
 			}={} ){
 				super()
-				// type
-				this.type = 'elastic';
 				// arguments
 				this.coordsFrom = coordsFrom;
 				this.coordsTo = coordsTo;

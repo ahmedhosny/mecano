@@ -1,9 +1,6 @@
 import {base} from "./base"
-import {flatten,pullAt} from 'lodash';
-import {range,getPlaneCoordinates,getGeometricMidpoint,setBounds} from './utils'
-
-
-
+import {flatten,pullAt,range} from 'lodash';
+import {getPlaneCoordinates,getGeometricMidpoint,setBounds} from '../utils'
 
 
 class primative extends base{
@@ -15,7 +12,6 @@ class primative extends base{
 	 * @param  {String} options.name - name of primative - from input in data.js
 	 * @param  {Object} options.params - kernel size and other info - from input in data.js
 	 * @param  {Object} options.padding - padding between primative and its own tags - from mecano.state
-	 * @param  {Object} options.margin - calculated in data.js depending on previous primative
 	 */
 	constructor(
 			shape,
@@ -27,8 +23,6 @@ class primative extends base{
 				padding={'X':0,'Y':0}
 			} = {}){
 				super()
-				// type
-				this.type = 'primative';
 				// arguments
 				this.shape = shape;
 				this.angle = angle;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
-import {components} from '../mapping'
+import {components} from '../components'
 // UI
 import { withTheme } from 'material-ui/styles';
 import Dots from '../ui/Dots';
 // helpers
 import Construction from '../helpers/Construction';
 import Bbox from '../helpers/Bbox';
-import {getGeometricMidpoint} from '../classes/utils'
+import {getGeometricMidpoint} from '../utils'
 
 
 

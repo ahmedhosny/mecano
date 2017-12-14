@@ -14,8 +14,6 @@ class tag extends base{
 			tagAnchors
 		){
 			super()
-			// type
-			this.type = 'tag'
 			// arguments
 			this.tag = tag
 			this.tagAnchors = tagAnchors
