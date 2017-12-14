@@ -60,6 +60,17 @@ export function setBounds(allX,allY,obj){
 }
 
 /**
+ * Sets the geometric center of the bounding box
+ * @param  {Object} bounds - {'min':{'X':0,'Y':0},'max':{'X':0,'Y':0}}
+ * @return {Object} - the geometricMidpoint 
+ */
+export function getGeometricMidpoint(bounds){
+    const X = parseInt((bounds.max.X - bounds.min.X)/2, 10) + bounds.min.X;
+    const Y = parseInt((bounds.max.Y - bounds.min.Y)/2, 10) + bounds.min.Y;
+    return {'X':X,'Y':Y}
+}
+
+/**
  * Sets mecano bounds
  * @param {list} data - list of primatives 
  * @param  {react component} mecano
@@ -68,8 +79,10 @@ export function setMecanoBounds(data, mecano){
     var allX = [];
     var allY = [];
     data.forEach((m,index) => {
-        allX.push(m.bounds.min.X,m.bounds.max.X)
-        allY.push(m.bounds.min.Y,m.bounds.max.Y)
+        if (m.type === 'primative'){
+            allX.push(m.bounds.min.X,m.bounds.max.X)
+            allY.push(m.bounds.min.Y,m.bounds.max.Y)
+        }
     });
     setBounds(allX,allY,mecano.state)
 }

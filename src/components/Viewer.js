@@ -7,6 +7,7 @@ import Dots from '../ui/Dots';
 // helpers
 import Construction from '../helpers/Construction';
 import Bbox from '../helpers/Bbox';
+import {getGeometricMidpoint} from '../classes/utils'
 
 
 
@@ -14,10 +15,57 @@ class Viewer extends Component {
 	constructor(props) {
 		super(props);
 		this.Viewer = null;
+		this.margin = 50;
+	}
+	// will happen on component did mount or when zoom all button presses
+	fitAll(){
+		const bounds = this.props.bounds
+		const divWidth = this.props.width
+		const divHeight = this.props.height
+		//	
+		const divRatio = divWidth/divHeight
+		const mecanoWidth = bounds.max.X-bounds.min.X
+		const mecanoHeight = bounds.max.Y-bounds.min.Y
+		const mecanoRatio = mecanoWidth/mecanoHeight
+
+		//
+		var geometricMidpoint = getGeometricMidpoint(bounds)
+	    //
+		if (divRatio<=mecanoRatio){
+			// need to ensure width has margins
+			var newMinX = geometricMidpoint.X-mecanoWidth/2-this.margin
+			var newMaxX = geometricMidpoint.X+mecanoWidth/2+this.margin	
+			// get new height
+			var newHeight = (newMaxX-newMinX)/divRatio	
+			// check if difference between new height and mecano height is less than margin*2
+			// if so, then make sure it converts to margin*2
+			this.Viewer.fitSelection(
+				newMinX,
+				geometricMidpoint.Y-newHeight/2,
+				newMaxX-newMinX,
+				newHeight
+			)
+			console.log("right and left are margin")
+		}
+		else{
+			// need to ensure width has margins
+			var newMinY = geometricMidpoint.Y-mecanoHeight/2-this.margin
+			var newMaxY = geometricMidpoint.Y+mecanoHeight/2+this.margin	
+			// get new height
+			var newWidth = (newMaxY-newMinY)*divRatio	
+			// check if difference between new height and mecano height is less than margin*2
+			// if so, then make sure it converts to margin*2
+			this.Viewer.fitSelection(
+				geometricMidpoint.X-newWidth/2,
+				newMinY,
+				newWidth,
+				newMaxY-newMinY
+			)
+			console.log("top and bottom are margin")
+		}
 	}
 	componentDidMount() {
-		var bounds = this.props.bounds		
-		this.Viewer.fitSelection(bounds.min.X,bounds.min.Y,bounds.max.X-bounds.min.X,bounds.max.Y-bounds.min.Y)
+		this.fitAll()
 	}
   	render() {
   		const { theme } = this.props;

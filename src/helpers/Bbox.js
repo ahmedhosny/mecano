@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {getGeometricMidpoint} from '../classes/utils'
 import "./Bbox.css"
 
 export default class Bbox extends Component {
@@ -9,6 +10,7 @@ export default class Bbox extends Component {
     }
     render() {
         var props = this.props
+        var geometricMidpoint = getGeometricMidpoint(props.bounds)
         return (
             <g>
                 <rect 
@@ -18,6 +20,12 @@ export default class Bbox extends Component {
                 width={props.bounds.max.X - props.bounds.min.X}  
                 height={props.bounds.max.Y - props.bounds.min.Y} 
                 />
+                <circle
+                className="mecanoGeometricMidPoint"
+                r={15} 
+                cx={geometricMidpoint.X} 
+                cy={geometricMidpoint.Y}
+                />  
             </g>
         );
     }

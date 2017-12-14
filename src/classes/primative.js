@@ -1,6 +1,6 @@
 import {base} from "./base"
 import {flatten,pullAt} from 'lodash';
-import {range,getPlaneCoordinates,setBounds} from './utils'
+import {range,getPlaneCoordinates,getGeometricMidpoint,setBounds} from './utils'
 
 
 
@@ -73,13 +73,7 @@ class primative extends base{
 	    setBounds(allX,allY,this)
 	}
 
-	/**
-	 * Sets the geometric center of the bounding box of the primative
-	 */
-	setGeometricMidpoint(){
-		this.geometricMidpoint.X = parseInt((this.bounds.max.X - this.bounds.min.X)/2, 10) + this.bounds.min.X;
-	    this.geometricMidpoint.Y = parseInt((this.bounds.max.Y - this.bounds.min.Y)/2, 10) + this.bounds.min.Y;
-	}
+
 
 	/**
 	 * 1. Sets the translation distance to center the primative around the origin guide 
@@ -91,7 +85,7 @@ class primative extends base{
 	move(){
 		// 1.figure out translation
 		this.setBounds()
-		this.setGeometricMidpoint()
+		this.geometricMidpoint = getGeometricMidpoint(this.bounds)
 		this.translation.X = this.in.X - this.geometricMidpoint.X;
 		this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
 		// 2.set
@@ -142,7 +136,7 @@ export class plane extends primative{
 	 */
 	setOut(){
 		// get geometric midpoint after move
-		this.setGeometricMidpoint();
+		this.geometricMidpoint = getGeometricMidpoint(this.bounds);
 		// push midpoint
 		this.out.push({'X':this.geometricMidpoint.X,'Y':this.geometricMidpoint.Y});
 		// push specifc coords
@@ -227,7 +221,7 @@ export class planeStack extends plane{
 	 */
 	setOut(){
 		//1// push midpoint
-		this.setGeometricMidpoint();
+		this.geometricMidpoint = getGeometricMidpoint(this.bounds);
 		this.out.push({'X':this.geometricMidpoint.X,'Y':this.geometricMidpoint.Y});
 		//2// first plane
 		this.setPlaneOut(0)

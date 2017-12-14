@@ -12,7 +12,6 @@ import Paper from 'material-ui/Paper';
 import {AutoSizer} from 'react-virtualized';
 
 class Mecano extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,8 +20,8 @@ class Mecano extends Component {
 			canvas:{'X':3600,'Y':3600},
 			grid:{'X':300,'Y':300},
 			origin: {'X':300,'Y':1800}, // can be props
-			margin: {'X':25,'Y':0},
-			padding: {'X':0,'Y':30},
+			margin: {'X':25,'Y':0}, // not used for now (compact view)
+			padding: {'X':0,'Y':30}, // not used for now (between primative and tag)
 			bounds: {
 	            'min':{
 	                'X':0,

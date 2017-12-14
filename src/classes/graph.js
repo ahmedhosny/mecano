@@ -1,4 +1,6 @@
 import {components} from '../mapping'
+import {at} from 'lodash'
+import uuidv4 from 'uuid'
 
 export class graph{
 	constructor(inputData,mecano){
@@ -70,27 +72,41 @@ export class graph{
 	}
 
 
-	getElastic(sourceNode,targetNode){
-		const source = sourceNode.component
-		const target = targetNode.component
-		console.log(source,target)
-	    this.components[source].target.forEach((m,_index) => {
-            if (m.target===target){
-            	console.log(m)
-                // const elasticClass = this.components[m.elastic].class
-                // const elastic = new elasticClass(
-                //     at(originalData[index].out,m.fromOut),
-                //     at(originalData[index+1].out,m.toOut),
-                //     {
-                //         angle : mecano.state.angle,
-                //         paramsFrom : originalData[index].params,
-                //         paramsTo : originalData[index+1].params
-                //     }
-                // )
-                // elastic.component = m.elastic
-                // elastic.draw()
-            }
-        });
+	getElastic(primativeList){
+		// loop through edges
+		this.edges.forEach((m,index) => {
+			// get source primative 
+			const source = primativeList.find((obj) =>{
+				return obj.key === m.source
+			});
+			// get target primative and its index
+			const target = primativeList.find((obj) =>{
+				return obj.key === m.target
+			});
+			const targetIndex = primativeList.findIndex((obj) =>{
+				return obj.key === m.target
+			});
+			// get the target entry from components
+			const targetEntry = this.components[source.component].target.find((obj) => {
+				return obj.target === target.component
+			});
+			// create the elastic class
+			const elasticClass = components[targetEntry.elastic].class
+			// draw the elastic
+            const elastic = new elasticClass(
+                at(source.out,targetEntry.sourceOut),
+                at(target.out,targetEntry.targetOut),
+                {
+                    angle : this.mecano.state.angle,
+                    paramsFrom : source.params,
+                    paramsTo : target.params
+                }
+            )
+            elastic.component = targetEntry.elastic
+            elastic.key = uuidv4()
+            elastic.draw()
+            primativeList.splice(targetIndex,0,elastic)  
+		});
 	}
 
 	traverse(){
@@ -120,15 +136,17 @@ export class graph{
 				getChildren.forEach((m,index) => {
 					// if not visited, add to queue
 					if (m.visited === false){
-						this.getElastic(x,m)
 						queue.push(m)
 					}
 				});
 			}
 		}
 		while (queue.length !== 0);
-		
-		return outputData ;
+		// now add elastics to the outputData
+		if (outputData.length > 1){
+			this.getElastic(outputData)
+		}
+		return outputData;
 	}
 }
 
@@ -159,3 +177,26 @@ export class graph{
 	  //      q.enqueue(y);       // Use the edge (x,y) !!!
    //    }
    // }
+   // 
+// /**
+//  * Adds tags to primatives
+//  * @param  {list} data - data to manipulate
+//  */
+// function getTags(data,mecano){
+//     var originalData = data.slice()
+//     originalData.forEach((n,index) => {
+//         if (n.type==='primative'){
+//             // loop through available tags
+//             n.tags.forEach((m,index) => {
+//                 var tagClass = components[m.component].class // m.component is 'shape' , class is Shape , class is bottomTag
+//                 var component = new tagClass(
+//                     m,
+//                     n.tagAnchors
+//                 )
+//                 component.draw()
+//                 component.component = m.component
+//                 data.push(component)
+//             });
+//         }
+//     });
+// }
