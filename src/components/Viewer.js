@@ -96,6 +96,7 @@ class Viewer extends Component {
 					<Dots
 					canvas={this.props.canvas}
 					grid={this.props.grid}
+					construction={this.props.construction}
 					/>
  					{/* components */}				
 					{this.props.data.map((n,index) => {
@@ -103,7 +104,7 @@ class Viewer extends Component {
 					      	return (
 					      		<g
 					      		key={"group-"+n.key}
-					      		onClick={event => console.log("clicked on: ", n.name)}
+					      		onClick={event => console.log("clicked on: ", n.key)}
 					      		>
 									<Component
 									instance={n}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withTheme } from 'material-ui/styles';
 import {range} from 'lodash';
+import './Dots.css'
 
 class Dots extends Component {
     render() {
@@ -14,9 +15,31 @@ class Dots extends Component {
                     r={3} 
                     cx={x} 
                     cy={y}
-                    key={"grid-" + indexX + '-' + indexY}
-                    />  
+                    key={"dot" + indexX + '-' + indexY}
+                    /> 
                 )
+                if (this.props.construction){
+                    dots.push(
+                        <line 
+                        className="constructionGrid"
+                        x1={x-this.props.grid.X/2} 
+                        y1={0} 
+                        x2={x-this.props.grid.X/2}  
+                        y2={this.props.canvas.Y}
+                        key={"line-v" + indexX + '-' + indexY}
+                        />
+                    )
+                    dots.push(
+                        <line 
+                        className="constructionGrid"
+                        x1={0} 
+                        y1={y-this.props.grid.Y/2} 
+                        x2={this.props.canvas.X}  
+                        y2={y-this.props.grid.Y/2}
+                        key={"line-h" + indexX + '-' + indexY}
+                        />
+                    )
+                }
             });
         });
         return (

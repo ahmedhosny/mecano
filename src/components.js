@@ -101,7 +101,6 @@ export const components={
         	}
         ]
     },
-
     // elastics:
     'Funnel':{
         'type':'elastic',
@@ -113,7 +112,6 @@ export const components={
         'class':pyramid,
     	'component':Kernel
     },
-
     // tags:
     'Shape':{
         'type':'tag',

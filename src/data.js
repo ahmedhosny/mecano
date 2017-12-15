@@ -2,21 +2,10 @@ import {setMecanoBounds} from './utils'
 import {graph} from './classes/graph'
 
 
-// /**
-//  * input either from user or reading a file..
-//  * @type {Array}
-//  */
-// var input = [
-//     {'name':'someName','component':'Input2d','shape':{'D0':1,'D1':224,'D2':224},'params':{}},
-//     {'name':'name1','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':96},'params':{'kernel': {'D1':55,'D2':55}}},
-//     {'name':'name2','component':'Conv2d','shape':{'D0':1,'D1':55,'D2':55,'D3':256},'params':{'kernel': {'D1':30,'D2':30}}},
-//     {'name':'siko3','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64},'params':{}},
-//     {'name':'siko2','component':'Conv2d','shape':{'D0':1,'D1':150,'D2':150,'D3':32},'params':{'kernel': {'D1':55,'D2':55}}},
-//     {'name':'siko1','component':'Input2d','shape':{'D0':1,'D1':200,'D2':200},'params':{}},
-//     {'name':'siko4','component':'Pool2d','shape':{'D0':1,'D1':100,'D2':100,'D3':64},'params':{}}
-// ]
-
-
+/**
+ * input either from user or reading a file..
+ * @type {Array}
+ */
 var inputData = {
     'user': 'ahmed',
     'version': '0.0.1',
@@ -111,6 +100,18 @@ var inputData = {
                     'D2':30
                 }
             }
+        },
+        {
+            'key':'72af983b-9b08-4c39-844d-fb3c12a44804',
+            'name':'pool6',
+            'component':'Pool2d',
+            'shape':{
+                'D0':1,
+                'D1':55,
+                'D2':55,
+                'D3':128
+            },
+            'params':{}
         }
     ],
     'edges': [
@@ -133,14 +134,13 @@ var inputData = {
         {
             'source': '1d62e2f6-824b-4f4b-8035-44b67e66e8af',
             'target': 'a962377b-9738-42b4-86e0-e0420f4f145d'
-        }
-
-        
-
-        
+        },
+        {
+            'source': 'a962377b-9738-42b4-86e0-e0420f4f145d',
+            'target': '72af983b-9b08-4c39-844d-fb3c12a44804'
+        } 
     ]
 }
-
 
 export function dataGenerator(mecano){
     //1// build graph from input data
@@ -153,4 +153,6 @@ export function dataGenerator(mecano){
     // getTags(data,mecano);
     return outputData;
 }
+
+
 

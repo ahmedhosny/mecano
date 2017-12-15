@@ -67,6 +67,7 @@ export class graph{
 	    )
 	    primative.component = node.component;
 	    primative.key = node.key;
+	    primative.level = node.level;
 	    primative.type = 'primative';
 	    primative.draw();
 	    return primative;
@@ -111,6 +112,18 @@ export class graph{
 		});
 	}
 
+
+
+	processNode(x,levelX,levelY,outputData){
+		// visit and set its level + screen position
+		x.visited = true;
+		x.level = {'X':levelX,'Y':levelY}
+		this.setPosition(x)
+		// add primative
+		outputData.push(this.getPrimative(x))
+	}
+
+
 	traverse(){
 		var outputData = []
 		// set all visited to false
@@ -123,34 +136,87 @@ export class graph{
 		// set level counters
 		var levelX = 0
 		var levelY = 0
+		//
+		var elementsToDepthIncrease = 1;
+		var nextElementsToDepthIncrease = 0;
+		//
 		do {
 			var x = queue.shift();
+			// if not visited
 			if (x.visited === false){
-				// visit and set its level + screen position
-				x.visited = true;
-				x.level = {'X':levelX,'Y':levelY}
-				this.setPosition(x)
-				// add primative
-				outputData.push(this.getPrimative(x))
-				levelX ++
+				// process node 
+				this.processNode(x,levelX,levelY,outputData)
 				// get children
 				var getChildren = this.getChildren(x)
+				nextElementsToDepthIncrease += getChildren.length;
+				// if we are indeed going to a next levelX
+			    if (--elementsToDepthIncrease === 0) {
+			      	elementsToDepthIncrease = nextElementsToDepthIncrease;
+			      	nextElementsToDepthIncrease = 0;
+			      	levelX++
+			      	// reset levelY
+			      	levelY = 0
+			    }
+			    // otherwise branch into levelY
+			    else{
+			    	levelY++
+			    }
 				getChildren.forEach((m,index) => {
 					// if not visited, add to queue
 					if (m.visited === false){
-						queue.push(m)
+						queue.push(m)	
 					}
 				});
 			}
 		}
 		while (queue.length !== 0);
+		console.log(outputData)
 		// now add elastics to the outputData
+		// only if there are two primatives or more
 		if (outputData.length > 1){
 			this.getElastic(outputData)
 		}
 		return outputData;
 	}
 }
+
+
+// void breadthFirst(Node parent, int maxDepth) {
+
+//   if(maxDepth < 0) {
+//     return;
+//   }
+
+//   Queue<Node> nodeQueue = new ArrayDeque<Node>();
+//   nodeQueue.add(parent);
+
+//   int currentDepth = 0, 
+//       elementsToDepthIncrease = 1, 
+//       nextElementsToDepthIncrease = 0;
+
+//   while (!nodeQueue.isEmpty()) {
+//     Node current = nodeQueue.poll();
+//     process(current);
+
+//     nextElementsToDepthIncrease += current.numberOfChildren();
+
+
+//     if (--elementsToDepthIncrease == 0) {
+//       if (++currentDepth > maxDepth) return;
+//       elementsToDepthIncrease = nextElementsToDepthIncrease;
+//       nextElementsToDepthIncrease = 0;
+//     }
+//     for (Node child : current.children()) {
+//       nodeQueue.add(child);
+//     }
+//   }
+
+// }
+
+// void process(Node node) {
+//   // Do your own processing here. All nodes handed to
+//   // this method will be within the specified depth limit.
+// }   
 
 
 // var queue = [];
