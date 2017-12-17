@@ -8,12 +8,14 @@ export class graph{
 		this.name = inputData.name;
 		this.root = inputData.root;
 		this.nodes = inputData.nodes;
-		this.edges = inputData.edges; 
+		this.edges = inputData.edges;
 		this.mecano = mecano
 		//
 		this.components = components
 	}
-
+/**
+ * Sets visited on all nodes
+ */
 	setVisited(bool){
 		this.nodes.forEach((m,index) => {
 			m.visited = bool
@@ -22,7 +24,7 @@ export class graph{
 
 	setRootNode(){
 		var _this = this
-	    const _root = this.nodes.filter((obj) => 
+	    const _root = this.nodes.filter((obj) =>
 	        obj.key === _this.root[0] // TODO : only accepts single start point for now
 	    );
 	    this.rootNode = _root[0]
@@ -38,15 +40,15 @@ export class graph{
 	getChildren(node){
 		var out  = []
 	    // get edges where this node is a source
-	    const nextEdges = this.edges.filter((obj) => 
+	    const nextEdges = this.edges.filter((obj) =>
 	    	obj.source === node.key
 	    );
 	    // go through these edges and add one node per edge
 	    nextEdges.forEach((l,index) => {
 	        // get nodes at the en dof these edges
-	        const nextNodes = this.nodes.filter((obj) => 
+	        const nextNodes = this.nodes.filter((obj) =>
 	            obj.key === l.target
-	        ); 
+	        );
 	        if (nextNodes.length !== 0) {out.push(nextNodes[0])}
 	    });
 	    return out
@@ -59,8 +61,8 @@ export class graph{
 	        node.shape,
 	        state.angle,
 	        node.position,
-	        {  
-	            name : node.name, 
+	        {
+	            name : node.name,
 	            params : node.params,
 	            padding : state.padding
 	        }
@@ -77,7 +79,7 @@ export class graph{
 	getElastic(primativeList){
 		// loop through edges
 		this.edges.forEach((m,index) => {
-			// get source primative 
+			// get source primative
 			const source = primativeList.find((obj) =>{
 				return obj.key === m.source
 			});
@@ -108,7 +110,7 @@ export class graph{
             elastic.key = uuidv4()
             elastic.type = 'elastic';
             elastic.draw()
-            primativeList.splice(targetIndex,0,elastic)  
+            primativeList.splice(targetIndex,0,elastic)
 		});
 	}
 
@@ -144,7 +146,7 @@ export class graph{
 			var x = queue.shift();
 			// if not visited
 			if (x.visited === false){
-				// process node 
+				// process node
 				this.processNode(x,levelX,levelY,outputData)
 				// get children
 				var getChildren = this.getChildren(x)
@@ -164,7 +166,7 @@ export class graph{
 				getChildren.forEach((m,index) => {
 					// if not visited, add to queue
 					if (m.visited === false){
-						queue.push(m)	
+						queue.push(m)
 					}
 				});
 			}
@@ -190,8 +192,8 @@ export class graph{
 //   Queue<Node> nodeQueue = new ArrayDeque<Node>();
 //   nodeQueue.add(parent);
 
-//   int currentDepth = 0, 
-//       elementsToDepthIncrease = 1, 
+//   int currentDepth = 0,
+//       elementsToDepthIncrease = 1,
 //       nextElementsToDepthIncrease = 0;
 
 //   while (!nodeQueue.isEmpty()) {
@@ -216,7 +218,7 @@ export class graph{
 // void process(Node node) {
 //   // Do your own processing here. All nodes handed to
 //   // this method will be within the specified depth limit.
-// }   
+// }
 
 
 // var queue = [];
@@ -240,12 +242,12 @@ export class graph{
    //    {
    //       visited[x] = true;         // Visit node x !
 
-   //       for ( every edge (x, y)  /* we are using all edges ! */ )    
-   //          if ( y has not been visited )   
+   //       for ( every edge (x, y)  /* we are using all edges ! */ )
+   //          if ( y has not been visited )
 	  //      q.enqueue(y);       // Use the edge (x,y) !!!
    //    }
    // }
-   // 
+   //
 // /**
 //  * Adds tags to primatives
 //  * @param  {list} data - data to manipulate
