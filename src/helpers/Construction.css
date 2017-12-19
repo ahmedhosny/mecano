@@ -1,17 +1,17 @@
-.constructionLine{
-	stroke: red; 
+.constructionLine {
+  stroke: red;
 }
-.constructionCircleIn{
-	fill: red;
+.constructionCircleIn {
+  fill: red;
 }
-.constructionCircleOut{
-	fill: green;
+.constructionCircleOut {
+  fill: green;
 }
-.constructionTagAnchor{
-	fill:blue;
+.constructionTagAnchor {
+  fill: blue;
 }
-.constructionRect{
-	stroke:blue;
-	fill:none;
-	stroke-width:1px;
+.constructionRect {
+  stroke: blue;
+  fill: none;
+  stroke-width: 1px;
 }

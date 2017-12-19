@@ -1,12 +1,11 @@
 .kernelTriangle {
-	stroke: black; 
-	stroke-width: 2;
-	fill: white;
-	stroke-linejoin: bevel;
+  stroke: black;
+  stroke-width: 2;
+  fill: white;
+  stroke-linejoin: bevel;
 }
 .kernelHidden {
-	stroke: black;
-	fill: none;
-	stroke-width: 1;
-
+  stroke: black;
+  fill: none;
+  stroke-width: 1;
 }

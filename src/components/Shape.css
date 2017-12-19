@@ -1,15 +1,15 @@
-.line{
-	stroke: black; 
-	stroke-width: 4;
-	stroke-linecap:round;
+.line {
+  stroke: black;
+  stroke-width: 4;
+  stroke-linecap: round;
 }
-.shapeText1{
-	font-size: 32px;
-	font-weight: 100;
-    font-style: normal;
+.shapeText1 {
+  font-size: 32px;
+  font-weight: 100;
+  font-style: normal;
 }
-.shapeText2{
-	font-size: 18px;
-	font-weight: 300;
-    font-style: italic;	
+.shapeText2 {
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
 }

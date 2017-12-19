@@ -1,13 +1,13 @@
-.nameLine{
-	stroke: black; 
-	stroke-width: 0.5;
-	stroke-linecap:round;
+.nameLine {
+  stroke: black;
+  stroke-width: 0.5;
+  stroke-linecap: round;
 }
-.nameCircle{
-	fill:black;
+.nameCircle {
+  fill: black;
 }
-.nameText1{
-	font-size: 24px;
-	font-weight: 300;
-    font-style: normal;
+.nameText1 {
+  font-size: 24px;
+  font-weight: 300;
+  font-style: normal;
 }

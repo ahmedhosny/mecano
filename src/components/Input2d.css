@@ -1,6 +1,6 @@
-.polygon{
-    fill: white; 
-    stroke: black; 
-    stroke-width: 3;
-    stroke-linejoin: round;
+.polygon {
+  fill: white;
+  stroke: black;
+  stroke-width: 3;
+  stroke-linejoin: round;
 }

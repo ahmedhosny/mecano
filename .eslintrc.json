@@ -1,0 +1,23 @@
+{
+  "extends": ["eslint-config-google", "plugin:react/recommended"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  }
+  /* "plugins": ["eslint-plugin-require-jsdoc-except"],
+  "require-jsdoc": [
+    "error",
+    {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
+      }
+    }
+  ] */
+}
