@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Shape.css';
 
 export default class Shape extends Component {
@@ -9,7 +9,7 @@ export default class Shape extends Component {
     const text2Height = 17;
     return (
       <g>
-        {/*line*/}
+        {/* line*/}
         {coords.map((m, index) => {
           return (
             <line
@@ -22,7 +22,7 @@ export default class Shape extends Component {
             />
           );
         })}
-        {/*text: line1*/}
+        {/* text: line1*/}
         <text
           className="shapeText1"
           textAnchor="middle"
@@ -31,7 +31,7 @@ export default class Shape extends Component {
         >
           {this.props.instance.text1}
         </text>
-        {/*text: line2*/}
+        {/* text: line2*/}
         <text
           className="shapeText2"
           textAnchor="middle"

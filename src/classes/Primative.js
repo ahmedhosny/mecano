@@ -1,16 +1,23 @@
 import {Base} from './Base';
 import {flatten, pullAt, range} from 'lodash';
 import {getPlaneCoordinates, getGeometricMidpoint, setBounds} from '../utils';
-
+/**
+ * Primative class.
+ */
 class Primative extends Base {
   /**
    * Basic primative class - other inherit from here.
-   * @param  {Object} shape - shape of primative - from input in data.js  {'D0':1,'D1':224,'D2':224,...}
-   * @param  {int} angle - view angle - from mecano
-   * @param  {Object} origin - where all primatives are drawn for the first time
-   * @param  {String} options.name - name of primative - from input in data.js
-   * @param  {Object} options.params - kernel size and other info - from input in data.js
-   * @param  {Object} options.padding - padding between primative and its own tags - from mecano.state
+   * @param  {Object} shape Shape of primative - from inputData
+   * in data.js  {'D0':1,'D1':224,'D2':224,...}
+   * @param  {number} angle View angle from mecano.
+   * @param  {Object} position X,Y position on the screen grid. Geomtric
+   * midpoint should be same as position when primative mounts.
+   * @param  {string} [name='someName'] Primative name.
+   * @param  {Object} [params={}] Other params like kernel size.
+   * @param  {Object} [padding={X: 0, Y: 0}] How far the name tags are. Only Y
+   * used for now.
+   * @todo Name tags might end up going on the grid - so padding might be
+   * obselete.
    */
   constructor(
     shape,
@@ -19,16 +26,13 @@ class Primative extends Base {
     {name = 'someName', params = {}, padding = {X: 0, Y: 0}} = {}
   ) {
     super();
-    // arguments
     this.shape = shape;
     this.angle = angle;
-    this.position = position; // geomtric midpoint should be same as position when mounts
+    this.position = position;
     this.name = name;
     this.params = params;
-    this.padding = padding; // only Y used for now
-    // class-specifc
-    this.in = {X: 0, Y: 0}; // changes for centering
-    this.translation = {X: 0, Y: 0}; // for centering purposes
+    this.padding = padding;
+    this.in = {X: 0, Y: 0};
     this.out = [];
     this.bounds = {
       min: {
@@ -40,51 +44,41 @@ class Primative extends Base {
         Y: 0,
       },
     };
-    this.geometricMidpoint = {X: 0, Y: 0}; // should be same as position when mounts
+    this.geometricMidpoint = {X: 0, Y: 0};
     this.tagAnchors = {
       top: [],
       bottom: [],
-      // can add sides here
     };
   }
 
   /**
-   * Sets the bounding box X and Y coordinates of the entire primative
-   * works for plane and planeStack
+   * Sets the bounding box X and Y coordinates of the entire primative.
+   * Works for plane and planeStack.
    */
   setBounds() {
-    // flattens all
     let coords = flatten(this.coordinates);
-    // split x and y coordinates
     const allX = pullAt(coords, range(0, coords.length, 2));
     const allY = coords;
-    // set bounds
     setBounds(allX, allY, this);
   }
 
   /**
-   * 1. Sets the translation distance to center the primative around the origin guide
-   * 2. Sets the margin distance to avoid any overlaps
-   * 3. moves the primative by setting the in values
-   * translation.X distance will always be negative
-   * translation.Y distance will always be positive
+   * Moves the primative so that it is centered around the given position.
+   * 1. Gets the bounds of primative drawn at 0,0.
+   * 2. Gets the geometric midpoint.
+   * 3. Moves the primative by setting the in values.
    */
   move() {
-    // 1.figure out translation
     this.setBounds();
     this.geometricMidpoint = getGeometricMidpoint(this.bounds);
-    this.translation.X = this.in.X - this.geometricMidpoint.X;
-    this.translation.Y = this.in.Y - this.geometricMidpoint.Y;
-    // 2.set
-    this.in.X = this.position.X + this.translation.X;
-    this.in.Y = this.position.Y + this.translation.Y;
+    this.in.X = this.position.X - this.geometricMidpoint.X;
+    this.in.Y = this.position.Y - this.geometricMidpoint.Y;
   }
 
   /**
-   * Sets the tag anchors for text, extra info...
+   * Sets the tag anchors for text, extra info.
    */
   setTagAnchors() {
-    // offset for planeStack - to centre the tag
     let offset = 0;
     if (this.stack > 1) {
       offset = this.coordinates[0][6] - this.coordinates[0][0];
@@ -103,8 +97,14 @@ class Primative extends Base {
     ];
   }
 }
-
+/**
+ * Plane class.
+ */
 export class Plane extends Primative {
+  /**
+   * Constructs a Plane.
+   * @param  {array} args Args from Primative constructor.
+   */
   constructor(...args) {
     super(...args);
     this.stack = 1;
@@ -120,19 +120,17 @@ export class Plane extends Primative {
       },
     ];
   }
-
   /**
-   * Sets the out points for the plane primative
+   * Sets the out points for the plane primative.
+   * 1. Pushes geometric midpoint.
+   * 2. Pushes specific coords.
    */
   setOut() {
-    // get geometric midpoint after move
     this.geometricMidpoint = getGeometricMidpoint(this.bounds);
-    // push midpoint
     this.out.push({
       X: this.geometricMidpoint.X,
       Y: this.geometricMidpoint.Y,
     });
-    // push specifc coords
     const idxs = [0, 1, 2];
     idxs.forEach((idx) => {
       this.out.push({
@@ -141,27 +139,32 @@ export class Plane extends Primative {
       });
     });
   }
-
   /**
-   * Draws the plane by using the following steps
+   * Draws the plane by using the following steps:
+   * 1. Draws at 0,0.
+   * 2. Moves to center around position and calculate new in coords.
+   * 3. Draws again at new in coords.
+   * 4. Sets new bounds.
+   * 5. Sets out coords.
+   * 6. Sets tag anchors.
    */
   draw() {
-    // 1// draw at original in {'X':0,'Y':0}
     this.coordinates = getPlaneCoordinates(this);
-    // 2// move and calculate new in coords
     this.move();
-    // 3// draw again to get new coordinates based on new in coords
     this.coordinates = getPlaneCoordinates(this);
-    // 4// draw new bounds
     this.setBounds();
-    // 5// set out coords
     this.setOut();
-    // 6// push Anchors
     this.setTagAnchors();
   }
 }
-
+/**
+ * PlaneStack class.
+ */
 export class PlaneStack extends Plane {
+  /**
+   * Constructs a PlaneStack.
+   * @param  {array} args Args from Primative constructor.
+   */
   constructor(...args) {
     super(...args);
     this.stack = Math.max(Math.floor(this.shape.D3 / 10), 2);
@@ -178,11 +181,10 @@ export class PlaneStack extends Plane {
       },
     ];
   }
-
   /**
-   * Calculate the geometric midpoint of a single plane - used for planeStack
-   * @param {int} index - index of list within this.coordinates
-   * @return {obj} the midpoint {'X':000,'Y':000}
+   * Calculates the geometric midpoint of a single plane.
+   * @param {number} index Index of list within this.coordinates.
+   * @return {Object} The midpoint {'X':000,'Y':000}.
    */
   getPlaneGeometricMidpoint(index) {
     const coords = this.coordinates[index].slice();
@@ -198,15 +200,14 @@ export class PlaneStack extends Plane {
     };
     return obj;
   }
-
   /**
-   * Sets the out coords for a single plane
+   * Sets the out coords for a single plane.
+   * 1. Pushes geometric midpoint of that plane.
+   * 2. Pushes specific coords.
    * @param {int} index - index of plane to set out coords for
    */
   setPlaneOut(index) {
-    // plane center
     this.out.push(this.getPlaneGeometricMidpoint(index));
-    // plane border
     const idxs = [0, 1, 2];
     idxs.forEach((idx) => {
       this.out.push({
@@ -216,18 +217,19 @@ export class PlaneStack extends Plane {
     });
   }
   /**
-   * Sets the out points for the planeStack primative - overwrites the plane setOut()
+   * Sets the out points for the planeStack primative.
+   * Overwrites the plane setOut().
+   * 1. Sets geometric midpoint of entire PlaneStack.
+   * 2. Sets out point of first Plane.
+   * 3. Sets out points of last Plane.
    */
   setOut() {
-    // 1// push midpoint
     this.geometricMidpoint = getGeometricMidpoint(this.bounds);
     this.out.push({
       X: this.geometricMidpoint.X,
       Y: this.geometricMidpoint.Y,
     });
-    // 2// first plane
     this.setPlaneOut(0);
-    // 3// last plane
     this.setPlaneOut(this.coordinates.length - 1);
   }
 }

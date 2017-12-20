@@ -24,7 +24,6 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-react": "^7.5.1",
-    "eslint-plugin-require-jsdoc-except": "^1.1.0",
     "prop-types": "^15.6.0"
   }
 }

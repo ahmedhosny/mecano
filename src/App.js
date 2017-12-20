@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Mecano from './components/Mecano';
-//ui
-import { MuiThemeProvider } from 'material-ui/styles';
-import { theme } from './theme';
+// ui
+import {MuiThemeProvider} from 'material-ui/styles';
+import {theme} from './theme';
 import Header from './ui/Header';
 import Grid from 'material-ui/Grid';
 
