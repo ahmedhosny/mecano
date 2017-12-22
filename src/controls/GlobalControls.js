@@ -16,7 +16,7 @@ class GlobalControls extends Component {
   render() {
     return (
       <div>
-        <Typography type="Title">Controls</Typography>
+        <Typography type="title">Controls</Typography>
         {/* TODO: implement slide*/}
         <TextField
           value={this.props.angle}

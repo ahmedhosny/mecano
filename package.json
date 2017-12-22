@@ -4,12 +4,12 @@
   "private": true,
   "dependencies": {
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.22",
+    "material-ui": "^1.0.0-beta.24",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.11",
-    "react-svg-pan-zoom": "^2.13.0",
-    "react-virtualized": "^9.13.0",
+    "react-svg-pan-zoom": "^2.14.1",
+    "react-virtualized": "^9.14.1",
     "uuid": "^3.1.0"
   },
   "scripts": {
