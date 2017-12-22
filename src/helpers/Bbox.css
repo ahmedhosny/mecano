@@ -1,5 +1,6 @@
 .bboxRect {
-  stroke: red;
+  stroke: green;
+  stroke-width: 4px;
   fill: none;
 }
 .mecanoGeometricMidPoint {

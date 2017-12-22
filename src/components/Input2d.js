@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './Input2d.css';
-
 /**
- * A plane
+ * A plane.
  */
 export default class Input2d extends Component {
   /**
    * Returns a single Polygon.
-   * @return {ReactElement} A single polygon with four coordinates.
+   * @return {ReactElement}
    */
   render() {
     return (
@@ -21,7 +20,6 @@ export default class Input2d extends Component {
     );
   }
 }
-
 Input2d.propTypes = {
   instance: PropTypes.object.isRequired,
 };

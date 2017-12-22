@@ -136,19 +136,18 @@ let inputData = {
     },
   ],
 };
-
 /**
  * This function is called from mecano to redraw the graph.
+ * 1. Build graph from input data.
+ * 2. Traverse the graph and get a list of instances.
+ * 3. Set mecano bounds based on primatives alone.
  * @param  {ReactElement} mecano - mecano
  * @return {Array} Array of class instances that are passed on to mecano and
  * converted to ReactElements.
  */
 export function dataGenerator(mecano) {
-  // 1// build graph from input data
   let graph = new Graph(inputData, mecano);
-  // 2// traverse the graph and get a list of instances
   let outputData = graph.traverse();
-  // 3// set mecano bounds based on primatives alone
   setMecanoBounds(outputData, mecano);
   // populate with tags
   // getTags(data,mecano);

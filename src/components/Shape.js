@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './Shape.css';
-
+/**
+ * Shape tag below primative.
+ */
 export default class Shape extends Component {
+  /**
+   * Returns a horizontal line with two lines of text.
+   * @return {ReactElement}
+   */
   render() {
     const coords = this.props.instance.coordinates;
     const tagAnchors = this.props.instance.tagAnchors;
@@ -44,3 +51,6 @@ export default class Shape extends Component {
     );
   }
 }
+Shape.propTypes = {
+  instance: PropTypes.object.isRequired,
+};

@@ -1,31 +1,38 @@
-//
-// COMPONENTS
-//
-// primative
+/**
+ * Components - primatives
+ */
 import Input2d from './components/Input2d';
 import Pool2d from './components/Pool2d';
 import Conv2d from './components/Conv2d';
-// elastic
+/**
+ * Components - elastics
+ */
 import Funnel from './components/Funnel';
 import Kernel from './components/Kernel';
-// tag
+/**
+ * Components - tags
+ */
 import Shape from './components/Shape';
 import Name from './components/Name';
-//
-// CLASSES
-//
-// primative
-import {Plane, PlaneStack} from './classes/Primative';
-// elastic
-import {Line, Pyramid} from './classes/Elastic';
-// tag
-import {BottomTag, TopTag} from './classes/Tag';
-
 /**
- * Object that maps the react components with the classes that make them
+ * Classes - primatives
+ */
+import {Plane, PlaneStack} from './classes/Primative';
+/**
+ * Classes - elastics
+ */
+import {Line, Pyramid} from './classes/Elastic';
+/**
+ * Classes - tags
+ */
+import {BottomTag, TopTag} from './classes/Tag';
+/**
+ * Object that maps the react components with the classes that make them.
  */
 export const components = {
-  // primatives:
+  /*
+   * primatives
+   */
   Input2d: {
     type: 'primative',
     class: Plane,
@@ -101,7 +108,9 @@ export const components = {
       },
     ],
   },
-  // elastics:
+  /*
+   * elastics
+   */
   Funnel: {
     type: 'elastic',
     class: Line,
@@ -112,7 +121,9 @@ export const components = {
     class: Pyramid,
     component: Kernel,
   },
-  // tags:
+  /*
+   * tags
+   */
   Shape: {
     type: 'tag',
     class: BottomTag,

@@ -1,7 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './Name.css';
-
+/**
+ * Name Tag on top of primative.
+ * @todo skew text:
+ * https://stackoverflow.com/questions/39191054/how-to-compensate-translate-
+ * when-skewx-and-skewy-are-used-on-svg
+ * transform="skewY(25) translate(0, 50)"
+ * https://www.sarasoueidan.com/blog/svg-transformations/
+ * @type {[type]}
+ */
 export default class Name extends Component {
+  /**
+   * Returns a name and pointer (line + circle).
+   * @return {ReactElement}
+   */
   render() {
     const coords = this.props.instance.coordinates;
     return (
@@ -10,7 +23,7 @@ export default class Name extends Component {
           const gap = 10;
           return (
             <g key={'name' + index}>
-              {/*line*/}
+              {/* line*/}
               <line
                 className="nameLine"
                 x1={m.X1}
@@ -18,9 +31,9 @@ export default class Name extends Component {
                 x2={m.X2}
                 y2={m.Y2}
               />
-              {/*circle*/}
+              {/* circle*/}
               <circle className="nameCircle" r={4} cx={m.X1} cy={m.Y1} />
-              {/*text: line1*/}
+              {/* text: line1*/}
               <text
                 className="nameText1"
                 textAnchor="middle"
@@ -36,7 +49,6 @@ export default class Name extends Component {
     );
   }
 }
-
-// https://stackoverflow.com/questions/39191054/how-to-compensate-translate-when-skewx-and-skewy-are-used-on-svg
-// transform="skewY(25) translate(0, 50)"
-// https://www.sarasoueidan.com/blog/svg-transformations/
+Name.propTypes = {
+  instance: PropTypes.object.isRequired,
+};

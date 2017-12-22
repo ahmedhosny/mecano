@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './Funnel.css';
-
 /**
  * Funnel component that is used to show upsampling or downsmampling.
  */
 export default class Funnel extends Component {
   /**
    * Draws three lines.
-   * @return {ReactElement} Draws three lines.
+   * @return {ReactElement}
    */
   render() {
     let coords = this.props.instance.coordinates;
@@ -30,7 +29,6 @@ export default class Funnel extends Component {
     );
   }
 }
-
 Funnel.propTypes = {
   instance: PropTypes.object.isRequired,
 };

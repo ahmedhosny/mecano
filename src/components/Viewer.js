@@ -2,53 +2,42 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import {components} from '../components';
-// UI
 import {withTheme} from 'material-ui/styles';
 import Dots from '../ui/Dots';
-// helpers
 import Construction from '../helpers/Construction';
 import Bbox from '../helpers/Bbox';
 import {getGeometricMidpoint} from '../utils';
-
 /**
- * [Viewer description]
- * @extends Component
+ * Viewer component.
  */
 class Viewer extends Component {
   /**
-   * [constructor description]
-   * @param  {[type]} props [description]
+   * Sets additional props.
+   * @param  {ReactProps} props
    */
   constructor(props) {
     super(props);
     this.Viewer = null;
     this.margin = 50;
   }
-  // will happen on component did mount or when zoom all button presses
   /**
-   * [fitAll description]
+   * Will happen on component did mount or when zoom all button is pressed.
+   * 1. Checks whether the mecanoRatio or divRatio is larger.
+   * 2. Insert margin (state) either along X or Y.
+   * 3. Get the new height or width based on divRatio.
+   * 4. Set viewer zoom.
    */
   fitAll() {
     const bounds = this.props.bounds;
-    const divWidth = this.props.width;
-    const divHeight = this.props.height;
-    //
-    const divRatio = divWidth / divHeight;
+    const divRatio = this.props.width / this.props.height;
     const mecanoWidth = bounds.max.X - bounds.min.X;
     const mecanoHeight = bounds.max.Y - bounds.min.Y;
     const mecanoRatio = mecanoWidth / mecanoHeight;
-
-    //
     let geometricMidpoint = getGeometricMidpoint(bounds);
-    //
     if (divRatio <= mecanoRatio) {
-      // need to ensure width has margins
       let newMinX = geometricMidpoint.X - mecanoWidth / 2 - this.margin;
       let newMaxX = geometricMidpoint.X + mecanoWidth / 2 + this.margin;
-      // get new height
       let newHeight = (newMaxX - newMinX) / divRatio;
-      // check if difference between new height and mecano height is less than
-      // margin*2, if so, then make sure it converts to margin*2
       this.Viewer.fitSelection(
         newMinX,
         geometricMidpoint.Y - newHeight / 2,
@@ -57,13 +46,9 @@ class Viewer extends Component {
       );
       console.log('right and left are margin');
     } else {
-      // need to ensure width has margins
       let newMinY = geometricMidpoint.Y - mecanoHeight / 2 - this.margin;
       let newMaxY = geometricMidpoint.Y + mecanoHeight / 2 + this.margin;
-      // get new height
       let newWidth = (newMaxY - newMinY) * divRatio;
-      // check if difference between new height and mecano height is less than
-      //  margin*2, if so, then make sure it converts to margin*2
       this.Viewer.fitSelection(
         geometricMidpoint.X - newWidth / 2,
         newMinY,
@@ -74,14 +59,14 @@ class Viewer extends Component {
     }
   }
   /**
-   * [componentDidMount description]
+   * Component did mount - fits views.
    */
   componentDidMount() {
     this.fitAll();
   }
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Returns ReactSVGPanZoom with all dots, components and construction guide.
+   * @return {ReactElement}
    */
   render() {
     const {theme} = this.props;
@@ -107,7 +92,7 @@ class Viewer extends Component {
         disableDoubleClickZoomWithToolAuto={true}
       >
         <svg width={this.props.canvas.X} height={this.props.canvas.Y}>
-          {/* grid */}
+          {/* dots */}
           <Dots
             canvas={this.props.canvas}
             grid={this.props.grid}
@@ -122,22 +107,18 @@ class Viewer extends Component {
                 onClick={(event) => console.log('clicked on: ', n.key)}
               >
                 <Component instance={n} />
-                {this.props.construction ? (
-                  <Construction instance={n} radius={5} />
-                ) : null}
+                {/* guides */}
+                {this.props.construction ? <Construction instance={n} /> : null}
               </g>
             );
           })}
           {/* guides */}
-          {this.props.construction ? (
-            <Bbox bounds={this.props.bounds} radius={3} />
-          ) : null}
+          {this.props.construction ? <Bbox bounds={this.props.bounds} /> : null}
         </svg>
       </ReactSVGPanZoom>
     );
   }
 }
-
 Viewer.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -148,5 +129,4 @@ Viewer.propTypes = {
   grid: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
-
 export default withTheme()(Viewer);

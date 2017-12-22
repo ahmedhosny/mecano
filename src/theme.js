@@ -352,7 +352,7 @@ _theme['root'] = {
   background: '#f5f5f5',
   height: '100%',
 };
-_theme['controlPaper'] = {
+_theme['control'] = {
   padding: 15,
   backgroundColor: _theme.palette.primary['50'],
 };

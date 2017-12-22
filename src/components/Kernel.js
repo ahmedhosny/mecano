@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './Kernel.css';
-
+/**
+ * A kernel to indicate convolutions.
+ */
 export default class Kernel extends Component {
+  /**
+   * Returns two triangles and a dotted plane.
+   * @return {ReactElement}
+   */
   render() {
     let coords = this.props.instance.coordinates;
     return (
@@ -26,3 +33,6 @@ export default class Kernel extends Component {
     );
   }
 }
+Kernel.propTypes = {
+  instance: PropTypes.object.isRequired,
+};

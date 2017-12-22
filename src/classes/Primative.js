@@ -50,7 +50,6 @@ class Primative extends Base {
       bottom: [],
     };
   }
-
   /**
    * Sets the bounding box X and Y coordinates of the entire primative.
    * Works for plane and planeStack.
@@ -61,7 +60,6 @@ class Primative extends Base {
     const allY = coords;
     setBounds(allX, allY, this);
   }
-
   /**
    * Moves the primative so that it is centered around the given position.
    * 1. Gets the bounds of primative drawn at 0,0.
@@ -74,7 +72,6 @@ class Primative extends Base {
     this.in.X = this.position.X - this.geometricMidpoint.X;
     this.in.Y = this.position.Y - this.geometricMidpoint.Y;
   }
-
   /**
    * Sets the tag anchors for text, extra info.
    */
@@ -204,7 +201,7 @@ export class PlaneStack extends Plane {
    * Sets the out coords for a single plane.
    * 1. Pushes geometric midpoint of that plane.
    * 2. Pushes specific coords.
-   * @param {int} index - index of plane to set out coords for
+   * @param {int} index Index of plane to set out coords for
    */
   setPlaneOut(index) {
     this.out.push(this.getPlaneGeometricMidpoint(index));

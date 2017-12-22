@@ -1,34 +1,35 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import './Construction.css';
-
+/**
+ * Construction lines
+ */
 export default class Construction extends Component {
+  /**
+   * Draws in/out circles, bounding rectangle and top/bottom tag anchors.
+   * @return {ReactElement}
+   */
   render() {
-    var instance = this.props.instance;
+    let instance = this.props.instance;
+    let bounds = this.props.instance.bounds;
     return (
       <g>
+        {/* in */}
         {instance.in ? (
           <circle
             className="constructionCircleIn"
-            r={this.props.radius}
+            r={5}
             cx={instance.in.X}
             cy={instance.in.Y}
           />
         ) : null}
-        {instance.bounds ? (
-          <rect
-            className="constructionRect"
-            x={instance.bounds.min.X}
-            y={instance.bounds.min.Y}
-            width={instance.bounds.max.X - instance.bounds.min.X}
-            height={instance.bounds.max.Y - instance.bounds.min.Y}
-          />
-        ) : null}
+        {/* out */}
         {instance.out
           ? instance.out.map((m, index) => {
               return (
                 <circle
                   className="constructionCircleOut"
-                  r={this.props.radius * 1.5}
+                  r={7}
                   cx={m.X}
                   cy={m.Y}
                   key={'out-' + index}
@@ -36,13 +37,23 @@ export default class Construction extends Component {
               );
             })
           : null}
-        {/* TODO: cleanup - duplicated for now (top and bottom anchors) */}
+        {/* bounds */}
+        {instance.bounds ? (
+          <rect
+            className="constructionRect"
+            x={bounds.min.X}
+            y={bounds.min.Y}
+            width={bounds.max.X - bounds.min.X}
+            height={bounds.max.Y - bounds.min.Y}
+          />
+        ) : null}
+        {/* top anchor */}
         {instance.tagAnchors
           ? instance.tagAnchors.top.map((m, index) => {
               return (
                 <circle
                   className="constructionTagAnchor"
-                  r={this.props.radius * 1.5}
+                  r={7}
                   cx={m.X}
                   cy={m.Y}
                   key={'tagAnchor-' + index + '-' + m.key}
@@ -50,12 +61,13 @@ export default class Construction extends Component {
               );
             })
           : null}
+        {/* bottom anchor */}
         {instance.tagAnchors
           ? instance.tagAnchors.bottom.map((m, index) => {
               return (
                 <circle
                   className="constructionTagAnchor"
-                  r={this.props.radius}
+                  r={5}
                   cx={m.X}
                   cy={m.Y}
                   key={'tagAnchor-' + index + '-' + m.key}
@@ -67,3 +79,6 @@ export default class Construction extends Component {
     );
   }
 }
+Construction.propTypes = {
+  instance: PropTypes.object.isRequired,
+};

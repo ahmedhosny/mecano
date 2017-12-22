@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Switch from 'material-ui/Switch';
 import Typography from 'material-ui/Typography';
-import { FormControlLabel, FormGroup } from 'material-ui/Form';
-import Paper from 'material-ui/Paper';
-import { withTheme } from 'material-ui/styles';
-
+import {FormControlLabel, FormGroup} from 'material-ui/Form';
+import {withTheme} from 'material-ui/styles';
+/**
+ * Global controls.
+ */
 class GlobalControls extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+  /**
+   * Returns a text title and a few contols.
+   * @return {ReactElement}
+   */
   render() {
-    const { theme } = this.props;
     return (
-      <Paper style={theme.controlPaper}>
+      <div>
         <Typography type="Title">Controls</Typography>
         {/* TODO: implement slide*/}
         <TextField
@@ -42,9 +42,16 @@ class GlobalControls extends Component {
             label="construction"
           />
         </FormGroup>
-      </Paper>
+      </div>
     );
   }
 }
-
+GlobalControls.propTypes = {
+  angle: PropTypes.number.isRequired,
+  onChangeAngle: PropTypes.func.isRequired,
+  construction: PropTypes.bool.isRequired,
+  onChangeConstruction: PropTypes.func.isRequired,
+  margin: PropTypes.object.isRequired,
+  onChangemargin: PropTypes.func.isRequired,
+};
 export default withTheme()(GlobalControls);

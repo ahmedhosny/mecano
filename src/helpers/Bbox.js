@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import { getGeometricMidpoint } from '../utils';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {getGeometricMidpoint} from '../utils';
 import './Bbox.css';
-
+/**
+ * Bounding box for mecano.
+ */
 export default class Bbox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  /**
+   * Returns a bounding rectangle and circle at the geometric midpoint.
+   * @return {ReactElement}
+   */
   render() {
-    var props = this.props;
-    var geometricMidpoint = getGeometricMidpoint(props.bounds);
+    let bounds = this.props.bounds;
+    let geometricMidpoint = getGeometricMidpoint(bounds);
     return (
       <g>
         <rect
           className="bboxRect"
-          x={props.bounds.min.X}
-          y={props.bounds.min.Y}
-          width={props.bounds.max.X - props.bounds.min.X}
-          height={props.bounds.max.Y - props.bounds.min.Y}
+          x={bounds.min.X}
+          y={bounds.min.Y}
+          width={bounds.max.X - bounds.min.X}
+          height={bounds.max.Y - bounds.min.Y}
         />
         <circle
           className="mecanoGeometricMidPoint"
@@ -29,3 +32,6 @@ export default class Bbox extends Component {
     );
   }
 }
+Bbox.propTypes = {
+  bounds: PropTypes.object.isRequired,
+};

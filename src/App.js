@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import Mecano from './components/Mecano';
-// ui
 import {MuiThemeProvider} from 'material-ui/styles';
 import {theme} from './theme';
 import Header from './ui/Header';
 import Grid from 'material-ui/Grid';
-
+/**
+ * App
+ */
 export class App extends Component {
+  /**
+   * returns an App Bar and mecano.
+   * @return {[type]} [description]
+   */
   render() {
     return (
       <MuiThemeProvider theme={theme}>

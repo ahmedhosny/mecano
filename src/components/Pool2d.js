@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Outline from '../helpers/Outline';
 import './Pool2d';
-
+/**
+ * Pool2d component.
+ */
 export default class Pool2d extends Component {
+  /**
+   * Returns a PlaneStack with an outline.
+   * @return {ReactElement}
+   */
   render() {
-    var coords = this.props.instance.coordinates;
+    let coords = this.props.instance.coordinates;
     return (
       <g>
-        <Outline radius={2} />
+        <Outline />
         <g filter="url(#outline)">
           {coords.map((m, index) => {
             return (
@@ -23,3 +30,6 @@ export default class Pool2d extends Component {
     );
   }
 }
+Pool2d.propTypes = {
+  instance: PropTypes.object.isRequired,
+};

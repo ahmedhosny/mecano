@@ -1,99 +1,129 @@
-import React, { Component } from "react";
-import { dataGenerator } from "../data";
-import Viewer from "./Viewer";
-
-// controls
-import GlobalControls from "../controls/GlobalControls";
-// import LocalControls from '../controls/LocalControls'
-
-// UI
-import Grid from "material-ui/Grid";
-import { withTheme } from "material-ui/styles";
-import Paper from "material-ui/Paper";
-import { AutoSizer } from "react-virtualized";
-
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {dataGenerator} from '../data';
+import Viewer from './Viewer';
+import GlobalControls from '../controls/GlobalControls';
+import Grid from 'material-ui/Grid';
+import {withTheme} from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
+import {AutoSizer} from 'react-virtualized';
+/**
+ * Mecano owns the viewer, data and global controls.
+ */
 class Mecano extends Component {
-  constructor(props) {
-    super(props);
+  /**
+   * Sets state - no props.
+   * @todo Origin can be moved to props.
+   * @todo Margin (compact view) and padding (primative <-> tag) not used.
+   */
+  constructor() {
+    super();
     this.state = {
       angle: 50,
       construction: true,
-      canvas: { X: 3600, Y: 3600 },
-      grid: { X: 300, Y: 300 },
-      origin: { X: 300, Y: 1800 }, // can be props
-      margin: { X: 25, Y: 0 }, // not used for now (compact view)
-      padding: { X: 0, Y: 30 }, // not used for now (between primative and tag)
+      canvas: {X: 3600, Y: 3600},
+      grid: {X: 300, Y: 300},
+      origin: {X: 300, Y: 1800},
+      margin: {X: 25, Y: 0},
+      padding: {X: 0, Y: 30},
       bounds: {
         min: {
           X: 0,
-          Y: 0
+          Y: 0,
         },
         max: {
           X: 0,
-          Y: 0
-        }
-      }
+          Y: 0,
+        },
+      },
     };
   }
+  /**
+   * Updates the data and sets the state.
+   */
   updateData() {
     this.setState({
-      data: dataGenerator(this)
+      data: dataGenerator(this),
     });
   }
-  // only once before intial render
+  /**
+   * Component will mount. Updates data
+   */
   componentWillMount() {
-    // TODO: bounds currently only works on primatives (tags are cut off)
     this.updateData();
   }
-  // globalControls
+  /**
+   * On Angle change.
+   * Sets angle state, then updates data.
+   * @param  {Object} e Event.
+   */
   onChangeAngle(e) {
     const newAngle = e.target.value;
+    let _this = this;
     this.setState(
       {
-        angle: newAngle
+        angle: newAngle,
       },
       function() {
-        this.updateData();
+        _this.updateData();
       }
     );
   }
+  /**
+   * On toggling construction lines on and off.
+   * Sets state.
+   * @param  {[type]} e Event
+   */
   onChangeConstruction(e) {
     this.setState({
-      construction: e.target.checked
+      construction: e.target.checked,
     });
   }
-  // TODO: Introduce margin for Y
+  /**
+   * Sets the margin, then updates data.
+   * @todo Not used for now.
+   * @param  {[type]} e Event.
+   */
   onChangemargin(e) {
-    const newmargin = { X: e.target.value, Y: 0 };
+    const newmargin = {X: e.target.value, Y: 0};
+    let _this = this;
     this.setState(
       {
-        margin: newmargin
+        margin: newmargin,
       },
       function() {
-        this.updateData();
+        _this.updateData();
       }
     );
   }
+  /**
+   * Returns a grid of two columns, with AutoSizer.
+   * 2 for controls.
+   * 10 for viewer
+   * @return {ReactElement}
+   */
   render() {
-    const { theme } = this.props;
+    const {theme} = this.props;
     return (
       <Grid container spacing={24}>
         {/* Controls */}
         <Grid item xs={12} md={2}>
-          <GlobalControls
-            angle={this.state.angle}
-            onChangeAngle={this.onChangeAngle.bind(this)}
-            construction={this.state.construction}
-            onChangeConstruction={this.onChangeConstruction.bind(this)}
-            margin={this.state.margin}
-            onChangemargin={this.onChangemargin.bind(this)}
-          />
+          <Paper style={theme.control}>
+            <GlobalControls
+              angle={this.state.angle}
+              onChangeAngle={this.onChangeAngle.bind(this)}
+              construction={this.state.construction}
+              onChangeConstruction={this.onChangeConstruction.bind(this)}
+              margin={this.state.margin}
+              onChangemargin={this.onChangemargin.bind(this)}
+            />
+          </Paper>
         </Grid>
         {/* Graph */}
         <Grid item xs={12} md={10}>
           <Paper style={theme.viewer}>
             <AutoSizer>
-              {({ width, height }) =>
+              {({width, height}) =>
                 width === 0 || height === 0 ? null : (
                   <Viewer
                     width={width}
@@ -113,5 +143,7 @@ class Mecano extends Component {
     );
   }
 }
-
+Mecano.propTypes = {
+  theme: PropTypes.object.isRequired,
+};
 export default withTheme()(Mecano);
