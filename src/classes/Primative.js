@@ -1,6 +1,11 @@
 import {Base} from './Base';
 import {flatten, pullAt, range} from 'lodash';
-import {getPlaneCoordinates, getGeometricMidpoint, setBounds} from '../utils';
+import {
+  getPlaneCoordinates,
+  getGridCoordinates,
+  getGeometricMidpoint,
+  setBounds,
+} from '../utils';
 /**
  * Primative class.
  */
@@ -155,12 +160,87 @@ export class Plane extends Primative {
   }
 }
 /**
+ * PlaneGrided class.
+ * This Plane is drawn to fit a larger area. It is also overlaid with a grid.
+ */
+export class PlaneGrided extends Plane {
+  /**
+   * Constucts a PlaneGrided.
+   * shape D1 and D2 are changed - their values are copied to gridCountD1 and
+   * gridCountD2 prior to that.
+   * @param  {array} args Args from Plane constructor.
+   */
+  constructor(...args) {
+    super(...args);
+    this.maxD1 = 300;
+    this.maxD2 = 300;
+    this.gridSize = 1;
+    this.gridCountD1 = this.shape.D1;
+    this.gridCountD2 = this.shape.D2;
+    this.gridCoordinates = [];
+  }
+  /**
+   * Helper for updateShape.
+   * @param  {number} smaller Smaller of D1 and D2.
+   * @param  {number} larger  Larger of D1 and D2.
+   * @param  {number} reference Either maxD1 or maxD2.
+   * @return {Array} Array of new values for smaller and larger.
+   */
+  updateShapeHelper(smaller, larger, reference) {
+    this.gridSize = parseInt(this.maxD1 / larger, 10);
+    larger = this.maxD1;
+    smaller = this.gridSize * smaller;
+    return [smaller, larger];
+  }
+  /**
+   * Updates shape D1 and D2 based on original shape and maxD1 and maxD2.
+   */
+  updateShape() {
+    switch (true) {
+      case this.shape.D1 > this.shape.D2:
+        [this.shape.D2, this.shape.D1] = this.updateShapeHelper(
+          this.shape.D2,
+          this.shape.D1,
+          this.maxD1
+        );
+        break;
+      case this.shape.D1 < this.shape.D2:
+        [this.shape.D1, this.shape.D2] = this.updateShapeHelper(
+          this.shape.D1,
+          this.shape.D2,
+          this.maxD2
+        );
+        break;
+      case this.shape.D1 === this.shape.D2:
+        this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
+        this.shape.D1 = this.maxD1;
+        this.shape.D2 = this.maxD2;
+        break;
+      // no default
+    }
+  }
+  /**
+   * Overwrites the Plane draw ().
+   * 1. Updates the shape D1 and D2.
+   * 2. Draws as usual.
+   * 3. Appends to gridCoordinates
+   */
+  draw() {
+    this.updateShape();
+    this.coordinates = getPlaneCoordinates(this);
+    this.move();
+    this.coordinates = getPlaneCoordinates(this);
+    this.setBounds();
+    this.gridCoordinates = getGridCoordinates(this);
+  }
+}
+/**
  * PlaneStack class.
  */
 export class PlaneStack extends Plane {
   /**
    * Constructs a PlaneStack.
-   * @param  {array} args Args from Primative constructor.
+   * @param  {array} args Args from Plane constructor.
    */
   constructor(...args) {
     super(...args);

@@ -1,7 +1,62 @@
 /**
+ * Helper function for getPlaneCoordinates and getGridCoordinates.
+ * @param  {number} startX - Start X coordinate.
+ * @param  {number} startY - Start Y coordinate.
+ * @param  {number} angle - mecano angle.
+ * @param  {number} D1 - width.
+ * @param  {number} D2 - height.
+ * @param  {number} [offset=0] - offset for plane stack - optional.
+ * @return {array} x, y coordinates for all four points in clockwise direction
+ * starting from the bottom left.
+ */
+function getFourCoordinates(startX, startY, angle, D1, D2, offset = 0) {
+  const p1x = startX + offset;
+  const p1y = startY;
+  const p2x = p1x;
+  const p2y = p1y - D2;
+  const p3x = p2x + Math.cos(angle * Math.PI / 180) * D1;
+  const p3y = p2y - Math.sin(angle * Math.PI / 180) * D1;
+  const p4x = p3x;
+  const p4y = p3y + D2;
+  return [p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y];
+}
+/**
+ * Gets distance between two points - not used.
+ * @param  {number} startX - X start of line.
+ * @param  {number} startY - Y start of line.
+ * @param  {number} endX - X end of line.
+ * @param  {number} endY - Y end of line.
+ * @return {number} distance.
+ */
+// function getDistance(startX, startY, endX, endY) {
+//   const length = Math.sqrt(
+//     Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
+//   );
+//   return length;
+// }
+/**
+ * Helper function to get coordinates of a point on a line given a distance
+ * from the line's start point. Not used for now.
+ * @param  {number} startX - X start of line.
+ * @param  {number} startY - Y start of line.
+ * @param  {number} endX - X end of line.
+ * @param  {number} endY - Y end of line.
+ * @param  {number} distance - distance from start point.
+ * @return {array} [x,y] coords of point.
+ */
+// function getPointOnLine(startX, startY, endX, endY, distance) {
+//   const length = getDistance(startX, startY, endX, endY);
+//   const ratio = distance / length;
+//   const coords = [
+//     (1 - ratio) * startX + ratio * endX,
+//     (1 - ratio) * startY + ratio * endY,
+//   ];
+//   return coords;
+// }
+/**
  * Returns the coordinates of a 2d plane.
  * @param  {Object} instance - the object
- * @return {Array} [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
+ * @return {array} [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
  */
 export function getPlaneCoordinates(instance) {
   let out = [];
@@ -10,26 +65,49 @@ export function getPlaneCoordinates(instance) {
     if (instance.stackPadding) {
       offset = i * instance.stackPadding;
     }
-    const p1x = instance.in.X + offset;
-    const p1y = instance.in.Y;
-    const p2x = p1x;
-    const p2y = p1y - instance.shape.D2;
-    const p3x =
-      p2x +
-      parseInt(Math.cos(instance.angle * 0.0174533) * instance.shape.D1, 10);
-    const p3y =
-      p2y -
-      parseInt(Math.sin(instance.angle * 0.0174533) * instance.shape.D1, 10);
-    const p4x = p3x;
-    const p4y = p3y + instance.shape.D2;
-    out.push([p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y]);
+    const coords = getFourCoordinates(
+      instance.in.X,
+      instance.in.Y,
+      instance.angle,
+      instance.shape.D1,
+      instance.shape.D2,
+      offset
+    );
+    out.push(coords);
   }
   return out;
 }
 /**
+ * Nested for loop to draw a grid on planes.
+ * @param  {Object} instance - the object
+ * @return {array} an array of coordinate arrays for grid elements.
+ */
+export function getGridCoordinates(instance) {
+  let gridCoordinates = [];
+  let startX = instance.coordinates[0][0];
+  let startY = instance.coordinates[0][1];
+  for (let i = 0; i < instance.gridCountD2; i++) {
+    for (let j = 0; j < instance.gridCountD1; j++) {
+      const coords = getFourCoordinates(
+        startX,
+        startY,
+        instance.angle,
+        instance.gridSize,
+        instance.gridSize
+      );
+      startX = coords[6];
+      startY = coords[7];
+      gridCoordinates.push(coords);
+    }
+    startX = instance.coordinates[0][0];
+    startY = instance.coordinates[0][1] - instance.gridSize * (i + 1);
+  }
+  return gridCoordinates;
+}
+/**
  * Sets the bounding box dims by getting the min and max in both axes
- * @param {Array} allX - list of all X coords
- * @param {Array} allY - list of all Y coords
+ * @param {array} allX - list of all X coords
+ * @param {array} allY - list of all Y coords
  * @param {Object} obj - object to set its bounds
  */
 export function setBounds(allX, allY, obj) {

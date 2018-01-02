@@ -2,8 +2,9 @@
  * Components - primatives
  */
 import Input2d from './components/Input2d';
-import Pool2d from './components/Pool2d';
 import Conv2d from './components/Conv2d';
+import Pool2d from './components/Pool2d';
+import ArithmeticOutput2d from './components/ArithmeticOutput2d';
 /**
  * Components - elastics
  */
@@ -17,7 +18,7 @@ import Name from './components/Name';
 /**
  * Classes - primatives
  */
-import {Plane, PlaneStack} from './classes/Primative';
+import {Plane, PlaneStack, PlaneGrided} from './classes/Primative';
 /**
  * Classes - elastics
  */
@@ -107,6 +108,11 @@ export const components = {
         elastic: 'Funnel',
       },
     ],
+  },
+  ArithmeticOutput2d: {
+    type: 'primative',
+    class: PlaneGrided,
+    component: ArithmeticOutput2d,
   },
   /*
    * elastics

@@ -1,0 +1,16 @@
+.polygon {
+  fill: none;
+  stroke: black;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.polygonGrid {
+  fill: white;
+  stroke: black;
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.polygonGrid:hover {
+  fill: red;
+}
+

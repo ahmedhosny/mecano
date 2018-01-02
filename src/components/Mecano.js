@@ -19,8 +19,8 @@ class Mecano extends Component {
   constructor() {
     super();
     this.state = {
-      angle: 50,
-      construction: true,
+      angle: 30,
+      construction: false,
       canvas: {X: 3600, Y: 3600},
       grid: {X: 300, Y: 300},
       origin: {X: 300, Y: 1800},
