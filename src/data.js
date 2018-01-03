@@ -1,6 +1,5 @@
 import {setMecanoBounds} from './utils';
 import {Graph} from './classes/Graph';
-
 /**
  * input either from user or reading a file..
  * @type {Array}
@@ -152,7 +151,7 @@ let inputData = {
       component: 'ArithmeticOutput2d',
       shape: {
         D0: 1,
-        D1: 3,
+        D1: 2,
         D2: 5,
       },
       params: {},
@@ -176,6 +175,7 @@ let inputData = {
  * converted to ReactElements.
  */
 export function dataGenerator(mecano) {
+  console.log('generating new data.');
   let graph = new Graph(inputData, mecano);
   let outputData = graph.traverse();
   setMecanoBounds(outputData, mecano);

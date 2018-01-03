@@ -22,7 +22,7 @@ export default class Input2d extends Component {
           );
         })}
         <polygon
-          className="polygon"
+          className="poly"
           points={this.props.instance.coordinates.join(' ')}
         />
       </g>

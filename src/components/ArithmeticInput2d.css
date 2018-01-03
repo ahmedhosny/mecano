@@ -1,4 +1,4 @@
-.polygon {
+.poly {
   fill: none;
   stroke: black;
   stroke-width: 3;
@@ -13,4 +13,3 @@
 .polygonGrid:hover {
   fill: red;
 }
-

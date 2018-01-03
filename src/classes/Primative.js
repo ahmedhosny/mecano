@@ -37,6 +37,7 @@ class Primative extends Base {
     this.name = name;
     this.params = params;
     this.padding = padding;
+    this.size = {};
     this.in = {X: 0, Y: 0};
     this.out = [];
     this.bounds = {
@@ -166,8 +167,6 @@ export class Plane extends Primative {
 export class PlaneGrided extends Plane {
   /**
    * Constucts a PlaneGrided.
-   * shape D1 and D2 are changed - their values are copied to gridCountD1 and
-   * gridCountD2 prior to that.
    * @param  {array} args Args from Plane constructor.
    */
   constructor(...args) {
@@ -175,22 +174,7 @@ export class PlaneGrided extends Plane {
     this.maxD1 = 300;
     this.maxD2 = 300;
     this.gridSize = 1;
-    this.gridCountD1 = this.shape.D1;
-    this.gridCountD2 = this.shape.D2;
     this.gridCoordinates = [];
-  }
-  /**
-   * Helper for updateShape.
-   * @param  {number} smaller Smaller of D1 and D2.
-   * @param  {number} larger  Larger of D1 and D2.
-   * @param  {number} reference Either maxD1 or maxD2.
-   * @return {Array} Array of new values for smaller and larger.
-   */
-  updateShapeHelper(smaller, larger, reference) {
-    this.gridSize = parseInt(this.maxD1 / larger, 10);
-    larger = this.maxD1;
-    smaller = this.gridSize * smaller;
-    return [smaller, larger];
   }
   /**
    * Updates shape D1 and D2 based on original shape and maxD1 and maxD2.
@@ -198,23 +182,19 @@ export class PlaneGrided extends Plane {
   updateShape() {
     switch (true) {
       case this.shape.D1 > this.shape.D2:
-        [this.shape.D2, this.shape.D1] = this.updateShapeHelper(
-          this.shape.D2,
-          this.shape.D1,
-          this.maxD1
-        );
+        this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
+        this.size.D1 = this.maxD1;
+        this.size.D2 = this.gridSize * this.shape.D2;
         break;
       case this.shape.D1 < this.shape.D2:
-        [this.shape.D1, this.shape.D2] = this.updateShapeHelper(
-          this.shape.D1,
-          this.shape.D2,
-          this.maxD2
-        );
+        this.gridSize = parseInt(this.maxD2 / this.shape.D2, 10);
+        this.size.D2 = this.maxD2;
+        this.size.D1 = this.gridSize * this.shape.D1;
         break;
       case this.shape.D1 === this.shape.D2:
         this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
-        this.shape.D1 = this.maxD1;
-        this.shape.D2 = this.maxD2;
+        this.size.D1 = this.maxD1;
+        this.size.D2 = this.maxD2;
         break;
       // no default
     }

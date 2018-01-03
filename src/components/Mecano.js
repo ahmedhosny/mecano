@@ -58,11 +58,14 @@ class Mecano extends Component {
    * @param  {Object} e Event.
    */
   onChangeAngle(e) {
-    const newAngle = e.target.value;
+    let newAngle = e.target.value;
+    if (newAngle==='') {
+      newAngle=0;
+    }
     let _this = this;
     this.setState(
       {
-        angle: newAngle,
+        angle: parseInt(newAngle, 10),
       },
       function() {
         _this.updateData();

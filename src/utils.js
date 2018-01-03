@@ -21,39 +21,6 @@ function getFourCoordinates(startX, startY, angle, D1, D2, offset = 0) {
   return [p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y];
 }
 /**
- * Gets distance between two points - not used.
- * @param  {number} startX - X start of line.
- * @param  {number} startY - Y start of line.
- * @param  {number} endX - X end of line.
- * @param  {number} endY - Y end of line.
- * @return {number} distance.
- */
-// function getDistance(startX, startY, endX, endY) {
-//   const length = Math.sqrt(
-//     Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
-//   );
-//   return length;
-// }
-/**
- * Helper function to get coordinates of a point on a line given a distance
- * from the line's start point. Not used for now.
- * @param  {number} startX - X start of line.
- * @param  {number} startY - Y start of line.
- * @param  {number} endX - X end of line.
- * @param  {number} endY - Y end of line.
- * @param  {number} distance - distance from start point.
- * @return {array} [x,y] coords of point.
- */
-// function getPointOnLine(startX, startY, endX, endY, distance) {
-//   const length = getDistance(startX, startY, endX, endY);
-//   const ratio = distance / length;
-//   const coords = [
-//     (1 - ratio) * startX + ratio * endX,
-//     (1 - ratio) * startY + ratio * endY,
-//   ];
-//   return coords;
-// }
-/**
  * Returns the coordinates of a 2d plane.
  * @param  {Object} instance - the object
  * @return {array} [x1,y1,x2,y2,x3,y3,x4,y4] or [[x1,y1..],[x1,y1..]]
@@ -69,8 +36,8 @@ export function getPlaneCoordinates(instance) {
       instance.in.X,
       instance.in.Y,
       instance.angle,
-      instance.shape.D1,
-      instance.shape.D2,
+      instance.size.D1,
+      instance.size.D2,
       offset
     );
     out.push(coords);
@@ -86,8 +53,8 @@ export function getGridCoordinates(instance) {
   let gridCoordinates = [];
   let startX = instance.coordinates[0][0];
   let startY = instance.coordinates[0][1];
-  for (let i = 0; i < instance.gridCountD2; i++) {
-    for (let j = 0; j < instance.gridCountD1; j++) {
+  for (let i = 0; i < instance.shape.D2; i++) {
+    for (let j = 0; j < instance.shape.D1; j++) {
       const coords = getFourCoordinates(
         startX,
         startY,
@@ -142,3 +109,36 @@ export function setMecanoBounds(data, mecano) {
   });
   setBounds(allX, allY, mecano.state);
 }
+/**
+ * Gets distance between two points - not used.
+ * @param  {number} startX - X start of line.
+ * @param  {number} startY - Y start of line.
+ * @param  {number} endX - X end of line.
+ * @param  {number} endY - Y end of line.
+ * @return {number} distance.
+ */
+// function getDistance(startX, startY, endX, endY) {
+//   const length = Math.sqrt(
+//     Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
+//   );
+//   return length;
+// }
+/**
+ * Helper function to get coordinates of a point on a line given a distance
+ * from the line's start point. Not used for now.
+ * @param  {number} startX - X start of line.
+ * @param  {number} startY - Y start of line.
+ * @param  {number} endX - X end of line.
+ * @param  {number} endY - Y end of line.
+ * @param  {number} distance - distance from start point.
+ * @return {array} [x,y] coords of point.
+ */
+// function getPointOnLine(startX, startY, endX, endY, distance) {
+//   const length = getDistance(startX, startY, endX, endY);
+//   const ratio = distance / length;
+//   const coords = [
+//     (1 - ratio) * startX + ratio * endX,
+//     (1 - ratio) * startY + ratio * endY,
+//   ];
+//   return coords;
+// }
