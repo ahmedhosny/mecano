@@ -37,7 +37,7 @@ class Primative extends Base {
     this.name = name;
     this.params = params;
     this.padding = padding;
-    this.size = {};
+    this.size = Object.assign({}, shape);
     this.in = {X: 0, Y: 0};
     this.out = [];
     this.bounds = {
@@ -177,9 +177,9 @@ export class PlaneGrided extends Plane {
     this.gridCoordinates = [];
   }
   /**
-   * Updates shape D1 and D2 based on original shape and maxD1 and maxD2.
+   * Updates size D1 and D2 based on original shape and maxD1 and maxD2.
    */
-  updateShape() {
+  updateSize() {
     switch (true) {
       case this.shape.D1 > this.shape.D2:
         this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
@@ -206,7 +206,7 @@ export class PlaneGrided extends Plane {
    * 3. Appends to gridCoordinates
    */
   draw() {
-    this.updateShape();
+    this.updateSize();
     this.coordinates = getPlaneCoordinates(this);
     this.move();
     this.coordinates = getPlaneCoordinates(this);
