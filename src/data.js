@@ -156,6 +156,17 @@ let inputData = {
       },
       params: {},
     },
+    {
+      key: '40fa28ec-d6d1-4f99-ac3e-b60735d13378',
+      name: 'someName2',
+      component: 'ArithmeticOutput2d',
+      shape: {
+        D0: 1,
+        D1: 12,
+        D2: 5,
+      },
+      params: {},
+    },
   ],
   edges: [
     {

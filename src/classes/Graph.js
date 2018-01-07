@@ -193,9 +193,10 @@ export class Graph {
         });
       }
     } while (queue.length !== 0);
-    if (outputData.length > 1) {
-      this.getElastics(outputData);
-    }
+    console.log(outputData);
+    // if (outputData.length > 1) {
+    //   this.getElastics(outputData);
+    // }
     return outputData;
   }
 }

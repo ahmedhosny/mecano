@@ -1,0 +1,20 @@
+.bboxRect {
+  stroke: green;
+  stroke-width: 4px;
+  fill: none;
+}
+.mecanoGeometricMidPoint {
+  fill: #ff0000;
+}
+
+.cell-outer {
+  stroke: green;
+  stroke-width: 1px;
+  fill: none;
+}
+
+.cell-inner {
+  stroke: green;
+  stroke-width: 0.8px;
+  fill: none;
+}

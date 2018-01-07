@@ -20,12 +20,12 @@ class Mecano extends Component {
     super();
     this.state = {
       angle: 30,
-      construction: false,
+      construction: true,
       canvas: {X: 3600, Y: 3600},
       grid: {X: 300, Y: 300},
       origin: {X: 300, Y: 1800},
       margin: {X: 25, Y: 0},
-      padding: {X: 0, Y: 30},
+      padding: {X: 10, Y: 10},
       bounds: {
         min: {
           X: 0,
@@ -136,6 +136,7 @@ class Mecano extends Component {
                     bounds={this.state.bounds}
                     canvas={this.state.canvas}
                     grid={this.state.grid}
+                    padding={this.state.padding}
                   />
                 )
               }

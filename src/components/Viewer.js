@@ -5,7 +5,7 @@ import {components} from '../components';
 import {withTheme} from 'material-ui/styles';
 import Dots from '../ui/Dots';
 import Construction from '../helpers/Construction';
-import Bbox from '../helpers/Bbox';
+import MecanoConstruction from '../helpers/MecanoConstruction';
 import {getGeometricMidpoint} from '../utils';
 /**
  * Viewer component.
@@ -96,7 +96,6 @@ class Viewer extends Component {
           <Dots
             canvas={this.props.canvas}
             grid={this.props.grid}
-            construction={this.props.construction}
           />
           {/* components */}
           {this.props.data.map((n, index) => {
@@ -112,14 +111,22 @@ class Viewer extends Component {
               </g>
             );
           })}
-          {/* guides */}
-          {this.props.construction ? <Bbox bounds={this.props.bounds} /> : null}
+          {/* MecanoConstruction */}
+          {this.props.construction ?
+            <MecanoConstruction
+            bounds={this.props.bounds}
+            canvas={this.props.canvas}
+            grid={this.props.grid}
+            padding={this.props.padding}
+             />
+            : null}
         </svg>
       </ReactSVGPanZoom>
     );
   }
 }
 Viewer.propTypes = {
+  theme: PropTypes.object.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
@@ -127,6 +134,6 @@ Viewer.propTypes = {
   bounds: PropTypes.object.isRequired,
   canvas: PropTypes.object.isRequired,
   grid: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+  padding: PropTypes.object.isRequired,
 };
 export default withTheme()(Viewer);
