@@ -7,14 +7,24 @@
   fill: #ff0000;
 }
 
-.cell-outer {
+.cellOuter {
   stroke: green;
   stroke-width: 1px;
   fill: none;
 }
 
-.cell-inner {
+.cellInner1 {
   stroke: green;
+  stroke-width: 0.8px;
+  fill: none;
+}
+.cellInner2 {
+  stroke: red;
+  stroke-width: 0.8px;
+  fill: none;
+}
+.cellInner3 {
+  stroke: blue;
   stroke-width: 0.8px;
   fill: none;
 }

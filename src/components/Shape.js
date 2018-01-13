@@ -11,9 +11,9 @@ export default class Shape extends Component {
    */
   render() {
     const coords = this.props.instance.coordinates;
-    const tagAnchors = this.props.instance.tagAnchors;
+    const position = this.props.instance.position;
     const text1Height = 30;
-    const text2Height = 17;
+    const text2Height = 20;
     return (
       <g>
         {/* line*/}
@@ -33,8 +33,8 @@ export default class Shape extends Component {
         <text
           className="shapeText1"
           textAnchor="middle"
-          x={tagAnchors.bottom[0].X}
-          y={tagAnchors.bottom[0].Y + text1Height}
+          x={position.X}
+          y={position.Y + text1Height}
         >
           {this.props.instance.text1}
         </text>
@@ -42,8 +42,8 @@ export default class Shape extends Component {
         <text
           className="shapeText2"
           textAnchor="middle"
-          x={tagAnchors.bottom[0].X}
-          y={tagAnchors.bottom[0].Y + text1Height + text2Height}
+          x={position.X}
+          y={position.Y + text1Height + text2Height}
         >
           {this.props.instance.text2}
         </text>

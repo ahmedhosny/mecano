@@ -25,12 +25,6 @@ class GlobalControls extends Component {
           margin="normal"
         />
         {/* TODO: implement slide*/}
-        <TextField
-          value={this.props.margin.X}
-          onChange={this.props.onChangemargin}
-          label="marginX"
-          margin="normal"
-        />
         <FormGroup>
           <FormControlLabel
             control={
@@ -51,7 +45,5 @@ GlobalControls.propTypes = {
   onChangeAngle: PropTypes.func.isRequired,
   construction: PropTypes.bool.isRequired,
   onChangeConstruction: PropTypes.func.isRequired,
-  margin: PropTypes.object.isRequired,
-  onChangemargin: PropTypes.func.isRequired,
 };
 export default withTheme()(GlobalControls);

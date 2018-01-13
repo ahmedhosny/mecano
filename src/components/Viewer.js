@@ -28,7 +28,7 @@ class Viewer extends Component {
    * 4. Set viewer zoom.
    */
   fitAll() {
-    const bounds = this.props.bounds;
+    const bounds = this.props.mecanoState.bounds;
     const divRatio = this.props.width / this.props.height;
     const mecanoWidth = bounds.max.X - bounds.min.X;
     const mecanoHeight = bounds.max.Y - bounds.min.Y;
@@ -70,6 +70,10 @@ class Viewer extends Component {
    */
   render() {
     const {theme} = this.props;
+    const canvas = this.props.mecanoState.canvas;
+    const grid = this.props.mecanoState.grid;
+    const data = this.props.mecanoState.data;
+    const construction = this.props.mecanoState.construction;
     return (
       <ReactSVGPanZoom
         ref={(Viewer) => (this.Viewer = Viewer)}
@@ -91,14 +95,16 @@ class Viewer extends Component {
         detectAutoPan={false}
         disableDoubleClickZoomWithToolAuto={true}
       >
-        <svg width={this.props.canvas.X} height={this.props.canvas.Y}>
+        <svg
+        width={canvas.X*grid.X}
+        height={canvas.Y*grid.Y}>
           {/* dots */}
           <Dots
-            canvas={this.props.canvas}
-            grid={this.props.grid}
+            canvas={canvas}
+            grid={grid}
           />
           {/* components */}
-          {this.props.data.map((n, index) => {
+          {data.map((n, index) => {
             let Component = components[n.component].component;
             return (
               <g
@@ -106,18 +112,16 @@ class Viewer extends Component {
                 onClick={(event) => console.log('clicked on: ', n.key)}
               >
                 <Component instance={n} />
-                {/* guides */}
-                {this.props.construction ? <Construction instance={n} /> : null}
+                {/* guides - per component */}
+                {construction ? <Construction instance={n} />
+                : null}
               </g>
             );
           })}
           {/* MecanoConstruction */}
-          {this.props.construction ?
+          {construction ?
             <MecanoConstruction
-            bounds={this.props.bounds}
-            canvas={this.props.canvas}
-            grid={this.props.grid}
-            padding={this.props.padding}
+            mecanoState={this.props.mecanoState}
              />
             : null}
         </svg>
@@ -129,11 +133,6 @@ Viewer.propTypes = {
   theme: PropTypes.object.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  data: PropTypes.array.isRequired,
-  construction: PropTypes.bool.isRequired,
-  bounds: PropTypes.object.isRequired,
-  canvas: PropTypes.object.isRequired,
-  grid: PropTypes.object.isRequired,
-  padding: PropTypes.object.isRequired,
+  mecanoState: PropTypes.object.isRequired,
 };
 export default withTheme()(Viewer);

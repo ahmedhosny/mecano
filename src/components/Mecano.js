@@ -12,7 +12,8 @@ import {AutoSizer} from 'react-virtualized';
  */
 class Mecano extends Component {
   /**
-   * Sets state - no props.
+   * Sets state.
+   * Some state is calculated on the fly.
    * @todo Origin can be moved to props.
    * @todo Margin (compact view) and padding (primative <-> tag) not used.
    */
@@ -21,11 +22,10 @@ class Mecano extends Component {
     this.state = {
       angle: 30,
       construction: true,
-      canvas: {X: 3600, Y: 3600},
-      grid: {X: 300, Y: 300},
-      origin: {X: 300, Y: 1800},
-      margin: {X: 25, Y: 0},
-      padding: {X: 10, Y: 10},
+      canvas: {X: 10, Y: 10},
+      grid: {X: 360, Y: 500},
+      padding: {X: 20, Y: 20},
+      tagHeight: 50,
       bounds: {
         min: {
           X: 0,
@@ -37,6 +37,11 @@ class Mecano extends Component {
         },
       },
     };
+    this.state.cell = {X: this.state.grid.X - this.state.padding.X*2,
+           Y: this.state.grid.Y - this.state.padding.Y*4 -
+           this.state.tagHeight*2};
+    this.state.origin = {X: this.state.grid.X,
+      Y: (this.state.canvas.Y*this.state.grid.Y)/2};
   }
   /**
    * Updates the data and sets the state.
@@ -47,7 +52,7 @@ class Mecano extends Component {
     });
   }
   /**
-   * Component will mount. Updates data
+   * Component will mount.
    */
   componentWillMount() {
     this.updateData();
@@ -83,23 +88,6 @@ class Mecano extends Component {
     });
   }
   /**
-   * Sets the margin, then updates data.
-   * @todo Not used for now.
-   * @param  {[type]} e Event.
-   */
-  onChangemargin(e) {
-    const newmargin = {X: e.target.value, Y: 0};
-    let _this = this;
-    this.setState(
-      {
-        margin: newmargin,
-      },
-      function() {
-        _this.updateData();
-      }
-    );
-  }
-  /**
    * Returns a grid of two columns, with AutoSizer.
    * 2 for controls.
    * 10 for viewer
@@ -117,8 +105,6 @@ class Mecano extends Component {
               onChangeAngle={this.onChangeAngle.bind(this)}
               construction={this.state.construction}
               onChangeConstruction={this.onChangeConstruction.bind(this)}
-              margin={this.state.margin}
-              onChangemargin={this.onChangemargin.bind(this)}
             />
           </Paper>
         </Grid>
@@ -131,12 +117,7 @@ class Mecano extends Component {
                   <Viewer
                     width={width}
                     height={height}
-                    data={this.state.data}
-                    construction={this.state.construction}
-                    bounds={this.state.bounds}
-                    canvas={this.state.canvas}
-                    grid={this.state.grid}
-                    padding={this.state.padding}
+                    mecanoState={this.state}
                   />
                 )
               }

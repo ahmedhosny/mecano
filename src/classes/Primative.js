@@ -14,8 +14,9 @@ class Primative extends Base {
    * Basic primative class - other inherit from here.
    * @param  {Object} shape Shape of primative - from inputData
    * in data.js  {'D0':1,'D1':224,'D2':224,...}
-   * @param  {number} angle View angle from mecano.
+   * @param  {number} angle - Angle of mecano state.
    * @param  {Object} position X,Y position on the screen grid. Geomtric
+   * @param  {Object} unit - Size of unit :X:5,y:5}.
    * midpoint should be same as position when primative mounts.
    * @param  {string} [name='someName'] Primative name.
    * @param  {Object} [params={}] Other params like kernel size.
@@ -28,12 +29,14 @@ class Primative extends Base {
     shape,
     angle,
     position,
+    unit,
     {name = 'someName', params = {}, padding = {X: 0, Y: 0}} = {}
   ) {
     super();
     this.shape = shape;
     this.angle = angle;
     this.position = position;
+    this.unit = unit;
     this.name = name;
     this.params = params;
     this.padding = padding;
@@ -171,8 +174,8 @@ export class PlaneGrided extends Plane {
    */
   constructor(...args) {
     super(...args);
-    this.maxD1 = 300;
-    this.maxD2 = 300;
+    this.maxD1 = 360;
+    this.maxD2 = 360;
     this.gridSize = 1;
     this.gridCoordinates = [];
   }

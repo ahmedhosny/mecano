@@ -8,7 +8,7 @@ export class Graph {
   /**
    *
    * @param  {Object} inputData Object formated in mecano json format.
-   * @param  {ReactElement} mecano mecano React element with its props.
+   * @param  {Reactunit} mecano mecano React unit with its props.
    */
   constructor(inputData, mecano) {
     this.name = inputData.name;
@@ -68,15 +68,31 @@ export class Graph {
     return out;
   }
   /**
+   * This function calculates the global unit size across all components.
+   * 1. figure out
+   * @param  {Array} nodes - Array of all nodes in the graph
+   * @return {Object} Global unit size - should be square {X:5,Y:5}.
+   */
+  calculateUnit(nodes) {
+    const cell = this.mecano.state.cell;
+    let unit = 5;
+    return unit;
+  }
+  /**
    * Reterns a primative object given a node from InputData.
-   * @param  {Object} node From inputData.
+   * @param  {Object} node - From inputData.
+   * @param  {Object} unit - Global unit size - should be square {X:5,Y:5}.
    * @return {Object} A primative created from a specific class that is chosen
    * after consulting components.
    */
-  getPrimative(node) {
+  getPrimative(node, unit) {
     const state = this.mecano.state;
     const Primative = components[node.component].class;
-    const primative = new Primative(node.shape, state.angle, node.position, {
+    const primative = new Primative(node.shape,
+        state.angle,
+        node.position,
+        unit,
+    {
       name: node.name,
       params: node.params,
       padding: state.padding,
@@ -141,15 +157,17 @@ export class Graph {
    * @param  {number} levelX Graph level X as per traverse function.
    * @param  {number} levelY Graph level Y as per traverse function.
    * @param  {Array} outputData Array to push primatives to.
+   * @param  {Object} unit - Global unit size - should be square {X:5,Y:5}.
    */
-  processNode(node, levelX, levelY, outputData) {
+  processNode(node, levelX, levelY, outputData, unit) {
     node.visited = true;
     node.level = {X: levelX, Y: levelY};
     this.setPosition(node);
-    outputData.push(this.getPrimative(node));
+    outputData.push(this.getPrimative(node, unit));
   }
   /**
    * Traverses the graph using breadth first.
+   * 0. Calculate global unit size.
    * 1. Set all visited to false
    * 2. Make a queue and add root node to it.
    * 3. Set counters.
@@ -163,6 +181,8 @@ export class Graph {
    * @return {Array} An ordered array of primatives and elastics.
    */
   traverse() {
+    const unit = this.calculateUnit(this.nodes);
+    console.log(unit);
     let outputData = [];
     this.setVisited(false);
     let queue = [];
@@ -170,17 +190,17 @@ export class Graph {
     queue.push(this.rootNode);
     let levelX = 0;
     let levelY = 0;
-    let elementsToDepthIncrease = 1;
-    let nextElementsToDepthIncrease = 0;
+    let unitsToDepthIncrease = 1;
+    let nextunitsToDepthIncrease = 0;
     do {
       let x = queue.shift();
       if (x.visited === false) {
-        this.processNode(x, levelX, levelY, outputData);
+        this.processNode(x, levelX, levelY, outputData, unit);
         let getChildren = this.getChildren(x);
-        nextElementsToDepthIncrease += getChildren.length;
-        if (--elementsToDepthIncrease === 0) {
-          elementsToDepthIncrease = nextElementsToDepthIncrease;
-          nextElementsToDepthIncrease = 0;
+        nextunitsToDepthIncrease += getChildren.length;
+        if (--unitsToDepthIncrease === 0) {
+          unitsToDepthIncrease = nextunitsToDepthIncrease;
+          nextunitsToDepthIncrease = 0;
           levelX++;
           levelY = 0;
         } else {

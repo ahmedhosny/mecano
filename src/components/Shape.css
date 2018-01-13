@@ -1,6 +1,6 @@
 .line {
   stroke: black;
-  stroke-width: 4;
+  stroke-width: 3;
   stroke-linecap: round;
 }
 .shapeText1 {
@@ -9,7 +9,7 @@
   font-style: normal;
 }
 .shapeText2 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 300;
   font-style: italic;
 }

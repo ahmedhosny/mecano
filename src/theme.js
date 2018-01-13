@@ -365,9 +365,4 @@ _theme['viewer'] = {
 _theme['dots'] = {
   fill: _theme.palette.primary['400'],
 };
-_theme['mecanoConstructionCellOuter'] = {
-  fill: 'none',
-  stroke: _theme.palette.primary['400'],
-  strokeWidth: 1,
-};
 export const theme = createMuiTheme(_theme);

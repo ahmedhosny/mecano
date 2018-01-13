@@ -26,7 +26,7 @@ import {Line, Pyramid} from './classes/Elastic';
 /**
  * Classes - tags
  */
-import {BottomTag, TopTag} from './classes/Tag';
+import {BottomTag} from './classes/Tag';
 /**
  * Object that maps the react components with the classes that make them.
  */
@@ -135,9 +135,9 @@ export const components = {
     class: BottomTag,
     component: Shape,
   },
-  Name: {
-    type: 'tag',
-    class: TopTag,
-    component: Name,
-  },
+  // Name: {
+  //   type: 'tag',
+  //   class: TopTag,
+  //   component: Name,
+  // },
 };

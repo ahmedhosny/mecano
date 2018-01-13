@@ -1,5 +1,6 @@
 import {setMecanoBounds} from './utils';
 import {Graph} from './classes/Graph';
+import {BottomTag} from './classes/Tag';
 /**
  * input either from user or reading a file..
  * @type {Array}
@@ -151,7 +152,7 @@ let inputData = {
       component: 'ArithmeticOutput2d',
       shape: {
         D0: 1,
-        D1: 2,
+        D1: 3,
         D2: 5,
       },
       params: {},
@@ -190,6 +191,20 @@ export function dataGenerator(mecano) {
   let graph = new Graph(inputData, mecano);
   let outputData = graph.traverse();
   setMecanoBounds(outputData, mecano);
+  let tag = new BottomTag(
+    {name: 'output',
+      shape: {
+        D0: 1,
+        D1: 5,
+        D2: 5,
+      },
+    },
+    {X: 360*2, Y: 2500+250-20-50},
+  );
+  tag.component= 'Shape';
+  tag.draw();
+  outputData.push(tag);
+  console.log(outputData);
   // populate with tags
   // getTags(data,mecano);
   return outputData;
