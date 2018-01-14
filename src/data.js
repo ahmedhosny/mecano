@@ -149,7 +149,7 @@ let inputData = {
     {
       key: 'b89216bc-7f3f-43b8-9e6c-29f4a752f347',
       name: 'someName',
-      component: 'ArithmeticOutput2d',
+      component: 'Input2d',
       shape: {
         D0: 1,
         D1: 3,

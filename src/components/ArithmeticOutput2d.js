@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import './ArithmeticInput2d.css';
+import './ArithmeticOutput2d.css';
 /**
  * A plane.
  */

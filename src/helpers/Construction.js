@@ -11,7 +11,6 @@ export default class Construction extends Component {
    */
   render() {
     let instance = this.props.instance;
-    let bounds = this.props.instance.bounds;
     return (
       <g>
         {/* in */}
@@ -38,13 +37,13 @@ export default class Construction extends Component {
             })
           : null}
         {/* bounds */}
-        {instance.bounds ? (
+        {instance.sizeBounds ? (
           <rect
             className="constructionRect"
-            x={bounds.min.X}
-            y={bounds.min.Y}
-            width={bounds.max.X - bounds.min.X}
-            height={bounds.max.Y - bounds.min.Y}
+            x={instance.in.X}
+            y={instance.in.Y-instance.sizeBounds.alongY}
+            width={instance.sizeBounds.alongX}
+            height={instance.sizeBounds.alongY}
           />
         ) : null}
         {/* top anchor */}

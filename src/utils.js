@@ -5,7 +5,7 @@
  * @param  {number} angle - mecano angle.
  * @param  {number} D1 - width.
  * @param  {number} D2 - height.
- * @param  {number} [offset=0] - offset for plane stack - optional.
+ * @param  {number} offset=0 - offset for plane stack - optional.
  * @return {array} x, y coordinates for all four points in clockwise direction
  * starting from the bottom left.
  */
@@ -84,16 +84,6 @@ export function setBounds(allX, allY, obj) {
   obj.bounds.max.Y = Math.max(...allY);
 }
 /**
- * Sets the geometric center of the bounding box.
- * @param  {Object} bounds {'min':{'X':0,'Y':0},'max':{'X':0,'Y':0}}.
- * @return {Object} The geometricMidpoint.
- */
-export function getGeometricMidpoint(bounds) {
-  const X = parseInt((bounds.max.X - bounds.min.X) / 2, 10) + bounds.min.X;
-  const Y = parseInt((bounds.max.Y - bounds.min.Y) / 2, 10) + bounds.min.Y;
-  return {X: X, Y: Y};
-}
-/**
  * Sets mecano bounds.
  * @param {Array} data List of primatives.
  * @param {ReactElement} mecano
@@ -103,11 +93,21 @@ export function setMecanoBounds(data, mecano) {
   let allY = [];
   data.forEach((m, index) => {
     if (m.type === 'primative') {
-      allX.push(m.bounds.min.X, m.bounds.max.X);
-      allY.push(m.bounds.min.Y, m.bounds.max.Y);
+      allX.push(m.in.X, m.in.X+m.sizeBounds.alongX);
+      allY.push(m.in.Y, m.in.Y-m.sizeBounds.alongY);
     }
   });
   setBounds(allX, allY, mecano.state);
+}
+/**
+ * Sets the geometric center of the bounding box.
+ * @param  {Object} bounds {'min':{'X':0,'Y':0},'max':{'X':0,'Y':0}}.
+ * @return {Object} The geometricMidpoint.
+ */
+export function getGeometricMidpoint(bounds) {
+  const X = parseInt((bounds.max.X - bounds.min.X) / 2, 10) + bounds.min.X;
+  const Y = parseInt((bounds.max.Y - bounds.min.Y) / 2, 10) + bounds.min.Y;
+  return {X: X, Y: Y};
 }
 /**
  * Gets distance between two points - not used.

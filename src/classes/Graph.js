@@ -90,7 +90,7 @@ export class Graph {
       // if 2d
       m.shapeBounds = {
         alongX: m.shape.D1*cosAngle,
-        alongY: m.shape.D2 + m.shape.D1*sinAngle,
+        alongY: m.shape.D1*sinAngle + m.shape.D2,
       };
       // if 3d
       if (m.shape.D3) {
