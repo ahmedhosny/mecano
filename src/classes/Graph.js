@@ -69,14 +69,65 @@ export class Graph {
   }
   /**
    * This function calculates the global unit size across all components.
-   * 1. figure out
+   * 1. Adds shapeBounds to nodes: {alongX:5,alongY:4} for 2d and 3d,
+   * assuming each unit is 1.
+   * 2. Find out longest
+   * 3. Calculates unit from longest.
    * @param  {Array} nodes - Array of all nodes in the graph
    * @return {Object} Global unit size - should be square {X:5,Y:5}.
    */
-  calculateUnit(nodes) {
+  calculateUnit() {
+    let unit = 0;
+    const cosAngle = Math.cos(this.mecano.state.angle * Math.PI / 180);
+    const sinAngle = Math.sin(this.mecano.state.angle * Math.PI / 180);
     const cell = this.mecano.state.cell;
-    let unit = 5;
-    return unit;
+    let longest={
+      nodeIdx: 0,
+      value: 0,
+      axis: 'X',
+    };
+    this.nodes.forEach((m, index) => {
+      // if 2d
+      m.shapeBounds = {
+        alongX: m.shape.D1*cosAngle,
+        alongY: m.shape.D2 + m.shape.D1*sinAngle,
+      };
+      // if 3d
+      if (m.shape.D3) {
+        m.shapeBounds.alongX = m.shapeBounds.alongX + m.shape.D3;
+      }
+      // test X,Y and equality
+      if (m.shapeBounds.alongX > longest.value
+        & m.shapeBounds.alongX >= m.shapeBounds.alongY) {
+        longest.nodeIdx = index;
+        longest.value = m.shapeBounds.alongX;
+        longest.axis = 'X';
+      } else if (m.shapeBounds.alongY > longest.value
+        & m.shapeBounds.alongY > m.shapeBounds.alongX) {
+        longest.nodeIdx = index;
+        longest.value = m.shapeBounds.alongY;
+        longest.axis = 'Y';
+      }
+    });
+    // now deduce unit size from longest.
+    const longestNode = this.nodes[longest.nodeIdx];
+    const D1 = longestNode.shape.D1;
+    const D2 = longestNode.shape.D2;
+    let D3 = 0;
+    if (longestNode.shape.D3) {
+      D3 = longestNode.shape.D3;
+    }
+    switch (longest.axis) {
+      case 'X':
+        unit = cell.X / (D3 + D1*cosAngle);
+        break;
+      case 'Y':
+        unit = cell.Y / (D2 + D1*sinAngle);
+        break;
+      // no default
+      }
+    console.log(longest);
+    return {X: unit, Y: unit};
   }
   /**
    * Reterns a primative object given a node from InputData.
@@ -88,10 +139,11 @@ export class Graph {
   getPrimative(node, unit) {
     const state = this.mecano.state;
     const Primative = components[node.component].class;
-    const primative = new Primative(node.shape,
-        state.angle,
-        node.position,
-        unit,
+    const primative = new Primative(
+      node.shape,
+      state.angle,
+      node.position,
+      unit,
     {
       name: node.name,
       params: node.params,
@@ -181,7 +233,7 @@ export class Graph {
    * @return {Array} An ordered array of primatives and elastics.
    */
   traverse() {
-    const unit = this.calculateUnit(this.nodes);
+    const unit = this.calculateUnit();
     console.log(unit);
     let outputData = [];
     this.setVisited(false);

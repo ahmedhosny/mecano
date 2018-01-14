@@ -59,15 +59,15 @@ export function getGridCoordinates(instance) {
         startX,
         startY,
         instance.angle,
-        instance.gridSize,
-        instance.gridSize
+        instance.unit.X,
+        instance.unit.Y
       );
       startX = coords[6];
       startY = coords[7];
       gridCoordinates.push(coords);
     }
     startX = instance.coordinates[0][0];
-    startY = instance.coordinates[0][1] - instance.gridSize * (i + 1);
+    startY = instance.coordinates[0][1] - instance.unit.Y * (i + 1);
   }
   return gridCoordinates;
 }

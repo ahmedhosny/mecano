@@ -168,11 +168,26 @@ let inputData = {
       },
       params: {},
     },
+    {
+      key: '40fa28ec-d6d1-4f99-ac3e-b60735d13379',
+      name: 'someName2',
+      component: 'ArithmeticOutput2d',
+      shape: {
+        D0: 1,
+        D1: 16,
+        D2: 2,
+      },
+      params: {},
+    },
   ],
   edges: [
     {
       source: 'b89216bc-7f3f-43b8-9e6c-29f4a752f347',
       target: '40fa28ec-d6d1-4f99-ac3e-b60735d13378',
+    },
+    {
+      source: '40fa28ec-d6d1-4f99-ac3e-b60735d13378',
+      target: '40fa28ec-d6d1-4f99-ac3e-b60735d13379',
     },
   ],
 };

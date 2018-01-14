@@ -174,33 +174,7 @@ export class PlaneGrided extends Plane {
    */
   constructor(...args) {
     super(...args);
-    this.maxD1 = 360;
-    this.maxD2 = 360;
-    this.gridSize = 1;
     this.gridCoordinates = [];
-  }
-  /**
-   * Updates size D1 and D2 based on original shape and maxD1 and maxD2.
-   */
-  updateSize() {
-    switch (true) {
-      case this.shape.D1 > this.shape.D2:
-        this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
-        this.size.D1 = this.maxD1;
-        this.size.D2 = this.gridSize * this.shape.D2;
-        break;
-      case this.shape.D1 < this.shape.D2:
-        this.gridSize = parseInt(this.maxD2 / this.shape.D2, 10);
-        this.size.D2 = this.maxD2;
-        this.size.D1 = this.gridSize * this.shape.D1;
-        break;
-      case this.shape.D1 === this.shape.D2:
-        this.gridSize = parseInt(this.maxD1 / this.shape.D1, 10);
-        this.size.D1 = this.maxD1;
-        this.size.D2 = this.maxD2;
-        break;
-      // no default
-    }
   }
   /**
    * Overwrites the Plane draw ().
@@ -209,7 +183,8 @@ export class PlaneGrided extends Plane {
    * 3. Appends to gridCoordinates
    */
   draw() {
-    this.updateSize();
+    this.size.D1 = this.shape.D1*this.unit.X;
+    this.size.D2 = this.shape.D2*this.unit.Y;
     this.coordinates = getPlaneCoordinates(this);
     this.move();
     this.coordinates = getPlaneCoordinates(this);
@@ -217,6 +192,9 @@ export class PlaneGrided extends Plane {
     this.gridCoordinates = getGridCoordinates(this);
   }
 }
+/**
+ * Everything below here needs to be redone..
+ */
 /**
  * PlaneStack class.
  */
